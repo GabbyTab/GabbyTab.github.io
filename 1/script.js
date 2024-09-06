@@ -5,9 +5,9 @@ document.addEventListener('scroll', function() {
 
     console.log(`scrollTop: ${scrollTop}, height: ${height}`);
     
-    if (scrollTop < height / 3) {
+    if (scrollTop < height / 8) {
         header.style.backgroundImage = "url('images/color_out_lady.png?" + new Date().getTime() + "')";
-    } else if (scrollTop < height / 2) {
+    } else if (scrollTop < height / 4) {
         header.style.backgroundImage = "url('images/contrast_out_lady.png?" + new Date().getTime() + "')";
     } else {
         header.style.backgroundImage = "url('images/test_lady.png?" + new Date().getTime() + "')";
