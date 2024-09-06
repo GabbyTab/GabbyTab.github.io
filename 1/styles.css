@@ -14,7 +14,7 @@ body {
 header {
     position: relative;
     height: 100vh;
-    background: url('color_out_lady.jpg') no-repeat center center/cover;
+    background: url('color_out_lady.png') no-repeat center center/cover;
     text-align: center;
     display: flex;
     justify-content: center;
