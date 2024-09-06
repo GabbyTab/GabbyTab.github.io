@@ -16,7 +16,7 @@ header {
     height: 100vh;
     background: url('images/color_out_lady.png') no-repeat center center/cover,
                 url('images/contrast_out_lady.png') no-repeat center center/cover,
-                url('images/test_lady.png') no-repeat center center/cover;
+                url('images/test_out_lady.png') no-repeat center center/cover;
     background-blend-mode: normal, normal, normal; /* Adjust if needed */
     display: flex;
     justify-content: center;
