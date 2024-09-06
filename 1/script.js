@@ -12,7 +12,7 @@ document.addEventListener('scroll', function() {
     } else if (scrollTop < height / 2) {
         imageUrl = 'images/contrast_out_lady.png';
     } else {
-        imageUrl = 'images/test_lady.png';
+        imageUrl = 'images/test_out_lady.png';
     }
 
     console.log(`Setting background image to: ${imageUrl}`);
