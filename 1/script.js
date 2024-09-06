@@ -3,18 +3,10 @@ document.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const height = header.offsetHeight;
 
-    console.log(`scrollTop: ${scrollTop}, height: ${height}`);
-    
-    let imageUrl;
+    const opacity1 = Math.max(0, Math.min(1, 1 - scrollTop / (height / 3)));
+    const opacity2 = Math.max(0, Math.min(1, (scrollTop - height / 3) / (height / 3)));
 
-    if (scrollTop < height / 3) {
-        imageUrl = 'images/color_out_lady.png';
-    } else if (scrollTop < height / 2) {
-        imageUrl = 'images/contrast_out_lady.png';
-    } else {
-        imageUrl = 'images/test_out_lady.png';
-    }
-
-    console.log(`Setting background image to: ${imageUrl}`);
-    header.style.backgroundImage = `url('${imageUrl}?${new Date().getTime()}')`;
+    // Adjust opacity for the images
+    header.querySelector('::before').style.opacity = opacity1;
+    header.querySelector('::after').style.opacity = opacity2;
 });
