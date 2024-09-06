@@ -14,14 +14,41 @@ body {
 header {
     position: relative;
     height: 100vh;
-    background: url('images/color_out_lady.png') no-repeat center center/cover;
-    text-align: center;
+    background: url('images/color_out_lady.png') no-repeat center center/cover,
+                url('images/contrast_out_lady.png') no-repeat center center/cover,
+                url('images/test_lady.png') no-repeat center center/cover;
+    background-blend-mode: normal, normal, normal; /* Ensures each layer is visible */
+    transition: background-image 0.5s ease-in-out; /* For any additional smooth transitions */
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-image 0.5s ease-in-out;
-
+    text-align: center;
 }
+
+header::before, header::after, header div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header::before {
+    content: "";
+    background-image: url('images/color_out_lady.png');
+    opacity: 1; /* Fully visible */
+    transition: opacity 0.5s ease-in-out;
+}
+
+header::after {
+    content: "";
+    background-image: url('images/contrast_out_lady.png');
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out;
+}
+
 
 header h1 {
     color: white;
