@@ -3,19 +3,18 @@ document.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const height = header.offsetHeight;
 
+    console.log(`scrollTop: ${scrollTop}, height: ${height}`);
+    
     let imageUrl;
 
-    if (scrollTop < height / 4) {
+    if (scrollTop < height / 3) {
         imageUrl = 'images/color_out_lady.png';
-    } else if (scrollTop < height / 8) {
+    } else if (scrollTop < height / 2) {
         imageUrl = 'images/contrast_out_lady.png';
     } else {
         imageUrl = 'images/test_lady.png';
     }
 
-    // Force repaint
-    header.style.backgroundImage = 'none';
-    setTimeout(() => {
-        header.style.backgroundImage = `url('${imageUrl}?${new Date().getTime()}')`;
-    }, 0);
+    console.log(`Setting background image to: ${imageUrl}`);
+    header.style.backgroundImage = `url('${imageUrl}?${new Date().getTime()}')`;
 });
