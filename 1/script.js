@@ -1,15 +1,22 @@
+let timeout;
 document.addEventListener('scroll', function() {
-    const header = document.getElementById('header');
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const height = header.offsetHeight;
+    if (timeout) clearTimeout(timeout);
 
-    console.log(`scrollTop: ${scrollTop}, height: ${height}`);
-    
-    if (scrollTop < height / 8) {
-        header.style.backgroundImage = "url('images/color_out_lady.png?" + new Date().getTime() + "')";
-    } else if (scrollTop < height / 4) {
-        header.style.backgroundImage = "url('images/contrast_out_lady.png?" + new Date().getTime() + "')";
-    } else {
-        header.style.backgroundImage = "url('images/test_lady.png?" + new Date().getTime() + "')";
-    }
+    timeout = setTimeout(() => {
+        const header = document.getElementById('header');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const height = header.offsetHeight;
+
+        let imageUrl;
+
+        if (scrollTop < height / 3) {
+            imageUrl = 'images/color_out_lady.png';
+        } else if (scrollTop < height / 2) {
+            imageUrl = 'images/contrast_out_lady.png';
+        } else {
+            imageUrl = 'images/test_lady.png';
+        }
+
+        header.style.backgroundImage = `url('${imageUrl}?${new Date().getTime()}')`;
+    }, 100); // Adjust timeout as needed
 });
