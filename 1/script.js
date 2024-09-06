@@ -4,10 +4,10 @@ document.addEventListener('scroll', function() {
     const height = header.offsetHeight;
     
     if (scrollTop < height) {
-        header.style.backgroundImage = "url('images/title_image_1.jpg')";
+        header.style.backgroundImage = "url('images/color_out_lady.tif')";
     } else if (scrollTop < 2 * height) {
-        header.style.backgroundImage = "url('images/title_image_2.jpg')";
+        header.style.backgroundImage = "url('images/contrast_out_lady.tif')";
     } else {
-        header.style.backgroundImage = "url('images/title_image_3.jpg')";
+        header.style.backgroundImage = "url('images/test_lady.tif')";
     }
 });
