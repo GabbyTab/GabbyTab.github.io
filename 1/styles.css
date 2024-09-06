@@ -16,18 +16,18 @@ header {
     height: 100vh;
     overflow: hidden; /* Ensure content does not overflow */
 }
-.title-image {
-    position: fixed;
+
+/* Container for background images */
+.background-images {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional background color for visibility */
-    color: white;
-    text-align: center;
-    padding: 20px;
-    z-index: 1000; /* Ensure it appears above other content */
-    background: none;
+    height: 100%;
+    z-index: 1; /* Ensure background images are behind other content */
 }
+
+/* Individual image layers */
 .image-layer {
     position: absolute;
     top: 0;
@@ -39,24 +39,40 @@ header {
     transition: opacity 0.5s ease-in-out; /* Smooth transition */
 }
 
+/* Specific images */
 .image1 {
     background-image: url('images/color_out_lady.png');
-    z-index: 1;
-    opacity: 1; /* Fully visible by default */
+    opacity: 1; /* Default opacity, adjust dynamically */
 }
 
 .image2 {
     background-image: url('images/contrast_out_lady.png');
-    z-index: 2;
-    opacity: 0; /* Hidden by default */
+    opacity: 0; /* Default opacity, adjust dynamically */
 }
 
 .image3 {
     background-image: url('images/test_out_lady.png');
-    z-index: 3;
-    opacity: 0; /* Hidden by default */
+    opacity: 0; /* Default opacity, adjust dynamically */
 }
 
+/* Title content */
+.title-image {
+    position: absolute;
+    top: 0; /* Adjust positioning as needed */
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    z-index: 2; /* Ensure text floats above background images */
+}
+
+.title-image h1 {
+    font-size: 3rem;
+    margin: 0;
+    padding: 10px;
+    background: none; /* Ensure no background tint */
+}
 
 
 header h1 {
