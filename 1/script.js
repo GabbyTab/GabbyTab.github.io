@@ -4,7 +4,7 @@ document.addEventListener('scroll', function() {
     const height = header.offsetHeight;
     
     // Define the intervals for each image transition
-    const sectionHeight = height / 2; // Adjust this value for more or less overlap
+    const sectionHeight = height / 3; // Adjust this value for more or less overlap
 
     // Calculate opacity for image 1
     const opacity1 = Math.max(0, Math.min(1, 1 - (scrollTop / sectionHeight)));
