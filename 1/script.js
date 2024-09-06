@@ -1,12 +1,16 @@
-document.addEventListener('scroll', function() {
-    const header = document.getElementById('header');
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const height = header.offsetHeight;
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (!header) return; // Ensure header exists
 
-    const opacity1 = Math.max(0, Math.min(1, 1 - scrollTop / (height / 3)));
-    const opacity2 = Math.max(0, Math.min(1, (scrollTop - height / 3) / (height / 3)));
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const height = header.offsetHeight;
 
-    // Adjust opacity for the images
-    header.querySelector('::before').style.opacity = opacity1;
-    header.querySelector('::after').style.opacity = opacity2;
+        const opacity1 = Math.max(0, Math.min(1, 1 - scrollTop / (height / 3)));
+        const opacity2 = Math.max(0, Math.min(1, (scrollTop - height / 3) / (height / 3)));
+
+        // Update CSS properties for pseudo-elements
+        header.style.setProperty('--opacity1', opacity1);
+        header.style.setProperty('--opacity2', opacity2);
+    });
 });
