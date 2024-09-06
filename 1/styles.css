@@ -14,29 +14,38 @@ body {
 header {
     position: relative;
     height: 100vh;
-    background: url('images/color_out_lady.png') no-repeat center center/cover,
-                url('images/contrast_out_lady.png') no-repeat center center/cover,
-                url('images/test_out_lady.png') no-repeat center center/cover;
-    background-blend-mode: normal, normal, normal; /* Adjust if needed */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    overflow: hidden; /* Ensure content does not overflow */
 }
 
-header::before {
-    content: "";
+.image-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: opacity 0.5s ease-in-out; /* Smooth transition */
+}
+
+.image1 {
     background-image: url('images/color_out_lady.png');
-    opacity: var(--opacity1, 1); /* Default opacity */
-    transition: opacity 0.5s ease-in-out;
+    z-index: 1;
+    opacity: 1; /* Fully visible by default */
 }
 
-header::after {
-    content: "";
+.image2 {
     background-image: url('images/contrast_out_lady.png');
-    opacity: var(--opacity2, 0); /* Default opacity */
-    transition: opacity 0.5s ease-in-out;
+    z-index: 2;
+    opacity: 0; /* Hidden by default */
 }
+
+.image3 {
+    background-image: url('images/test_out_lady.png');
+    z-index: 3;
+    opacity: 0; /* Hidden by default */
+}
+
 
 
 header h1 {
