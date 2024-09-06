@@ -38,17 +38,16 @@ header::before, header::after, header div {
 header::before {
     content: "";
     background-image: url('images/color_out_lady.png');
-    opacity: 1; /* Fully visible */
+    opacity: var(--opacity1, 1);
     transition: opacity 0.5s ease-in-out;
 }
 
 header::after {
     content: "";
     background-image: url('images/contrast_out_lady.png');
-    opacity: 0; /* Initially hidden */
+    opacity: var(--opacity2, 0);
     transition: opacity 0.5s ease-in-out;
 }
-
 
 header h1 {
     color: white;
