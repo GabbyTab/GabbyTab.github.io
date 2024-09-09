@@ -104,8 +104,8 @@ Statue, SSIM + Rotations + Translations
             <img src="images/ssim3.png" alt="Image 1">
         </div>
                 <p>
-        <strong>QSSIM>
-           introducing SSIM
+        <strong>SSIM>
+           introducing Strucutal Similarity Index Measure: SSIM. 
         </p>
     </section>
 
@@ -135,9 +135,36 @@ Statue, SSIM + Rotations + Translations
 
 
         </div>
-        <p>Description of the methods...</p>
+        <p>
+            <strong> Tricks </strong> 
+            the problem with the l2 norm of the raw pixels is that their is a large amount of hypothesis that share low values.
+        </p>
 
-        
+        <p>
+            If only we could tell the computer to just focus on the emirs beard. 
+        </p>
+
+        <p>
+            We want to extract usefull features from the mess, preferably somthing that reveals thigs about the undelying objects.
+        </p>
+
+        <p>
+            When I think image features my mind immediatley jumps to gradients or edge detection.
+            but there's simple solution that caputres the idea of what were trying to do. 
+            We can use a threshold filter. That is to say, take all the pixels bellow a 
+            minimim brightness and set them to 0, the rest to one. 
+        </p>
+
+        <p>
+            <strong> Results </strong> 
+            Maching with a filter and the naive l2 norm results in a program that is much faster than SSIM can can recover almost all of the images
+            without issue (except for the most dificult ones like emir)
+        </p>
+
+        <p>
+            Example of us brightening each of the chanels:
+        </p>
+
     </section>
 
     <section id="zoom-rotations">
@@ -147,7 +174,7 @@ Statue, SSIM + Rotations + Translations
             <img src="images/r2.png" alt="Image 1">
             <img src="images/r3.png" alt="Image 1">
         </div>
-        <p>Description of the techniques...</p>
+        <p>After finding a good center, we can scan over a small number of zooms and rotations to find an even better matching.</p>
     </section>
 
 
@@ -172,7 +199,7 @@ Statue, SSIM + Rotations + Translations
             <img src="images/wb4.png" alt="Image 7">
 
         </div>
-        <p>Description of the techniques...</p>
+        <p>Estimate the iluminant map, try to counter act the iluminant map, the first row corresponds to avg, the second to max./p>
     </section>
     
 
@@ -183,7 +210,10 @@ Statue, SSIM + Rotations + Translations
             <img src="images/h1.png" alt="Image 1">
             <img src="images/h2.png" alt="Image 1">
         </div>
-        <p>Description of manual adjustments...</p>
+        <p>Find the location of the monastary in google maps, we can estimate where the photo was taken, we can also estimate the bearing of the
+        photographer and the distance from the photographer to the pine tree and it's shadow, with this and an estimate of the camara's dimensions
+        we can guess the height and bearing of the shadow of the tree. Then we can use this informaiton in a solar calculator to guess the 
+        aproximate color palate of the sunlight on the day when the picture was taken. Then we can try to counteact that iluminant.</p>
     </section>
 
     <section id="retinex">
@@ -193,13 +223,23 @@ Statue, SSIM + Rotations + Translations
             <img src="images/retinex2.png" alt="Image 1">
 
         </div>
-        <p>Description of manual adjustments...</p>
+        <p>Finally I attempted to implement and apply retinex, but for the life of me it did not work :(</p>
     </section>
 
     <section id="future-techniques">
-        <h2>Future Techniques</h2>
+        <h2>Improvments</h2>
         <p>Speculation on future techniques...</p>
     </section>
+
+    
+    <section id="references">
+        <h2>References</h2>
+        <p>
+            Wikipedia Articles seen:
+            blogs seen:
+        </p>
+    </section>
+
 
     <script src="script.js"></script>
 </body>
