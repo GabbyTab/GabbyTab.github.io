@@ -61,6 +61,13 @@ Statue, SSIM + Rotations + Translations
             As an initial cost function I went with minimizing the l2 error.
         </p>
 
+        <p>
+        <strong> Results</strong>
+        Dismal, effectively no images were really aligned correctly, the l2 norm on it’s own is to weak a metric for our desired result
+        </p>
+
+
+
     </section>
 
     <section id="crr">
@@ -70,12 +77,23 @@ Statue, SSIM + Rotations + Translations
             <img src="images/cc2.png" alt="Image 2">
             <img src="images/cc3.png" alt="Image 3">
         </div>
-        <p>Description of the methods...</p>
+            <p>
+        <strong>Cross Correlation</strong>
+         I also tried to use Cross Correlation but there was essentialy no imporvment. 
+        </p>
     </section>
 
     <section id="speed">
         <h2>SPEEED UP</h2>
-        <p>Description of the methods...</p>
+        <p>
+        <strong>Parallelism</strong>
+        I separated the search function from align and parallelized it using concurrent. I also tried to make a parallel version of np.roll but it wasn't working as desired.
+
+        </p>
+        <p>
+        <strong>Quality of Life</strong>
+            The image pyramid was imporved to allow us to specify the base of the pyramid, change the amount of tranlations/rotations/zooms depending on the level.
+        </p>
     </section>
 
     <section id="objective-functions">
@@ -85,7 +103,10 @@ Statue, SSIM + Rotations + Translations
             <img src="images/ssim2.png" alt="Image 1">
             <img src="images/ssim3.png" alt="Image 1">
         </div>
-        <p>Description of the methods...</p>
+                <p>
+        <strong>QSSIM>
+           introducing SSIM
+        </p>
     </section>
 
     <section id="filters">
