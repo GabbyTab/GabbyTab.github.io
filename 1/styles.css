@@ -135,46 +135,21 @@ p {
     font-size: 1.1rem;
     line-height: 1.6;
 }
+balancing-technique
 
-
-#crr .gallery {
+.gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
     grid-template-rows: repeat(2, auto);  /* 2 rows with automatic height based on content */
     gap: 10px; /* Optional: Adds spacing between grid items */
 }
 
-#crr .gallery img {
+.gallery img {
     width: 100%; /* Ensure images fill the grid cells */
     height: auto; /* Maintain aspect ratio */
     object-fit: cover; /* Ensure images cover the grid cell, cropping as needed */
 }
 
-#naive-methods .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
-    grid-template-rows: repeat(2, auto);  /* 2 rows with automatic height based on content */
-    gap: 10px; /* Optional: Adds spacing between grid items */
-}
-
-#naive-methods .gallery img {
-    width: 100%; /* Ensure images fill the grid cells */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Ensure images cover the grid cell, cropping as needed */
-}
-
-#filters .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
-    grid-template-rows: repeat(2, auto);  /* 2 rows with automatic height based on content */
-    gap: 10px; /* Optional: Adds spacing between grid items */
-}
-
-#filters .gallery img {
-    width: 100%; /* Ensure images fill the grid cells */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Ensure images cover the grid cell, cropping as needed */
-}
 
 /* Style the center stage container */ 
 #filters .center-stage { 
