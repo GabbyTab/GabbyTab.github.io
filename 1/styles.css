@@ -163,13 +163,13 @@ p {
 }
 
 /* Style the center stage container */ 
-.center-stage { 
+#filters .center-stage { 
     display: flex;
     justify-content: center; 
     /* Center the image horizontally */
     margin-top: 20px; /* Space between gallery and center stage image */ 
 }  /* Style the center stage image */ 
-.center-stage img {    
+#filters .center-stage img {    
     max-width: 100%; 
     /* Make sure the image scales with its container */ 
     height: auto; 
