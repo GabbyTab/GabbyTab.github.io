@@ -103,10 +103,14 @@ Statue, SSIM + Rotations + Translations
             <img src="images/ssim2.png" alt="Image 1">
             <img src="images/ssim3.png" alt="Image 1">
         </div>
-                <p>
-        <strong>SSIM>
-           introducing Strucutal Similarity Index Measure: SSIM. 
+        <p>
+            <strong> SSIM </strong>
+            introducing Strucutal Similarity Index Measure: SSIM. This meassure takes into account luminance and reflectance and other shananigans. 
+            Out preforms l2 and CNN significantly; does not require any aditinal features to align the images correctley but is substantialy increases the runtime.
         </p>
+    </section>
+        <section id="Bells-whistles">
+        <h1>Bells, whistles and all things  things</h1>
     </section>
 
     <section id="filters">
@@ -185,7 +189,13 @@ Statue, SSIM + Rotations + Translations
             <img src="images/cl2.png" alt="Image 1">
             <img src="images/cl3.png" alt="Image 1">
         </div>
-        <p>Description of the techniques...</p>
+        <p>
+            some of these images have a "old picture" quality to them (they are 100 years old). I tried to apply linear contrast scaling in hopes of
+            making the images sharpper. Linear contrast scaling works by first cliping the brightness values (say 5th to 95th percentile) and then stretching
+            the values in between linearly across the new range. Here are three picture of the church with linscale, (10, 98) (10, 90) (20, 100). Note that as 
+            the range get's smaller a larger group of pixels go to the two extreemes (white/black) and the image begins to pop.
+            
+        </p>
     </section>
 
     <section id="balancing-techniques">
@@ -210,10 +220,16 @@ Statue, SSIM + Rotations + Translations
             <img src="images/h1.png" alt="Image 1">
             <img src="images/h2.png" alt="Image 1">
         </div>
-        <p>Find the location of the monastary in google maps, we can estimate where the photo was taken, we can also estimate the bearing of the
-        photographer and the distance from the photographer to the pine tree and it's shadow, with this and an estimate of the camara's dimensions
-        we can guess the height and bearing of the shadow of the tree. Then we can use this informaiton in a solar calculator to guess the 
-        aproximate color palate of the sunlight on the day when the picture was taken. Then we can try to counteact that iluminant.</p>
+        <p>
+            This approach is very limited due to the level of guess work involved but I still think it is both creative and interesting enough to include.
+            
+            The monastary in the monastary picture still stands and can be found in google maps. Using photos of the location, 
+            we can estimate where the photo was taken, the bearing of the
+            photographer and the distance from the photographer to one of the trees on the left of the photo and it's coressponding shadow.
+            using an estimate of the camara's dimensions and a google search of the aproximate distance between the photographer and the tree, 
+            we can guesss the height and bearing of the shadow of the tree. Now we have a solar angle. We can crossinformaiton the solar angle in 
+            a solar calculator on that location in the year 1910 to guess the aproximate illuminante of the sunlight on the day when the picture was taken. 
+            Then we can try to counteact that iluminant.</p>
     </section>
 
     <section id="retinex">
@@ -223,7 +239,9 @@ Statue, SSIM + Rotations + Translations
             <img src="images/retinex2.jpg" alt="Image 1">
 
         </div>
-        <p>Finally I attempted to implement and apply retinex, but for the life of me it did not work :(</p>
+        <p>Finally I attempted to implement and apply retinex, but for the life of me it did not work :( 
+        I don't know it it's because these images don't meet the gray world assumption at all, or if i'm just
+        having trouble with the tif format. Here is my couple of attempts.</p>
     </section>
 
     <section id="future-techniques">
