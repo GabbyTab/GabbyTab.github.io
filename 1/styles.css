@@ -161,3 +161,16 @@ p {
     height: auto; /* Maintain aspect ratio */
     object-fit: cover; /* Ensure images cover the grid cell, cropping as needed */
 }
+
+/* Style the center stage container */ 
+.center-stage { 
+    display: flex;
+    justify-content: center; 
+    /* Center the image horizontally */
+    margin-top: 20px; /* Space between gallery and center stage image */ 
+}  /* Style the center stage image */ 
+.center-stage img {    
+    max-width: 100%; 
+    /* Make sure the image scales with its container */ 
+    height: auto; 
+}
