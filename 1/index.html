@@ -52,7 +52,15 @@ Statue, SSIM + Rotations + Translations
             <img src="images/l22.png" alt="Image 2">
             <img src="images/l23.png" alt="Image 3">
         </div>
-        <p>Description of the methods...</p>
+       <p>
+            <strong> Image Pyramids</strong>
+            Image pyramids are used to speed up computations regarding the comparison of two images. The hope is that the image will obtain relevant information/structure to the operation when it is scaled down. There’s a few ways to go about the resizing, for example we could “summarize” a group of pixels by taking their average. I used sk.transform.rescale to create each level of the pyramid.
+        </p>
+        <p>
+            <strong> Cost Function</strong>
+            As an initial cost function I went with minimizing the l2 error.
+        </p>
+
     </section>
 
     <section id="crr">
