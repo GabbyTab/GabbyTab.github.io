@@ -263,9 +263,8 @@ Statue, SSIM + Rotations + Translations
             <img src="images/f4.png" alt="Image 7">
             <img src="images/h1.png" alt="Image 1">
             <img src="images/h2.png" alt="Image 1">
-            <img src="images/sun.png" alt="Image 1">
             <img src="images/distance.png" alt="Image 1">
-            <img src="images/sun.png" alt="Image 1">
+            <img src="images/latlong.png" alt="Image 1">
             <img src="images/suntables.png" alt="Image 1">
 
 
@@ -273,19 +272,28 @@ Statue, SSIM + Rotations + Translations
         <p>
             This approach is very limited due to the level of guess work involved but I still think it is both creative and interesting enough to include.
             
-            The monastary in the monastary picture still stands and can be found in google maps. Using photos of the location, 
-            we can estimate where the photo was taken, the bearing of the
-            photographer and the distance from the photographer to one of the trees on the left of the photo and it's coressponding shadow.
-            using an estimate of the camara's dimensions and a google search of the aproximate distance between the photographer and the tree, 
-            we can guesss the height and bearing of the shadow of the tree. This gives us a time of day dependant on day/month/year. From the library of congress we know the year = 1910.
-            We can find the illuminante of every day in that year at the calculated time. Undo the illuminante of each day on the image, pick the best image.
             
-           </p>
+        </p>
+            The monastery in the monastery picture still stands and can be found in google maps. Using photos of the location, 
+            we can estimate where the photo was taken, the bearing of the
+            photographer and the distance from the photographer to one of the trees on the left of the photo and its corresponding shadow.
+         
+        <p>
+            using an estimate of the camara's dimensions and a google search of the approximate distance between the photographer and the tree, 
+            We can guess the height and bearing of the shadow of the tree.   
+        </p>
 
-            <p>
-               I don't think I'm going to have time to finish this :( working on final step ahh
-                
-            </p>
+        <p>
+            This gives us a time of day dependent on day/month/year. From the library of congress we know the year = 1910.
+            We can find the illuminant of every day in that year at the calculated time. Undo the illuminant of each day on the image, pick the best image.
+            
+        </p>
+
+        
+        <p>
+           I don't think I'm going to have time to finish this :( working on final step ahh
+        </p>
+
     </section>
 
     <section id="retinex">
@@ -296,7 +304,7 @@ Statue, SSIM + Rotations + Translations
 
         </div>
         <p>
-            Finally as a more clever way to estimate the illuminante I attempted to implement and apply retinex, but for the life of me it did not work :( 
+        Finally as a more clever way to estimate the illuminante I attempted to implement and apply retinex, but for the life of me it did not work :( 
         I don't know it it's because these images don't meet the gray world assumption at all, or if i'm just
         having trouble with the tif format. Here is my couple of attempts.</p>
     </section>
