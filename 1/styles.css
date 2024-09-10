@@ -137,16 +137,34 @@ p {
 }
 
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
-    grid-template-rows: repeat(2, auto);  /* 2 rows with automatic height based on content */
-    gap: 10px; /* Optional: Adds spacing between grid items */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between; /* Optional: Adjust spacing between items */
+}
+
+.gallery figure {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex: 1 1 calc(33.333% - 10px); /* Adjusts item size to fit three per row */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 .gallery img {
-    width: 100%; /* Ensure images fill the grid cells */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Ensure images cover the grid cell, cropping as needed */
+    max-width: 100%;
+    height: auto;
+}
+
+.gallery figcaption {
+    padding: 8px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
 }
 
 
