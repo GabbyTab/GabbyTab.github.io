@@ -118,8 +118,6 @@ section h2 {
     margin-bottom: 20px;
 }
 
-/* for the emir picture */
-
 .center-stage {
     display: flex;
     justify-content: center; /* Centers the content horizontally */
@@ -132,7 +130,6 @@ section h2 {
     height: auto;
 }
 
-/* Gallery Styles */
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
