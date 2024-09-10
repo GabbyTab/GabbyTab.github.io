@@ -116,12 +116,27 @@ section {
 section h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-}/* Gallery Styles */
-.gallery {
+}
+
+/* for the emir picture */
+
+.center-stage {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between gallery items */
-    justify-content: space-between; /* Space items evenly */
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center; /* Centers the content vertically */
+    margin: 20px 0; /* Optional: adds spacing around the center-stage container */
+}
+
+.center-stage img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Gallery Styles */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
+    gap: 10px; /* Space between grid items */
 }
 
 .gallery figure {
@@ -132,14 +147,12 @@ section h2 {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    flex: 1 1 calc(33.333% - 10px); /* Adjust item size to fit three per row */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 .gallery img {
-    width: 100%; /* Ensure image fills the container */
+    width: 100%; /* Ensure images fill the grid cells */
     height: auto; /* Maintain aspect ratio */
-    border-radius: 10px;
+    object-fit: cover; /* Ensure images cover the grid cell, cropping as needed */
 }
 
 .gallery figcaption {
@@ -147,24 +160,4 @@ section h2 {
     background-color: #f9f9f9;
     font-size: 14px;
     color: #333;
-}
-
-/* Paragraph Styles */
-p {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
-
-/* Center Stage Container Styles */
-#filters .center-stage { 
-    display: flex;
-    justify-content: center; 
-    margin-top: 20px; /* Space between gallery and center stage image */ 
-} 
-
-/* Center Stage Image Styles */
-#filters .center-stage img {    
-    max-width: 100%; 
-    height: auto; /* Maintain aspect ratio */
 }
