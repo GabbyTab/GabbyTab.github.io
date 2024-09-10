@@ -47,24 +47,96 @@ Statue, SSIM + Rotations + Translations
 
     <section id="naive-methods">
         <h2>Naive L2 Methods and Image Pyramids</h2>
+
         <div class="gallery">
-            <img src="images/l21.png" alt="Image 1">
-            <img src="images/l22.png" alt="Image 2">
-            <img src="images/l23.png" alt="Image 3">
-            <img src="images/l24.png" alt="Image 1">
-            <img src="images/l25.png" alt="Image 2">
-            <img src="images/l26.png" alt="Image 3">
-            <img src="images/l27.png" alt="Image 1">
-            <img src="images/l28.png" alt="Image 2">
-            <img src="images/l29.png" alt="Image 3">
-            <img src="images/l210.png" alt="Image 1">
-            <img src="images/l211.png" alt="Image 2">
-            <img src="images/l212.png" alt="Image 3">
-            <img src="images/l213.png" alt="Image 1">
-            <img src="images/l214.png" alt="Image 2">
-            <img src="images/l215.png" alt="Image 3">
-            <img src="images/l216.png" alt="Image 2">
-            <img src="images/l217.png" alt="Image 3">
+            <figure>
+                <img src="images/l21.png" alt="Image 1">
+                <figcaption>(g: [51, 26], r: [108, 36])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l22.png" alt="Image 1">
+                <figcaption> (g: [0, 0], r:  [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l23.png" alt="Image 1">
+                <figcaption>(g: [36, 0]  r: [30, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l24.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l25.png" alt="Image 1">
+                <figcaption> (g: [33, -11]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l26.png" alt="Image 1">
+                <figcaption>(g: [41, 0]  r: [12, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l27.png" alt="Image 1">
+                <figcaption>(g: [16, 0]  r: [12, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l28.png" alt="Image 1">
+                <figcaption> (g: [0, 18]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l29.png" alt="Image 1">
+                <figcaption> (g: [51, 11]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l210.png" alt="Image 1">
+                <figcaption> (g: [3, 2]  r: [6, 3])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l211.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l212.png" alt="Image 1">
+                <figcaption> (g: [40, 17]  r: [89, 23])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l213.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l214.png" alt="Image 1">
+                <figcaption>(g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l215.png" alt="Image 1">
+                <figcaption> (g: [80, 7]  r: [88, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l216.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [52, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l217.png" alt="Image 1">
+                <figcaption> (g: [38, 21]  r: [0, 0])/figcaption>
+            </figure>
+            <figure>
+            
+
+
         </div>
 
         <p>
@@ -90,18 +162,6 @@ Statue, SSIM + Rotations + Translations
 
     </section>
 
-    <section id="crr">
-        <h2>Cross Correlation</h2>
-        <div class="gallery">
-            <img src="images/cc1.png" alt="Image 1">
-            <img src="images/cc2.png" alt="Image 2">
-            <img src="images/cc3.png" alt="Image 3">
-        </div>
-            <p>
-        <strong>Cross Correlation</strong>
-         I also tried to use Cross Correlation but there was essentialy no imporvment. 
-        </p>
-    </section>
 
     <section id="speed">
         <h2>SPEEED UP</h2>
@@ -127,33 +187,7 @@ Statue, SSIM + Rotations + Translations
         </p>
     </section>
 
-    <section id="objective-functions">
-        <h2>Better Objective Functions</h2>
-        <div class="gallery">
-            <img src="images/ssim1.png" alt="Image 1">
-            <img src="images/ssim2.png" alt="Image 1">
-            <img src="images/ssim3.png" alt="Image 1">
-        </div>
-        <p>
-            <strong> Motivation </strong>
-            The problem with the l2 norm is that it has no way to focus on what is important about the image, structure, edges, reflectance, or luminance.
-            There are too many possible configurations of the images where the l2 norm gives a similar/or lower value than the desired optimal solution. So instead we 
-            look towards metrics that incorporate that information (or we generate features, more on that later)
-            
-        </p>
-        <p>
-            <strong> SSIM </strong>
-            Introducing Strucutal Similarity Index Measure: SSIM. According to the wikipedia article 
-            "SSIM is a perception-based model that considers image degradation as perceived change in structural information, while also incorporating important perceptual phenomena, including both luminance masking and contrast masking terms."
-        </p>
-        <p>
-            <strong> Results </strong>
-            Out preforms l2 and CNN significantly; does not require any aditinal features to align the images correctley but is substantialy increases the runtime.
-        </p>
-    </section>
-        <section id="Bells-whistles">
-        <h1>Bells, whistles and all things  things</h1>
-    </section>
+
 
     <section id="filters">
         <h2>Better Features</h2>
@@ -295,6 +329,51 @@ Statue, SSIM + Rotations + Translations
 
 
     </section>
+
+        <section id="Bells-whistles">
+        <h1>Bells, whistles and all things  things</h1>
+    </section>
+
+                
+    
+    <section id="crr">
+        <h2>Cross Correlation</h2>
+        <div class="gallery">
+            <img src="images/cc1.png" alt="Image 1">
+            <img src="images/cc2.png" alt="Image 2">
+            <img src="images/cc3.png" alt="Image 3">
+        </div>
+            <p>
+        <strong>Cross Correlation</strong>
+         I also tried to use Cross Correlation but there was essentialy no imporvment. 
+        </p>
+    </section>
+
+    <section id="objective-functions">
+        <h2>Better Objective Functions</h2>
+        <div class="gallery">
+            <img src="images/ssim1.png" alt="Image 1">
+            <img src="images/ssim2.png" alt="Image 1">
+            <img src="images/ssim3.png" alt="Image 1">
+        </div>
+        <p>
+            <strong> Motivation </strong>
+            The problem with the l2 norm is that it has no way to focus on what is important about the image, structure, edges, reflectance, or luminance.
+            There are too many possible configurations of the images where the l2 norm gives a similar/or lower value than the desired optimal solution. So instead we 
+            look towards metrics that incorporate that information (or we generate features, more on that later)
+            
+        </p>
+        <p>
+            <strong> SSIM </strong>
+            Introducing Strucutal Similarity Index Measure: SSIM. According to the wikipedia article 
+            "SSIM is a perception-based model that considers image degradation as perceived change in structural information, while also incorporating important perceptual phenomena, including both luminance masking and contrast masking terms."
+        </p>
+        <p>
+            <strong> Results </strong>
+            Out preforms l2 and CNN significantly; does not require any aditinal features to align the images correctley but is substantialy increases the runtime.
+        </p>
+    </section>
+
 
     <section id="zoom-rotations">
         <h2>Zoom and Rotations</h2>
