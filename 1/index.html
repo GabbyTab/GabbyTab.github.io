@@ -277,9 +277,15 @@ Statue, SSIM + Rotations + Translations
             we can estimate where the photo was taken, the bearing of the
             photographer and the distance from the photographer to one of the trees on the left of the photo and it's coressponding shadow.
             using an estimate of the camara's dimensions and a google search of the aproximate distance between the photographer and the tree, 
-            we can guesss the height and bearing of the shadow of the tree. Now we have a solar angle that can reveal the time of day with a solar calculator.
-            We can use the time of day to guess the aproximate illuminante of the sunlight on the day when the picture was taken. 
-            Then we can try to counteact that iluminant.</p>
+            we can guesss the height and bearing of the shadow of the tree. This gives us a time of day dependant on day/month/year. From the library of congress we know the year = 1910.
+            We can find the illuminante of every day in that year at the calculated time. Undo the illuminante of each day on the image, pick the best image.
+            
+           </p>
+
+            <p>
+               I don't think I'm going to have time to finish this :( working on final step ahh
+                
+            </p>
     </section>
 
     <section id="retinex">
@@ -289,7 +295,8 @@ Statue, SSIM + Rotations + Translations
             <img src="images/retinex2.jpg" alt="Image 1">
 
         </div>
-        <p>Finally I attempted to implement and apply retinex, but for the life of me it did not work :( 
+        <p>
+            Finally as a more clever way to estimate the illuminante I attempted to implement and apply retinex, but for the life of me it did not work :( 
         I don't know it it's because these images don't meet the gray world assumption at all, or if i'm just
         having trouble with the tif format. Here is my couple of attempts.</p>
     </section>
