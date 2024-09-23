@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sergey Prokudin-Gorsky Reconstruction</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+    
+<body>
+    <div class="background-container">
+        <div class="image-layer image1"></div>
+        <div class="image-layer image2"></div>
+        <div class="image-layer image3"></div>
+    </div>
+
+    <header id="header">
+        <div class="title-image">
+            <h1>Sergey Prokudin-Gorsky Color Reconstructions V7</h1>
+        </div>
+    </header>
+
+    <section id="hall-of-fame">
+        <h2>Hall of fame</h2>
+        <div class="gallery">
+            <img src="images/ssim1.png" alt="Image 1">
+            <img src="images/r2.png" alt="Image 1">
+            <img src="images/r4.png" alt="Image 1">
+        </div>
+        <p>Emir, SSIM + Rotations + Translations
+Church, SSIM + Rotations + Translations + Linear Contrast scaling
+Statue, SSIM + Rotations + Translations
+.</p>
+    </section>
+
+    <section id="Overview">
+        <h2>Project Overview</h2>
+        <p>
+            The goal of this assignment is to take the digitized Prokudin-Gorskii glass plate images and,
+            using image processing techniques, automatically produce a color image with as few visual artifacts as possible. 
+            (from the project website)
+        </p>
+    </section>
+
+    <section id="naive-methods">
+        <h2>Naive L2 Methods and Image Pyramids</h2>
+
+        <div class="gallery">
+            <figure>
+                <img src="images/l21.png" alt="Image 1">
+                <figcaption>(g: [51, 26], r: [108, 36])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l22.png" alt="Image 1">
+                <figcaption> (g: [0, 0], r:  [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l23.png" alt="Image 1">
+                <figcaption>(g: [36, 0]  r: [30, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l24.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l25.png" alt="Image 1">
+                <figcaption> (g: [33, -11]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l26.png" alt="Image 1">
+                <figcaption>(g: [41, 0]  r: [12, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l27.png" alt="Image 1">
+                <figcaption>(g: [16, 0]  r: [12, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l28.png" alt="Image 1">
+                <figcaption> (g: [0, 18]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l29.png" alt="Image 1">
+                <figcaption> (g: [51, 11]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l210.png" alt="Image 1">
+                <figcaption> (g: [3, 2]  r: [6, 3])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l211.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l212.png" alt="Image 1">
+                <figcaption> (g: [40, 17]  r: [89, 23])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l213.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l214.png" alt="Image 1">
+                <figcaption>(g: [0, 0]  r: [0, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l215.png" alt="Image 1">
+                <figcaption> (g: [80, 7]  r: [88, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l216.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [52, 0])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/l217.png" alt="Image 1">
+                <figcaption> (g: [38, 21]  r: [0, 0])/figcaption>
+            </figure>
+            <figure>
+            
+
+
+        </div>
+
+        <p>
+            <strong> Naive Approach</strong>
+            An initial approach is to take the l2 error between the images on some window of translation. 
+            This becomes infeasable with large image or window sizes.
+        </p>
+       <p>
+            <strong> Image Pyramids</strong>
+            Image pyramids are used to speed up computations regarding the comparison of two images. 
+            The hope is that the image will obtain relevant information/structure to the operation when it is scaled down.
+            There’s a few ways to go about the resizing, for example we could “summarize” a group of pixels by taking their average. 
+            I used sk.transform.rescale to create each level of the pyramid.
+        </p>
+
+        <p>
+        <strong> Results</strong>
+        Dismal, effectively no images were really aligned correctly, the l2 norm on it’s own is not verry good as a metric; 
+        there's a lot of hypothetical bad alginments with lows costs.
+        </p>
+
+
+
+    </section>
+
+
+    <section id="speed">
+        <h2>SPEEED UP</h2>
+       <p> 
+           <strong>General ideas</strong>
+            There's a few ways to speed up our general computations. In the end we are taking the convolution of two images;
+            there's a whole project in cs61c dedicated to doing this fast (and furiously). We could also implement an FFT based convolutions algorithm which has a lower time complexity.
+            However, since at this stage I was not sure what other metrics I might think of using other than l2 and I could not guarantee that they would all be compatible with my convolutions algorithm I 
+            opted to simply parallelize the search window.
+
+       </p>
+        <p>
+        <strong>Parallelism</strong>
+        I separated the search function from align and parallelized it using concurrent. I also tried to make a parallel version of np.roll but it wasn't working as desired.
+
+        </p>
+
+        <p>
+        <strong>Quality of Life</strong>
+            The image pyramid was improved to allow us to specify the base of the pyramid. This is important because sometimes we don't actually need the greatest resolution window at all.
+            I also implemented the ability to configure the amount of translations/rotations/zooms depending on the level and I made config dictionaries so that it's easy to change the metric and
+            search window parameters. Finally we made an automatic crop function that crops the borders so that the edges of the image don't throw off the comparisons. 
+        </p>
+    </section>
+
+
+
+    <section id="filters">
+        <h2>Better Features</h2>
+        <div class="gallery">
+            <img src="images/re1.png" alt="Image 1">
+            <img src="images/be1.png" alt="Image 1">
+            <img src="images/ge1.png" alt="Image 1">
+            <img src="images/re.png" alt="Image 1">
+            <img src="images/be.png" alt="Image 1">
+            <img src="images/ge.png" alt="Image 1">
+
+        </div>           
+
+        <div class="center-stage">
+            <img src="images/c_emir.png" alt="Center Stage Image"> 
+        </div>
+
+        <div class="gallery">
+            <figure>
+                <img src="images/f1.png" alt="Image 1">
+                <figcaption>(g: [51, 26]  r: [108, 37])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f2.png" alt="Image 1">
+                <figcaption>(g: [-3, 2]  r: [3, 2])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f3.png" alt="Image 1">
+                <figcaption>(g: [49, 9]  r: [114, 0])  </figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f4.png" alt="Image 1">
+                <figcaption> (g: [5, 2]  r: [12, 3])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f5.png" alt="Image 1">
+                <figcaption>(g: [33, -11]  r: [140, -26])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f6.png" alt="Image 1">
+                <figcaption> (g: [51, 4]  r: [93, 32])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f7.png" alt="Image 1">
+                <figcaption>(g: [58, 14]  r: [122, 12])/figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f8.png" alt="Image 1">
+                <figcaption> (g: [51, 24]  r: [0, -103])/figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f9.png" alt="Image 1">
+                <figcaption> (g: [49, 9]  r: [110, 9])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f10.png" alt="Image 1">
+                <figcaption> (g: [3, 3]  r: [6, 3])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f11.png" alt="Image 1">
+                <figcaption> (g: [77, 28]  r: [174, 36]) </figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f12.png" alt="Image 1">
+                <figcaption> (g: [40, 17]  r: [88, 23])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f13.png" alt="Image 1">
+                <figcaption> (g: [0, 0]  r: [0, -1])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f14.png" alt="Image 1">
+                <figcaption>(g: [85, 9]  r: [180, 11])/figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f15.png" alt="Image 1">
+                <figcaption> (g: [25, -4]  r: [101, -9])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f16.png" alt="Image 1">
+                <figcaption>(g: [38, 20]  r: [77, 35])</figcaption>
+            </figure>
+            <figure>
+            <figure>
+                <img src="images/f17.png" alt="Image 1">
+                <figcaption>(g: [38, 20]  r: [77, 35])</figcaption>
+            </figure>
+            <figure>
+            
+
+
+        </div>
+        <p>
+            <strong>  Motivation  </strong> 
+            If only we could tell the computer to just focus on the emirs beard. 
+        </p>
+
+        <p>
+            <strong>  Tricks and Features. </strong> 
+            We want to extract usefull features from the mess of raw pixels, preferably somthing that has a strong tie to the objects in the picture.
+            Intuitivley if all we have to match is a beard, or a basket, or a cube, there's less things that can go wrong. Even with the l2 nom.
+        </p>
+
+        <p>
+            The first thing you might think about is gradients or edge detection (mentioned in the project spec).
+            But there's a simple , efficient solution that embodies the same motivation.  
+            By applying a threshold filter -ie (arr[arr > median] = 255 arr[arr <= median] = 0) We've turned the problem into matching the bright parts of the image.
+        </p>
+
+        <p>
+            <strong> Results </strong> 
+            Matching with a filter and the naive l2 norm results in a program that is much faster than SSIM can can recover almost all of the images
+            without issue (except for the most difficult ones like emir)
+        </p>
+
+        <p>
+          The images above are an example of us brightening each of the channels independently and then matching them together. Below is the algorithm run on some of the other images.
+        </p>
+
+        <p>
+            <strong> Limitations </strong> 
+            WLOG blue objects will have low red and green brightess, meaning that they become harder to match.
+        </p>
+
+
+    </section>
+
+        <section id="Bells-whistles">
+        <h1>Bells, whistles and all things  things</h1>
+    </section>
+
+                
+    
+    <section id="crr">
+        <h2>Cross Correlation</h2>
+        <div class="gallery">
+            <img src="images/cc1.png" alt="Image 1">
+            <img src="images/cc2.png" alt="Image 2">
+            <img src="images/cc3.png" alt="Image 3">
+        </div>
+            <p>
+        <strong>Cross Correlation</strong>
+         I also tried to use Cross Correlation but there was essentialy no imporvment. 
+        </p>
+    </section>
+
+    <section id="objective-functions">
+        <h2>Better Objective Functions</h2>
+        <div class="gallery">
+            <img src="images/ssim1.png" alt="Image 1">
+            <img src="images/ssim2.png" alt="Image 1">
+            <img src="images/ssim3.png" alt="Image 1">
+        </div>
+        <p>
+            <strong> Motivation </strong>
+            The problem with the l2 norm is that it has no way to focus on what is important about the image, structure, edges, reflectance, or luminance.
+            There are too many possible configurations of the images where the l2 norm gives a similar/or lower value than the desired optimal solution. So instead we 
+            look towards metrics that incorporate that information (or we generate features, more on that later)
+            
+        </p>
+        <p>
+            <strong> SSIM </strong>
+            Introducing Strucutal Similarity Index Measure: SSIM. According to the wikipedia article 
+            "SSIM is a perception-based model that considers image degradation as perceived change in structural information, while also incorporating important perceptual phenomena, including both luminance masking and contrast masking terms."
+        </p>
+        <p>
+            <strong> Results </strong>
+            Out preforms l2 and CNN significantly; does not require any aditinal features to align the images correctley but is substantialy increases the runtime.
+        </p>
+    </section>
+
+
+    <section id="zoom-rotations">
+        <h2>Zoom and Rotations</h2>
+        <div class="gallery">
+            <img src="images/r1.png" alt="Image 1">
+            <img src="images/r2.png" alt="Image 1">
+            <img src="images/r3.png" alt="Image 1">
+        </div>
+        <p>This part is self explanatory, after finding a good center we can scan over a small range of possible zooms and rotations to find an even better matching.</p>
+    </section>
+
+
+    <section id="contrast-stretching">
+        <h2>Contrast Stretching</h2>
+        <div class="gallery">
+            <img src="images/cl1.png" alt="Image 1">
+            <img src="images/cl2.png" alt="Image 1">
+            <img src="images/cl3.png" alt="Image 1">
+        </div>
+        <p>
+            Some of these images have an "old picture" quality to them (they are 100 years old). I tried to apply linear contrast scaling in hopes of
+            making the images sharper. Linear contrast scaling works by first cliping the brightness values (say 5th to 95th percentile) and then stretching
+            the values in between linearly across the new range. Here are three pictures of the church with linscale, (10%, 98%) (10%, 90%) (20%, 100%). Note that as 
+            the range gets smaller, a larger group of pixels go to the two extremes (white/black) and the contrast increases clearing up details of the image.
+        </p>
+    </section>
+
+    <section id="balancing-techniques">
+        <h2>White Balancing </h2>
+        <div class="gallery">
+            <img src="images/l25.png" alt="Image 4">
+            <img src="images/wb1.png" alt="Image 7">
+            <img src="images/wb2.png" alt="Image 7">
+            <img src="images/f5.png" alt="Image 7">
+            <img src="images/wb3.png" alt="Image 7">
+            <img src="images/wb4.png" alt="Image 7">
+
+        </div>
+        <p>
+            <strong> White balancing </strong> 
+
+            White balancing has two parts: step 1 estimate the iluminant map, step 2 try to counteract the iluminant map.
+            The first column is the original image. The second column corresponds to the avg methodolgy where we estimate gray to be the average of all the pixels in each channel and then we correc.
+            Finally the last column is the max methodoly, where we take the max value in each channel and assume that it is true white
+        <./p>
+
+        <p>
+            <strong> Limitations</strong> 
+            There are smarter ways to estimate the iluminant map (retinex, more on that later). The max method returned the same image as the original because true white apears in both these images.
+        <./p>
+
+
+            
+    </section>
+    
+
+    <section id="manual-techniques">
+        <h2>Manual Historical Shenanigans</h2>
+        <div class="gallery">
+            <img src="images/f4.png" alt="Image 7">
+            <img src="images/h1.png" alt="Image 1">
+            <img src="images/h2.png" alt="Image 1">
+            <img src="images/distance.png" alt="Image 1">
+            <img src="images/latlong.png" alt="Image 1">
+            <img src="images/suntables.png" alt="Image 1">
+
+
+        </div>
+        <p>
+            This approach is very limited due to the level of guess work involved but I still think it is both creative and interesting enough to include.
+            
+            
+        </p>
+            The monastery in the monastery picture still stands and can be found in google maps. Using photos of the location, 
+            we can estimate where the photo was taken, the bearing of the
+            photographer and the distance from the photographer to one of the trees on the left of the photo and its corresponding shadow.
+         
+        <p>
+            using an estimate of the camara's dimensions and a google search of the approximate distance between the photographer and the tree, 
+            We can guess the height and bearing of the shadow of the tree.   
+        </p>
+
+        <p>
+            This gives us a time of day dependent on day/month/year. From the library of congress we know the year = 1910.
+            We can find the illuminant of every day in that year at the calculated time. Undo the illuminant of each day on the image, pick the best image.
+            
+        </p>
+
+        
+        <p>
+           I don't think I'm going to have time to finish this :( working on final step ahh
+        </p>
+
+    </section>
+
+    <section id="retinex">
+        <h2>Retinex</h2>
+        <div class="gallery">
+            <img src="images/retinex1.jpg" alt="Image 1">
+            <img src="images/retinex2.jpg" alt="Image 1">
+
+        </div>
+        <p>
+        Finally as a more clever way to estimate the illuminante I attempted to implement and apply retinex, but for the life of me it did not work :( 
+        I don't know it it's because these images don't meet the gray world assumption at all, or if i'm just
+        having trouble with the tif format. Here is my couple of attempts.</p>
+    </section>
+
+    <section id="future-techniques">
+        <h2>Improvments</h2>
+        <p>Lot's of things could have been done better, If I had more time I would have implemented the fft convolutions, I will in the near future hopefully finish the retinex and the hystorical aproach tho.</p>
+    </section>
+
+    
+    <section id="references">
+        <h2>References</h2>
+        <p>
+            <strong> Wikipedia Articles seen:</strong>
+        </p>
+            
+        <p>https://en.wikipedia.org/wiki/Structural_similarity_index_measure</p>
+        <p>https://en.wikipedia.org/wiki/Color_constancy#Retinex_theory</p>
+
+        <p>
+            <strong> blogs seen: </strong>
+        </p>
+        
+        <p>https://santhalakshminarayana.github.io/blog/retinex-image-enhancement</p>
+        <p>https://www.w3schools.com/css/css_intro.asp</p>
+        <p>https://www.w3schools.com/html/html_basic.asp</p>
+
+    </section>
+
+    <section id="additionals">
+        <h2>References</h2>
+        <p>
+            This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
+        </p>
+    </section>
+
+
+    <script src="script.js"></script>
+</body>
+
+<script src="script.js"></script>
+</html>
