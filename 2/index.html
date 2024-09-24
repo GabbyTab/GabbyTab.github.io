@@ -68,7 +68,7 @@
         </div>
 
         <p> 
-Doing the same thing with a single convolution instead of two by creating a derivative of gaussian filters. 
+            Doing the same thing with a single convolution instead of two by creating a derivative of gaussian filters. 
         </p>
         <div class="gallery">
             <img src="images/equivalence.png" alt="Image 1">
@@ -78,119 +78,25 @@ Doing the same thing with a single convolution instead of two by creating a deri
 
 
     <section id="naive-methods">
-        <h2>Naive L2 Methods and Image Pyramids</h2>
+        <h2>Part 2.1: Image "Sharpening"</h2>
 
+        <p> 
+            Here is the image being sharpened at alpha = 0, 0.1, 0.5, 1
+        </p>
         <div class="gallery">
-            <figure>
-                <img src="images/l21.png" alt="Image 1">
-                <figcaption>(g: [51, 26], r: [108, 36])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l22.png" alt="Image 1">
-                <figcaption> (g: [0, 0], r:  [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l23.png" alt="Image 1">
-                <figcaption>(g: [36, 0]  r: [30, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l24.png" alt="Image 1">
-                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l25.png" alt="Image 1">
-                <figcaption> (g: [33, -11]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l26.png" alt="Image 1">
-                <figcaption>(g: [41, 0]  r: [12, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l27.png" alt="Image 1">
-                <figcaption>(g: [16, 0]  r: [12, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l28.png" alt="Image 1">
-                <figcaption> (g: [0, 18]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l29.png" alt="Image 1">
-                <figcaption> (g: [51, 11]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l210.png" alt="Image 1">
-                <figcaption> (g: [3, 2]  r: [6, 3])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l211.png" alt="Image 1">
-                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l212.png" alt="Image 1">
-                <figcaption> (g: [40, 17]  r: [89, 23])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l213.png" alt="Image 1">
-                <figcaption> (g: [0, 0]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l214.png" alt="Image 1">
-                <figcaption>(g: [0, 0]  r: [0, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l215.png" alt="Image 1">
-                <figcaption> (g: [80, 7]  r: [88, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l216.png" alt="Image 1">
-                <figcaption> (g: [0, 0]  r: [52, 0])</figcaption>
-            </figure>
-            <figure>
-            <figure>
-                <img src="images/l217.png" alt="Image 1">
-                <figcaption> (g: [38, 21]  r: [0, 0])/figcaption>
-            </figure>
-            <figure>
-            
-
-
+            <img src="images/taj0.png" alt="Image 1">
+            <img src="images/taj1.png" alt="Image 1">
+            <img src="images/taj5.png" alt="Image 1">
+            <img src="images/taj10.png" alt="Image 1">
         </div>
 
-        <p>
-            <strong> Naive Approach</strong>
-            An initial approach is to take the l2 error between the images on some window of translation. 
-            This becomes infeasable with large image or window sizes.
-        </p>
-       <p>
-            <strong> Image Pyramids</strong>
-            Image pyramids are used to speed up computations regarding the comparison of two images. 
-            The hope is that the image will obtain relevant information/structure to the operation when it is scaled down.
-            There’s a few ways to go about the resizing, for example we could “summarize” a group of pixels by taking their average. 
-            I used sk.transform.rescale to create each level of the pyramid.
-        </p>
+        <p> 
+            Here is my brother, first being blurred with a gaussian filter, and then I try to sharpen from scratch. Notice that although it looks better, it does not look like the original, some information can not be recovered. \\
 
-        <p>
-        <strong> Results</strong>
-        Dismal, effectively no images were really aligned correctly, the l2 norm on it’s own is not verry good as a metric; 
-        there's a lot of hypothetical bad alginments with lows costs.
         </p>
-
-
+        <div class="gallery">
+            <img src="images/fred.jpg" alt="Image 1">
+        </div>
 
     </section>
 
