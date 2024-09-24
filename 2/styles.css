@@ -46,12 +46,12 @@ header {
 }
 
 .image2 {
-    background-image: url('images/apple.png');
+    background-image: url('images/apple.jpeg');
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
 .image3 {
-    background-image: url('images/oraple.png');
+    background-image: url('images/Oraple.png');
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
