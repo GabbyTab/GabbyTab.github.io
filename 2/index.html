@@ -17,36 +17,65 @@
         <div class="image-layer image3"></div>
     </div>
 
+    <section id="Overview">
+        <h2>Project Overview</h2>
+        <p>
+            Building hybrid images and learning about filters
+        </p>
+    </section>
+
     <header id="header">
         <div class="title-image">
             <h1>Part 1.1: Finite Difference Operator</h1>
         </div>
     </header>
 
+
     <section id="hall-of-fame">
-        <h2>Hall of fame</h2>
+        <h2>Part 1</h2>
+        <p> 
+            Applying the dx and dy filter, followed by gradient magnitude at different thresholds 
+        </p>
         <div class="gallery">
             <img src="images/dx.png" alt="Image 1">
             <img src="images/dy.png" alt="Image 1">
+        </div>
+        <p> 
+            Gradient magnitude at different thresholds: 0, 5, 15, 30
+        </p>
+
+        <div class="gallery">
             <img src="images/gm0.png" alt="Image 1">
             <img src="images/gm5.png" alt="Image 1">
             <img src="images/gm15.png" alt="Image 1">
             <img src="images/gm30.png" alt="Image 1">
         </div>
-        <p>Emir, SSIM + Rotations + Translations
-Church, SSIM + Rotations + Translations + Linear Contrast scaling
-Statue, SSIM + Rotations + Translations
-.</p>
+        
+        <p> 
+            Applying a gaussian filter (kernel 18, sigma 3) 
+        </p>
+        <div class="gallery">
+            <img src="images/lap_18_3.png" alt="Image 1">
+        </div>
+
+        <p> 
+            Then taking the x, y and gradient magnitude filters. Notice how the smoothing effects makes the gm much smoother without having to mess with the threshold.
+        </p>
+        <div class="gallery">
+            <img src="images/lp_x.png" alt="Image 1">
+            <img src="images/lp_y.png" alt="Image 1">
+            <img src="images/lp_gm.png" alt="Image 1">
+        </div>
+
+        <p> 
+Doing the same thing with a single convolution instead of two by creating a derivative of gaussian filters. 
+        </p>
+        <div class="gallery">
+            <img src="images/equivalence.png" alt="Image 1">
+        </div>
     </section>
 
-    <section id="Overview">
-        <h2>Project Overview</h2>
-        <p>
-            The goal of this assignment is to take the digitized Prokudin-Gorskii glass plate images and,
-            using image processing techniques, automatically produce a color image with as few visual artifacts as possible. 
-            (from the project website)
-        </p>
-    </section>
+
 
     <section id="naive-methods">
         <h2>Naive L2 Methods and Image Pyramids</h2>
