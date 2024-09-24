@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun with Filters and Frequencies!</title>
+    <title>Filter Fun</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -26,13 +26,13 @@
 
     <header id="header">
         <div class="title-image">
-            <h1>Part 1.1: Finite Difference Operator</h1>
+            <h1>Fun with Filters and Frequencies!</h1>
         </div>
     </header>
 
 
     <section id="hall-of-fame">
-        <h2>Part 1</h2>
+        <h2>Part 1.1: Finite Difference Operator</h2>
         <p> 
             Applying the dx and dy filter, followed by gradient magnitude at different thresholds 
         </p>
@@ -102,27 +102,36 @@
 
 
     <section id="speed">
-        <h2>SPEEED UP</h2>
-       <p> 
-           <strong>General ideas</strong>
-            There's a few ways to speed up our general computations. In the end we are taking the convolution of two images;
-            there's a whole project in cs61c dedicated to doing this fast (and furiously). We could also implement an FFT based convolutions algorithm which has a lower time complexity.
-            However, since at this stage I was not sure what other metrics I might think of using other than l2 and I could not guarantee that they would all be compatible with my convolutions algorithm I 
-            opted to simply parallelize the search window.
-
-       </p>
-        <p>
-        <strong>Parallelism</strong>
-        I separated the search function from align and parallelized it using concurrent. I also tried to make a parallel version of np.roll but it wasn't working as desired.
-
+        <h2>Part 2.2: Hybrid Images</h2>
+        <p> 
+            Hybrid images:
         </p>
+        <div class="gallery">
+            <img src="images/h1.png" alt="Image 1">
+            <img src="images/h2.png" alt="Image 1">
+            <img src="images/h3.png" alt="Image 1">
+            <img src="images/h4.png" alt="Image 1">
+            <img src="images/h5.png" alt="Image 1">
+        </div>
+    </section>
 
-        <p>
-        <strong>Quality of Life</strong>
-            The image pyramid was improved to allow us to specify the base of the pyramid. This is important because sometimes we don't actually need the greatest resolution window at all.
-            I also implemented the ability to configure the amount of translations/rotations/zooms depending on the level and I made config dictionaries so that it's easy to change the metric and
-            search window parameters. Finally we made an automatic crop function that crops the borders so that the edges of the image don't throw off the comparisons. 
+        <p> 
+            Favorite image signal analysis.
         </p>
+        <p> 
+            Color makes the low and high frequency component stand out. Compare my Color image to the staff solution image:
+        </p>
+        <div class="gallery">
+            <img src="images/fred_og.png" alt="Image 1">
+            <img src="images/fred_post.png" alt="Image 1">
+        </div>
+        <div class="gallery">
+            <img src="images/lion_og.png" alt="Image 1">
+            <img src="images/lion_post.png" alt="Image 1">
+        </div>
+        <div class="gallery">
+            <img src="images/hybrid.png" alt="Image 1">
+        </div>
     </section>
 
 
