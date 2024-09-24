@@ -36,6 +36,9 @@
         <p> 
             Applying the dx and dy filter, followed by gradient magnitude at different thresholds 
         </p>
+        <p> 
+            We have the x and y component of the gradient (that is what the dx and dy filters capture) to find gradient magnitude all we have to do is take the 2 norm at each point.
+        </p>
         <div class="gallery">
             <img src="images/dx.png" alt="Image 1">
             <img src="images/dy.png" alt="Image 1">
@@ -59,7 +62,11 @@
         </div>
 
         <p> 
+            What differences do you see?
+        </p>
+        <p> 
             Then taking the x, y and gradient magnitude filters. Notice how the smoothing effects makes the gm much smoother without having to mess with the threshold.
+            The grass is still a bit blurry but overall it captured all the details in one pass. It did delete some of the information on the hand though.
         </p>
         <div class="gallery">
             <img src="images/lp_x.png" alt="Image 1">
@@ -166,6 +173,22 @@
         <div class="gallery">
             <img src="images/hybrid.png" alt="Image 1">
         </div>
+
+         <p> 
+    For the low-pass image, the Fourier transform shows stronger low frequencies with the high frequencies suppressed.
+        </p>
+
+         <p> 
+For the high-pass image, the Fourier transform shows the low frequencies removed, showing more prominent high-frequency components.
+        </p>
+
+         <p> 
+Hybrid Image: The Fourier transform of the hybrid image shows both low and high-frequency components clearly: the low taken from the low pass image and the high from the high pass image.
+        </p>
+
+
+
+
     </section>
 
 
