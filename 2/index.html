@@ -138,9 +138,18 @@
 
     <section id="filters">
         <h2>Part 2.4: Multiresolution Blending (a.k.a. the oraple!)</h2>
-        <p> 
-            Implementing a fully functinal stack
+        
+        <p>
+            A Gaussian stack is a series of progressively blurred versions of an image that capture the “low” frequencies of an image. 
         </p>
+
+        <p>
+            A Laplacian stack is a series of images representing high frequencies of an image at different scales, 
+            highlighting details at each scale. It is constructed by subtracting successive levels of a Gaussian pyramid, capturing high-frequency information (edges).    
+            The final layer of the laplacian stack should be the missing low frequencies (last layer in the Gaussian stack).    
+        </p>
+        
+        <p>Collapsing the laplacian stack should return the original image:</p>
 
         <div class="gallery">
             <img src="images/LapStack.png" alt="Image 1">
@@ -149,26 +158,52 @@
             Visualising the stacks:
         </p>
 
-        
-        <p> 
-            Mask
-        </p>
+        <div class="gallery">
+            <img src="images/vlstack.png" alt="Image 1">
+            <img src="images/vgstack.png" alt="Image 1">
+        </div>
 
         <p> 
-            The oraple
+            In order to create the oraple we have to create a gaussian stack of the half on half off mask.
         </p>
 
-        <p> 
-            The oraple color
-        </p>
+        <div class="gallery">
+            <img src="images/mstack.png" alt="Image 1">
+        </div>
 
         <p> 
-            more interesting mask
+            Fiannaly to assemble "The Oraple" we simply apply our mask stack to our laplacian stack and collapse the result:
         </p>
 
+        <div class="gallery">
+            <img src="images/oraple_no_color.png" alt="Image 1">
+        </div>
+
+
         <p> 
-            Mix
+            Doing the same thing with all the color channels results in the true Oraple. Some smudges due to normalizing issues.
         </p>
+
+        <div class="gallery">
+            <img src="images/Oraple.png" alt="Image 1">
+        </div>
+
+
+        <p> 
+            We don't have to limit ourselves to the left right mask, we can use any mask so long as we follow the same principles. Here is a circle mask alongside other cool merges.
+        </p>
+
+        <div class="gallery">
+            <img src="images/circle_filter.png" alt="Image 1">
+        </div>
+        <div class="gallery">
+            <img src="images/my_merge.png" alt="Image 1">
+            <img src="images/merge_color.png" alt="Image 1">
+            <img src="images/merge_gray.png" alt="Image 1">
+
+        </div>
+
+
         
         
         
