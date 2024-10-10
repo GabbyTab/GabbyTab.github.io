@@ -81,20 +81,47 @@
         <p> 
             To compute the midway face I created a function that finds the weighted average of the shape (based on the warp fraction), then applies the same triangulation to the new shape. Finally for each triangle T_m in the mid-way face I solved for the transformation matrix A s.t. A*T_m = T_i. Using this approach to solve for the midway face requires interpolation; I tried a handful of interpolation functions, including bilinear as was suggested, but ended up using nearest neighbor because it’s the fastest and has good quality. Finally to compute the mid-way face we simply cross dissolve the colors between the both mid-way transformation:
         </p>
+
+
+        <div class="gallery two-per-row large-gallery">
+            <figure>
+                <img src="images/w0.jpg" alt="Image 1">
+                <figcaption>hugh</figcaption>
+            </figure>
         
-        <div class="gallery">
-            <img src="images/w0.jpg" alt="Image 1">
-            <img src="images/m_h.jpg" alt="Image 1">
+            <figure>
+                <img src="images/m_h.jpg" alt="Image 2">
+                <figcaption>morphed into the midway shape</figcaption>
+            </figure>
         </div>
-        <div class="gallery">
-            <img src="images/m_w.jpg" alt="Image 1">
-            <img src="images/w3.jpg" alt="Image 1">
+        
+        <div class="gallery two-per-row large-gallery">
+            <figure>
+                <img src="images/w3.jpg" alt="Image 1">
+                <figcaption>wolverine</figcaption>
+            </figure>
+        
+            <figure>
+                <img src="images/m_w.jpg" alt="Image 2">
+                <figcaption>morphed into the midway shape</figcaption>
+            </figure>
         </div>
 
-        <div class="gallery">
-            <img src="images/w0.jpg" alt="Image 1">
-            <img src="images/w2.jpg" alt="Image 1">
-            <img src="images/w3.jpg" alt="Image 1">
+        <div class="gallery three-per-row large-gallery">
+            <figure>
+                <img src="images/w0.jpg" alt="Image 1">
+                <figcaption>wolverine</figcaption>
+            </figure>
+        
+            <figure>
+                <img src="images/w2.jpg" alt="Image 2">
+                <figcaption>midway shape + cross fade</figcaption>
+            </figure>
+
+            <figure>
+                <img src="images/w3.jpg" alt="Image 2">
+                <figcaption>morphed into the midway shape</figcaption>
+            </figure>
         </div>
 
 
