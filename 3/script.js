@@ -20,3 +20,13 @@ document.addEventListener('scroll', function() {
     document.querySelector('.image2').style.opacity = opacity2;
     document.querySelector('.image3').style.opacity = opacity3;
 });
+
+
+function resetGifs() {
+    const gifs = document.querySelectorAll('.gallery img');
+    gifs.forEach(gif => {
+        const src = gif.src;
+        gif.src = '';
+        gif.src = src;
+    });
+}
