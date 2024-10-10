@@ -17,75 +17,56 @@
         <div class="image-layer image3"></div>
     </div>
 
+
+    <header id="header">
+        <div class="title-image">
+            <h1>Face Morphing</h1>
+        </div>
+    </header>
+
+
     <section id="Overview">
         <h2>Project Overview</h2>
         <p>
             Building hybrid images and learning about filters
         </p>
     </section>
-
-    <header id="header">
-        <div class="title-image">
-            <h1>Fun with Filters and Frequencies!</h1>
-        </div>
-    </header>
-
-
+    
     <section id="hall-of-fame">
-        <h2>Part 1.1: Finite Difference Operator</h2>
+        <h2>Part 1. Defining Correspondences</h2>
+       
         <p> 
-            Applying the dx and dy filter, followed by gradient magnitude at different thresholds 
+        The first correspondence I wanted to build with a picture of Hugh jackman and Wolverine. They have never been seen in a room together and I think they look quite similar. 
         </p>
-        <p> 
-            We have the x and y component of the gradient (that is what the dx and dy filters capture) to find gradient magnitude all we have to do is take the 2 norm at each point.
-        </p>
-        <div class="gallery">
-            <img src="images/dx.png" alt="Image 1">
-            <img src="images/dy.png" alt="Image 1">
-        </div>
-        <p> 
-            Gradient magnitude at different thresholds: 0, 5, 15, 30
-        </p>
-
-        <div class="gallery">
-            <img src="images/gm0.png" alt="Image 1">
-            <img src="images/gm5.png" alt="Image 1">
-            <img src="images/gm15.png" alt="Image 1">
-            <img src="images/gm30.png" alt="Image 1">
-        </div>
         
         <p> 
-            Applying a gaussian filter (kernel 18, sigma 3) 
+            I used the project point correspondences tool given in the spec and used the Delauney mentioned in the lecture. 
         </p>
-        <div class="gallery">
-            <img src="images/lap_18_3.png" alt="Image 1">
-        </div>
+
+               
+        <p> 
+            For the dissolve fraction and the morph fraction I experimented with several time equations, i ended up settling for the following quadratic:
+        </p>
 
         <p> 
-            What differences do you see?
+         time = t/frames
         </p>
+         frac = s*time**2 + (1 - s)*time
         <p> 
-            Then taking the x, y and gradient magnitude filters. Notice how the smoothing effects makes the gm much smoother without having to mess with the threshold.
-            The grass is still a bit blurry but overall it captured all the details in one pass. It did delete some of the information on the hand though.
+        With dissolve and warp s = 0.6, -0.2 respectively. (chosen experimentally) 
         </p>
-        <div class="gallery">
-            <img src="images/lp_x.png" alt="Image 1">
-            <img src="images/lp_y.png" alt="Image 1">
-            <img src="images/lp_gm.png" alt="Image 1">
-        </div>
 
-        <p> 
-            Doing the same thing with a single convolution instead of two by creating a derivative of gaussian filters. 
-        </p>
         <div class="gallery">
-            <img src="images/equivalence.png" alt="Image 1">
+            <img src="images/wolf_t.jpg" alt="Image 1">
+            <img src="images/hugh_t.jpg" alt="Image 1">
         </div>
+       
     </section>
 
 
 
     <section id="naive-methods">
-        <h2>Part 2.1: Image "Sharpening"</h2>
+        <h2>Part 2. Computing the "Mid-way Face""</h2>
 
         <p> 
             Here is the image being sharpened at alpha = 0, 0.1, 0.5, 1
@@ -101,7 +82,7 @@
             A picture of my brother, sharpened at alpha = 0, 0.1, 0.5, 1
         </p>
         <div class="gallery">
-            <img src="images/fred.png" alt="Image 1">
+            <img src="images/fred.jpg" alt="Image 1">
             <img src="images/f1.png" alt="Image 1">
             <img src="images/f5.png" alt="Image 1">
             <img src="images/f10.png" alt="Image 1">
@@ -158,8 +139,8 @@
         </p>
 
         <div class="gallery">
-            <img src="images/fred.png" alt="Image 1">
-            <img src="images/cat.png" alt="Image 1">
+            <img src="images/fred.jpg" alt="Image 1">
+            <img src="images/cat.jpg" alt="Image 1">
         </div>
     
         <div class="gallery">
