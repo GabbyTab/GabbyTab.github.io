@@ -56,7 +56,22 @@ header {
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
-
+.title-image {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    z-index: 2; 
+}
+.title-image h1 {
+    font-size: 3rem;
+    margin: 0;
+    padding: 10px;
+    background: none; 
+}
 
 header h1 {
     color: white;
@@ -131,15 +146,15 @@ section h2 {
 }
 
 .small-gallery {
-    max-width: 600px; 
+    max-width: 10vw; 
 }
 
 .medium-gallery {
-    max-width: 800px; 
+    max-width: 25vw; 
 }
 
 .large-gallery {
-    max-width: 1200px; 
+    max-width: 50vw; 
 }
 
 
@@ -160,10 +175,11 @@ section h2 {
 
 
 p {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    margin-top: 2vh
+    font-size: 2vw;
+    line-height: 1.8;
 }
+
 
 /* Style the center stage container */ 
 #filters .center-stage { 
