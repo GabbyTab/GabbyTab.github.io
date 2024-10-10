@@ -125,22 +125,28 @@ section h2 {
 }
 
 .gallery img {
-    width: 45%;
     height: auto;
     border-radius: 10px;
 }
 
-p {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    line-height: 1.6;
+.gallery.two-per-row figure {
+    flex: 1 1 calc(50% - 10px); /* 50% width per item, minus gap */
 }
 
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-between; /* Optional: Adjust spacing between items */
+.gallery.three-per-row figure {
+    flex: 1 1 calc(33.333% - 10px); /* 33.333% width per item, minus gap */
+}
+
+.small-gallery {
+    max-width: 600px; /* Adjust this as needed for small containers */
+}
+
+.medium-gallery {
+    max-width: 800px; /* Adjust this as needed for medium containers */
+}
+
+.large-gallery {
+    max-width: 1000px; /* Adjust this as needed for large containers */
 }
 
 .gallery figure {
@@ -151,13 +157,7 @@ p {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    flex: 1 1 calc(33.333% - 10px); /* Adjusts item size to fit three per row */
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
-
-.gallery img {
-    max-width: 100%;
-    height: auto;
+    box-sizing: border-box;
 }
 
 .gallery figcaption {
@@ -167,6 +167,14 @@ p {
     color: #333;
 }
 
+
+
+
+p {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
 
 /* Style the center stage container */ 
 #filters .center-stage { 
