@@ -121,6 +121,8 @@ section h2 {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    width: 100%; 
+    justify-content: space-evenly;
 }
 
 .gallery img {
