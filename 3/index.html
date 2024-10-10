@@ -69,32 +69,22 @@
         <h2>Part 2. Computing the "Mid-way Face""</h2>
 
         <p> 
-            Here is the image being sharpened at alpha = 0, 0.1, 0.5, 1
+            To compute the midway face I created a function that finds the weighted average of the shape (based on the warp fraction), then applies the same triangulation to the new shape. Finally for each triangle T_m in the mid-way face I solved for the transformation matrix A s.t. A*T_m = T_i. Using this approach to solve for the midway face requires interpolation; I tried a handful of interpolation functions, including bilinear as was suggested, but ended up using nearest neighbor because it’s the fastest and has good quality. Finally to compute the mid-way face we simply cross dissolve the colors between the both mid-way transformation:
         </p>
+        
         <div class="gallery">
-            <img src="images/taj0.png" alt="Image 1">
-            <img src="images/taj1.png" alt="Image 1">
-            <img src="images/taj5.png" alt="Image 1">
-            <img src="images/taj10.png" alt="Image 1">
+            <img src="images/w1.jpg" alt="Image 1">
+            <img src="images/m_h.jpg" alt="Image 1">
+            <img src="images/m_w.jpg" alt="Image 1">
+            <img src="images/w3.jpg" alt="Image 1">
         </div>
 
-        <p> 
-            A picture of my brother, sharpened at alpha = 0, 0.1, 0.5, 1
-        </p>
         <div class="gallery">
-            <img src="images/fred.jpg" alt="Image 1">
-            <img src="images/f1.png" alt="Image 1">
-            <img src="images/f5.png" alt="Image 1">
-            <img src="images/f10.png" alt="Image 1">
+            <img src="images/w1.jpg" alt="Image 1">
+            <img src="images/w2.jpg" alt="Image 1">
+            <img src="images/w3.jpg" alt="Image 1">
         </div>
 
-        <p> 
-            Here is my brother, first being blurred with a gaussian filter, and then I try to sharpen from scratch. Notice that although it looks better, it does not look like the original, some information can not be recovered. \\
-
-        </p>
-        <div class="gallery">
-            <img src="images/fred.jpg" alt="Image 1">
-        </div>
 
     </section>
 
