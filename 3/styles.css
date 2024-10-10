@@ -167,6 +167,14 @@ section h2 {
 }
 
 
+.content-wrapper {
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 20px; 
+}
+
+
+
 p {
     margin-top: 20px;
     font-size: 1.1rem;
