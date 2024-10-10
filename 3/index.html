@@ -73,8 +73,10 @@
         </p>
         
         <div class="gallery">
-            <img src="images/w1.jpg" alt="Image 1">
+            <img src="images/w0.jpg" alt="Image 1">
             <img src="images/m_h.jpg" alt="Image 1">
+        </div>
+        <div class="gallery">
             <img src="images/m_w.jpg" alt="Image 1">
             <img src="images/w3.jpg" alt="Image 1">
         </div>
@@ -112,92 +114,59 @@
 
 
     <section id="filters">
-        <h2>Part 2.4: Multiresolution Blending (a.k.a. the oraple!)</h2>
-        
-        <p>
-            A Gaussian stack is a series of progressively blurred versions of an image that capture the “low” frequencies of an image. 
-        </p>
+        <h2>Part 4. The "Mean face" of a population </h2>
 
         <p>
-            A Laplacian stack is a series of images representing high frequencies of an image at different scales, 
-            highlighting details at each scale. It is constructed by subtracting successive levels of a Gaussian pyramid, capturing high-frequency information (edges).    
-            The final layer of the laplacian stack should be the missing low frequencies (last layer in the Gaussian stack).    
+            average face shape of the whole population:
+        </p>
+
+
+        <p>
+            Examples of morphing each of the faces in the dataset into the average shape:
+        </p>
+
+
+        <p>
+            average face of the population:
+        </p>
+
+        <p>
+            average face of morphed population:
         </p>
         
-        <p>Collapsing the laplacian stack should return the original image:</p>
-
-        <div class="gallery">
-            <img src="images/LapStack.png" alt="Image 1">
-        </div>
-        <p> 
-            Visualising the stacks:
-        </p>
-
-        <div class="gallery">
-            <img src="images/vlstack.png" alt="Image 1">
-            <img src="images/vgstack.png" alt="Image 1">
-        </div>
-
-        <p> 
-            In order to create the oraple we have to create a gaussian stack of the half on half off mask.
-        </p>
-
-        <div class="gallery">
-            <img src="images/mstack.png" alt="Image 1">
-        </div>
-
-        <p> 
-            Fiannaly to assemble "The Oraple" we simply apply our mask stack to our laplacian stack and collapse the result:
-        </p>
-
-        <div class="gallery">
-            <img src="images/oraple_no_color.png" alt="Image 1">
-        </div>
-
-
-        <p> 
-            Doing the same thing with all the color channels results in the true Oraple. Some smudges due to normalizing issues.
-        </p>
-
-        <div class="gallery">
-            <img src="images/Oraple.png" alt="Image 1">
-        </div>
-
-
-        <p> 
-            We don't have to limit ourselves to the left right mask, we can use any mask so long as we follow the same principles. Here is a circle mask alongside other cool merges.
-        </p>
-
-        <div class="gallery">
-            <img src="images/circle_filter.png" alt="Image 1">
-        </div>
-        <div class="gallery">
-            <img src="images/my_merge.png" alt="Image 1">
-            <img src="images/merge_color.png" alt="Image 1">
-            <img src="images/merge_gray.png" alt="Image 1">
-            <img src="images/eyeple.png" alt="Image 1">
-
-        </div>
-   <p> eyeple the apple of my eye    </p>
-        
-        
-        
-
-
 
     </section>
-
         <section id="Bells-whistles">
+
         <h1>Bells, whistles and all things  things</h1>
+
+        <h2> PCA Basis</h2>
+        <p>
+With the same dataset I computed the PCA
+
+Here are the top 5 eigenfaces 
+Very spooky
+
+The top 5 faces capture a lot of information so they look like reasonable faces unlike the smaller eigenfaces which degenerate. I also tried my hand at projecting faces onto the eigenfaces (to get the weight) and then recovering them. The following are examples with the top 20 eigenfaces. Even with few eigenfaces a lot of essential information is recovered.
+        </p>
+
+
+        <h2>Gender Bend</h2>
+        <p>
+            Change age/gender/ethnicity/smile/etc of my friend's face.Show morphing just the shape, just the appearance, and both.
+        </p>
+
+        <h2> Roomate morph music video:</h2>
+        <p>
+        </p>
+
+
+
+
+
     </section>
 
                 
-    <section id="future-techniques">
-        <h2>Reflections:</h2>
-        <p> I learned that you can split a 2d gaussian convolution into two 1d gaussian filters. Fast stuff.</p>
-        <p>I had a lot of trouble normalizing images. If I were to re write my code from the begining I would have made more functions that could handle floating point numbers instead of converting everything to ints</p>
-    </section>
-
     
     <section id="references">
         <h2>References</h2>
