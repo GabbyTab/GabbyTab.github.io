@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Fun</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+    
+<body>
+    <div class="background-container">
+        <div class="image-layer image1"></div>
+        <div class="image-layer image2"></div>
+        <div class="image-layer image3"></div>
+    </div>
+
+    <section id="Overview">
+        <h2>Project Overview</h2>
+        <p>
+            Building hybrid images and learning about filters
+        </p>
+    </section>
+
+    <header id="header">
+        <div class="title-image">
+            <h1>Fun with Filters and Frequencies!</h1>
+        </div>
+    </header>
+
+
+    <section id="hall-of-fame">
+        <h2>Part 1.1: Finite Difference Operator</h2>
+        <p> 
+            Applying the dx and dy filter, followed by gradient magnitude at different thresholds 
+        </p>
+        <p> 
+            We have the x and y component of the gradient (that is what the dx and dy filters capture) to find gradient magnitude all we have to do is take the 2 norm at each point.
+        </p>
+        <div class="gallery">
+            <img src="images/dx.png" alt="Image 1">
+            <img src="images/dy.png" alt="Image 1">
+        </div>
+        <p> 
+            Gradient magnitude at different thresholds: 0, 5, 15, 30
+        </p>
+
+        <div class="gallery">
+            <img src="images/gm0.png" alt="Image 1">
+            <img src="images/gm5.png" alt="Image 1">
+            <img src="images/gm15.png" alt="Image 1">
+            <img src="images/gm30.png" alt="Image 1">
+        </div>
+        
+        <p> 
+            Applying a gaussian filter (kernel 18, sigma 3) 
+        </p>
+        <div class="gallery">
+            <img src="images/lap_18_3.png" alt="Image 1">
+        </div>
+
+        <p> 
+            What differences do you see?
+        </p>
+        <p> 
+            Then taking the x, y and gradient magnitude filters. Notice how the smoothing effects makes the gm much smoother without having to mess with the threshold.
+            The grass is still a bit blurry but overall it captured all the details in one pass. It did delete some of the information on the hand though.
+        </p>
+        <div class="gallery">
+            <img src="images/lp_x.png" alt="Image 1">
+            <img src="images/lp_y.png" alt="Image 1">
+            <img src="images/lp_gm.png" alt="Image 1">
+        </div>
+
+        <p> 
+            Doing the same thing with a single convolution instead of two by creating a derivative of gaussian filters. 
+        </p>
+        <div class="gallery">
+            <img src="images/equivalence.png" alt="Image 1">
+        </div>
+    </section>
+
+
+
+    <section id="naive-methods">
+        <h2>Part 2.1: Image "Sharpening"</h2>
+
+        <p> 
+            Here is the image being sharpened at alpha = 0, 0.1, 0.5, 1
+        </p>
+        <div class="gallery">
+            <img src="images/taj0.png" alt="Image 1">
+            <img src="images/taj1.png" alt="Image 1">
+            <img src="images/taj5.png" alt="Image 1">
+            <img src="images/taj10.png" alt="Image 1">
+        </div>
+
+        <p> 
+            A picture of my brother, sharpened at alpha = 0, 0.1, 0.5, 1
+        </p>
+        <div class="gallery">
+            <img src="images/fred.png" alt="Image 1">
+            <img src="images/f1.png" alt="Image 1">
+            <img src="images/f5.png" alt="Image 1">
+            <img src="images/f10.png" alt="Image 1">
+        </div>
+
+        <p> 
+            Here is my brother, first being blurred with a gaussian filter, and then I try to sharpen from scratch. Notice that although it looks better, it does not look like the original, some information can not be recovered. \\
+
+        </p>
+        <div class="gallery">
+            <img src="images/fred.jpg" alt="Image 1">
+        </div>
+
+    </section>
+
+
+    <section id="speed">
+        <h2>Part 2.2: Hybrid Images</h2>
+
+        <p> 
+            Starting Images.
+        </p>
+        <div class="gallery">
+            <img src="images/akshat.jpg" alt="Image 1">
+            <img src="images/cat.jpg" alt="Image 1">
+            <img src="images/DerekPicture.jpg" alt="Image 1">
+            <img src="images/nutmeg.jpg" alt="Image 1">
+            <img src="images/elephant.jog" alt="Image 1">
+            <img src="images/eye.jog" alt="Image 1">
+        </div>
+
+        <p> 
+            The hybridization process failed on the left example of "roomate + car". 
+            The high pass filter did not affect the car enough and as a result you can see the car at any distance. 
+        </p>
+        
+        <p> 
+            Hybrid images:
+        </p>
+        <div class="gallery">
+            <img src="images/h1.png" alt="Image 1">
+            <img src="images/h2.png" alt="Image 1">
+            <img src="images/h3.png" alt="Image 1">
+            <img src="images/h4.png" alt="Image 1">
+            <img src="images/h5.png" alt="Image 1">
+        </div>
+    </section>
+
+        <p> 
+            Favorite image signal analysis.
+        </p>
+        <p> 
+            Color makes the low and high frequency component stand out. Compare my Color image to the example solution image.
+        </p>
+
+        <div class="gallery">
+            <img src="images/fred.png" alt="Image 1">
+            <img src="images/cat.png" alt="Image 1">
+        </div>
+    
+        <div class="gallery">
+            <img src="images/fred_og.png" alt="Image 1">
+            <img src="images/fred_post.png" alt="Image 1">
+        </div>
+        <div class="gallery">
+            <img src="images/lion_og.png" alt="Image 1">
+            <img src="images/lion_post.png" alt="Image 1">
+        </div>
+        <div class="gallery">
+            <img src="images/hybrid.png" alt="Image 1">
+        </div>
+
+         <p> 
+    For the low-pass image, the Fourier transform shows stronger low frequencies with the high frequencies suppressed.
+        </p>
+
+         <p> 
+For the high-pass image, the Fourier transform shows the low frequencies removed, showing more prominent high-frequency components.
+        </p>
+
+         <p> 
+Hybrid Image: The Fourier transform of the hybrid image shows both low and high-frequency components clearly: the low taken from the low pass image and the high from the high pass image.
+        </p>
+
+
+
+
+    </section>
+
+
+
+    <section id="filters">
+        <h2>Part 2.4: Multiresolution Blending (a.k.a. the oraple!)</h2>
+        
+        <p>
+            A Gaussian stack is a series of progressively blurred versions of an image that capture the “low” frequencies of an image. 
+        </p>
+
+        <p>
+            A Laplacian stack is a series of images representing high frequencies of an image at different scales, 
+            highlighting details at each scale. It is constructed by subtracting successive levels of a Gaussian pyramid, capturing high-frequency information (edges).    
+            The final layer of the laplacian stack should be the missing low frequencies (last layer in the Gaussian stack).    
+        </p>
+        
+        <p>Collapsing the laplacian stack should return the original image:</p>
+
+        <div class="gallery">
+            <img src="images/LapStack.png" alt="Image 1">
+        </div>
+        <p> 
+            Visualising the stacks:
+        </p>
+
+        <div class="gallery">
+            <img src="images/vlstack.png" alt="Image 1">
+            <img src="images/vgstack.png" alt="Image 1">
+        </div>
+
+        <p> 
+            In order to create the oraple we have to create a gaussian stack of the half on half off mask.
+        </p>
+
+        <div class="gallery">
+            <img src="images/mstack.png" alt="Image 1">
+        </div>
+
+        <p> 
+            Fiannaly to assemble "The Oraple" we simply apply our mask stack to our laplacian stack and collapse the result:
+        </p>
+
+        <div class="gallery">
+            <img src="images/oraple_no_color.png" alt="Image 1">
+        </div>
+
+
+        <p> 
+            Doing the same thing with all the color channels results in the true Oraple. Some smudges due to normalizing issues.
+        </p>
+
+        <div class="gallery">
+            <img src="images/Oraple.png" alt="Image 1">
+        </div>
+
+
+        <p> 
+            We don't have to limit ourselves to the left right mask, we can use any mask so long as we follow the same principles. Here is a circle mask alongside other cool merges.
+        </p>
+
+        <div class="gallery">
+            <img src="images/circle_filter.png" alt="Image 1">
+        </div>
+        <div class="gallery">
+            <img src="images/my_merge.png" alt="Image 1">
+            <img src="images/merge_color.png" alt="Image 1">
+            <img src="images/merge_gray.png" alt="Image 1">
+            <img src="images/eyeple.png" alt="Image 1">
+
+        </div>
+   <p> eyeple the apple of my eye    </p>
+        
+        
+        
+
+
+
+    </section>
+
+        <section id="Bells-whistles">
+        <h1>Bells, whistles and all things  things</h1>
+    </section>
+
+                
+    <section id="future-techniques">
+        <h2>Reflections:</h2>
+        <p> I learned that you can split a 2d gaussian convolution into two 1d gaussian filters. Fast stuff.</p>
+        <p>I had a lot of trouble normalizing images. If I were to re write my code from the begining I would have made more functions that could handle floating point numbers instead of converting everything to ints</p>
+    </section>
+
+    
+    <section id="references">
+        <h2>References</h2>
+        <p>The hybrid images part of this assignment is borrowed from Derek Hoiem's Computational Photography class.</p>
+
+
+    </section>
+
+    <section id="additionals">
+        <h2>Information</h2>
+        <p>
+            This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
+        </p>
+    </section>
+
+
+    <script src="script.js"></script>
+</body>
+
+<script src="script.js"></script>
+</html>
