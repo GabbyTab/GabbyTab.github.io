@@ -55,23 +55,22 @@ header {
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
-/* Title content */
 .title-image {
     position: absolute;
-    top: 0; /* Adjust positioning as needed */
+    top: 0; 
     left: 0;
     width: 100%;
     text-align: center;
     padding: 20px;
     color: white;
-    z-index: 2; /* Ensure text floats above background images */
+    z-index: 2; 
 }
 
 .title-image h1 {
     font-size: 3rem;
     margin: 0;
     padding: 10px;
-    background: none; /* Ensure no background tint */
+    background: none; 
 }
 
 
@@ -134,23 +133,23 @@ section h2 {
 }
 
 .gallery.two-per-row figure {
-    flex: 1 1 calc(50% - 10px); /* 50% width per item, minus gap */
+    flex: 1 1 calc(50% - 10px);
 }
 
 .gallery.three-per-row figure {
-    flex: 1 1 calc(33.333% - 10px); /* 33.333% width per item, minus gap */
+    flex: 1 1 calc(33.333% - 10px); 
 }
 
 .small-gallery {
-    max-width: 600px; /* Adjust this as needed for small containers */
+    max-width: 600px; 
 }
 
 .medium-gallery {
-    max-width: 800px; /* Adjust this as needed for medium containers */
+    max-width: 800px; 
 }
 
 .large-gallery {
-    max-width: 1200px; /* Adjust this as needed for large containers */
+    max-width: 1200px; 
 }
 
 .gallery figure {
