@@ -125,8 +125,12 @@ section h2 {
 }
 
 .gallery img {
+    width: 100%;
     height: auto;
-    border-radius: 10px;
+    object-fit: contain;
+    display: block; 
+    border-radius: 8px 8px 0 0;
+
 }
 
 .gallery.two-per-row figure {
