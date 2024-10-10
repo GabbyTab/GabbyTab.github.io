@@ -116,16 +116,18 @@ section h2 {
     margin-bottom: 20px;
 }
 
+
+
 .gallery {
     display: flex;
-    gap: 20px; /* Spacing between items */
     flex-wrap: wrap;
-    justify-content: space-around; 
+    justify-content: space-between;
 }
+
 
 .gallery figure {
     flex: 1 1 calc(33.333% - 20px); /* Adjusts automatically based on available space */
-    margin: 0;
+    margin: 10px 10px;
     padding: 0;
     text-align: center;
     border: 1px solid #ddd;
@@ -146,15 +148,15 @@ section h2 {
 }
 
 .small-gallery {
-    max-width: 10vw; 
-}
-
-.medium-gallery {
     max-width: 25vw; 
 }
 
-.large-gallery {
+.medium-gallery {
     max-width: 50vw; 
+}
+
+.large-gallery {
+    max-width: 100vw; 
 }
 
 
