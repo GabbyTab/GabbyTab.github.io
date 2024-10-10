@@ -41,17 +41,17 @@ header {
 
 /* Specific images */
 .image1 {
-    background-image: url('images/f0.jpeg');
+    background-image: url('images/f0.jpg');
     opacity: 1; /* Default opacity, adjust dynamically */
 }
 
 .image2 {
-    background-image: url('images/f2.jpeg');
+    background-image: url('images/f2.jpg');
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
 .image3 {
-    background-image: url('images/f3.png');
+    background-image: url('images/f3.jpg');
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
