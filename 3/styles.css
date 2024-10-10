@@ -121,7 +121,7 @@ section h2 {
     display: flex;
     gap: 20px; /* Spacing between items */
     flex-wrap: wrap;
-    justify-content: space-between; /* Distributes items across available space */
+    justify-content: space-around; 
 }
 
 .gallery figure {
