@@ -56,23 +56,6 @@ header {
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
-.title-image {
-    position: absolute;
-    top: 0; 
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 20px;
-    color: white;
-    z-index: 2; 
-}
-
-.title-image h1 {
-    font-size: 3rem;
-    margin: 0;
-    padding: 10px;
-    background: none; 
-}
 
 
 header h1 {
