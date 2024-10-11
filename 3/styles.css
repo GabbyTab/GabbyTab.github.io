@@ -7,7 +7,7 @@
 
 
 body {
-    font-size: 2vw; 
+    font-size: 3vw; 
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
@@ -182,7 +182,7 @@ section h2 {
 
 p {
     margin-top: 2vh; 
-    font-size: 3vw;  
+    font-size: 2vw;  
     line-height: 1.6;
 }
 
