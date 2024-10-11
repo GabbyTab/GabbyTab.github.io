@@ -165,9 +165,9 @@ section h2 {
 
 
 .gallery figcaption {
-    padding: 8px;
+    padding: 8vw;
     background-color: #f9f9f9;
-    font-size: 14px;
+    font-size: 2vw;
     color: #333;
 }
 
@@ -185,6 +185,13 @@ p {
     font-size: 3vw;  
     line-height: 1.6;
 }
+
+
+head {
+    font-size: 5vw;  
+    margin-top: 4vh; 
+}
+
 
 h1 {
     font-size: 5vw;  
