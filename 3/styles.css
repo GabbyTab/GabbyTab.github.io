@@ -7,10 +7,14 @@
 
 
 body {
+    font-size: 2vw; 
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
 }
+
+
+body {
 
 header {
     position: relative;
@@ -177,11 +181,25 @@ section h2 {
 
 
 p {
-    margin-top: 10vh
-    font-size: 30vw;
-    line-height: 1.8;
+    margin-top: 2vh; 
+    font-size: 3vw;  
+    line-height: 1.6;
 }
 
+h1 {
+    font-size: 5vw;  
+    margin-top: 4vh; 
+}
+
+h2 {
+    font-size: 4vw; 
+    margin-top: 3vh;
+}
+
+h3 {
+    font-size: 3.5vw;
+    margin-top: 2vh;
+}
 
 /* Style the center stage container */ 
 #filters .center-stage { 
