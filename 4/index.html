@@ -20,7 +20,7 @@
 
     <header id="header">
         <div class="title-image">
-            <h1>Face Morphing</h1>
+            <h1>IMAGE WARPING and MOSAICING</h1>
         </div>
     </header>
 
@@ -28,49 +28,18 @@
     <section id="Overview">
         <h2>Project Overview</h2>
         <p>
-            Building hybrid images and learning about filters
+           The goal of this assignment is to get your hands dirty in different aspects of image warping with a “cool” application -- image mosaicing. You will take two or more photographs and create an image mosaic by registering, projective warping, resampling, and compositing them. Along the way, you will learn how to compute homographies, and how to use them to warp images.
         </p>
     </section>
     
     <section id="hall-of-fame">
-        <h2>Part 1. Defining Correspondences</h2>
+        <h2>Recover Homographies</h2>
        
-        <p> 
-        The first correspondence I wanted to build with a picture of Hugh jackman and Wolverine. They have never been seen in a room together and I think they look quite similar. 
-        </p>
-        
-        <p> 
-            I used the project point correspondences tool given in the spec and used the Delauney mentioned in the lecture. 
-        </p>
-
-               
-        <p> 
-            For the dissolve fraction and the morph fraction I experimented with several time equations, i ended up settling for the following quadratic:
-        </p>
-
-        <p> 
-         time = t/frames
-        </p>
-
-        <p>         
-            frac = s*time**2 + (1 - s)*time
-        </p>
-        
-        <p> 
-        With dissolve and warp s = 0.6, -0.2 respectively. (chosen experimentally) 
-        </p>
-
-
-        <div class="gallery large-gallery">
+        <div class="gallery small-gallery">
         
             <figure>
-                <img src="images/wolf_t.jpg" alt="Image 1">
-                <figcaption>traingle mesh </figcaption>
-            </figure>
-        
-            <figure>
-                <img src="images/hugh_t.jpg" alt="Image 2">
-                <figcaption>corresponding traingle mesh</figcaption>
+                <img src="images/code_h.jpg" alt="Image 1">
+                <figcaption>Recover Homographies</figcaption>
             </figure>
         </div>
 
@@ -80,93 +49,84 @@
 
 
     <section id="naive-methods">
-        <h2>Part 2. Computing the "Mid-way Face""</h2>
+        <h2>Part 2. Image rectification</h2>
 
         <p> 
-            To compute the midway face I created a function that finds the weighted average of the shape (based on the warp fraction), then applies the same triangulation to the new shape. Finally for each triangle T_m in the mid-way face I solved for the transformation matrix A s.t. A*T_m = T_i. Using this approach to solve for the midway face requires interpolation; I tried a handful of interpolation functions, including bilinear as was suggested, but ended up using nearest neighbor because it’s the fastest and has good quality. Finally to compute the mid-way face we simply cross dissolve the colors between the both mid-way transformation:
+            rectifying images
         </p>
 
 
         <div class="gallery medium-gallery">
             <figure>
-                <img src="images/w0.jpg" alt="Image 1">
+                <img src="images/chess.jpg" alt="Image 1">
                 <figcaption>hugh</figcaption>
             </figure>
         
             <figure>
-                <img src="images/m_h.jpg" alt="Image 2">
+                <img src="images/chess_rec.jpg" alt="Image 2">
                 <figcaption>morphed into the midway shape</figcaption>
             </figure>
         </div>
         
         <div class="gallery medium-gallery">
             <figure>
-                <img src="images/w3.jpg" alt="Image 1">
-                <figcaption>wolverine</figcaption>
+                <img src="images/ipad.jpg" alt="Image 1">
+                <figcaption>hugh</figcaption>
             </figure>
         
             <figure>
-                <img src="images/m_w.jpg" alt="Image 2">
+                <img src="images/ipad_rec.jpg" alt="Image 2">
+                <figcaption>morphed into the midway shape</figcaption>
+            </figure>
+
+            <figure>
+                <img src="images/face_rec.jpg" alt="Image 2">
                 <figcaption>morphed into the midway shape</figcaption>
             </figure>
         </div>
 
-        <div class="gallery large-gallery">
+        <div class="gallery medium-gallery">
             <figure>
-                <img src="images/w0.jpg" alt="Image 1">
-                <figcaption>wolverine</figcaption>
+                <img src="images/gum.jpg" alt="Image 1">
+                <figcaption>hugh</figcaption>
             </figure>
         
             <figure>
-                <img src="images/w2.jpg" alt="Image 2">
-                <figcaption>midway shape + cross fade</figcaption>
-            </figure>
-
-            <figure>
-                <img src="images/w3.jpg" alt="Image 2">
+                <img src="images/gum_rec.jpg" alt="Image 2">
                 <figcaption>morphed into the midway shape</figcaption>
             </figure>
-            
         </div>
-
-
     </section>
 
 
     <section id="speed">
-        <h2>Part 3. The Morph Sequence</h2>
+        <h2>Mosaics</h2>
 
 
          <div class="gallery large_gallery">
             <figure>
-                <img src="images/w.gif" alt="Image 1">
-                <figcaption>hugh - wolverine</figcaption>
+                <img src="images/sign_mosaic.jpg" alt="Image 1">
+                <figcaption>rose gardens - wolverine</figcaption>
             </figure>
         
             <figure>
-                <img src="images/f.gif" alt="Image 2">
+                <img src="images/food_mosaic.jpg" alt="Image 2">
                 <figcaption>me - forest</figcaption>
             </figure>
 
             <figure>
-                <img src="images/g1.gif" alt="Image 2">
+                <img src="images/tunel_mosaic.jpg" alt="Image 2">
                 <figcaption>george - me</figcaption>
             </figure>
         </div>
 
-        
-        <button onclick="resetGifs()">Reset GIFs</button>
 
     </section>
 
 
 
     <section id="filters">
-        <h2>Part 4. The "Mean face" of a population </h2>
-
-        <p>
-            average face shape of the whole population:
-        </p>
+        <h2>Original Pictures</h2>
 
 
         <div class="gallery medium_gallery">
@@ -181,262 +141,15 @@
             </figure>
         </div>
 
-        
-        <p>
-            Examples of morphing each of the faces in the dataset into the average shape:
-        </p>
-        
-        <div class="gallery small_gallery">
-            <figure>
-                <img src="images/1a.pts.jpg" alt="Image 1">
-                <figcaption>1a</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/2a.pts.jpg" alt="Image 1">
-                <figcaption>2a</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/3a.pts.jpg" alt="Image 1">
-                <figcaption>3a</figcaption>
-            </figure>
-        </div>
-
-
-        <h3>
-            average faces
-        </h3>
-        
-        <div class="gallery small_gallery">
-            <figure>
-                <img src="images/average_face_e.jpg" alt="Image 1">
-                <figcaption>population</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/average_face_final.jpg" alt="Image 1">
-                <figcaption>morphed population</figcaption>
-            </figure>       
-        </div>
-
-
-        <h3>
-         my face + average
-        </h3>
-        
-        <div class="gallery small_gallery">
-            <figure>
-                <img src="images/gabe_to_avg.jpg" alt="Image 1">
-                <figcaption>my face warped onto the average geometry</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/avg_to_gabe.jpg" alt="Image 1">
-                <figcaption>The average geometry warped my face </figcaption>
-            </figure>       
-        </div>
-
-
     </section>
 
 
     <section id="charicatures">
-        <h2>Charicatures</h2>
-        <p>I produced caricatures of my face by extrapolating from the population mean using: my_face_correspondance_vector + alpha(average_face_shape - my_face_correspondance_vector)</p>
-
-        <div class="gallery small_gallery">
-            <figure>
-                <img src="images/charicaturen1.jpg" alt="Image 1">
-                <figcaption>alpha = -1 </figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/charicature15.jpg" alt="Image 1">
-                <figcaption> alpha =1.5 </figcaption>
-            </figure>     
-
-                        <figure>
-                <img src="images/charicature25.jpg" alt="Image 1">
-                <figcaption>alpha = 0.25</figcaption>
-            </figure>      
-        </div>
+        <h2>Part 2</h2>
+       
 
     </section>
     
-
-    <section id="Bells-whistles">
-
-        <h1>Bells, whistles and all things</h1>
-
-        <h2>ells, whistles PCA Basis</h2>
-        <p>
-With the same dataset I computed the PCA
-
-Here are the top 5 eigenfaces. Very spooky
-</p>
-
-    
-        <div class="gallery small_gallery">
-            <figure>
-                <img src="images/eigenface_0.jpg" alt="Image 1">
-                <figcaption>1</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/eigenface_1.jpg" alt="Image 1">
-                <figcaption>2</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/eigenface_2.jpg" alt="Image 1">
-                <figcaption>3</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/eigenface_3.jpg" alt="Image 1">
-                <figcaption>4</figcaption>
-            </figure>   
-
-            <figure>
-                <img src="images/eigenface_4.jpg" alt="Image 1">
-                <figcaption>5</figcaption>
-            </figure>   
-        </div>
-
-
-<p>The top 5 faces capture a lot of information so they look like reasonable faces unlike the smaller eigenfaces which degenerate. I also tried my hand at projecting faces onto the eigenfaces (to get the weight) and then recovering them. The following are examples with the top 20 eigenfaces. Even with few eigenfaces a lot of essential information is recovered.
-</p>
-
-
-        <div class="gallery medium_gallery">
-            <figure>
-                <img src="images/projected_1a.jpg" alt="Image 1">
-                <figcaption>1a</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/projected_2b.jpg" alt="Image 1">
-                <figcaption>2b</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/projected_181b.jpg" alt="Image 1">
-                <figcaption>181b</figcaption>
-            </figure>
-        
-        </div>
-
-
-        <h2>Bells, whistles Gender Bend</h2>
-        <p>
-            Change gender/ethnicity of my friend's face. Using this image https://pmsol3.wordpress.com/2009/10/10/world-of-facial-averages-east-southeast-asia-pacific-islander/
-        </p>
-
-        <p>
-            First just the shape:
-        </p>
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/ac0.jpg" alt="Image 1">
-                <figcaption>1</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/acs1.jpg" alt="Image 1">
-                <figcaption>2</figcaption>
-            </figure>
-
-            <figure>
-                <img src="images/acs2.jpg" alt="Image 1">
-                <figcaption>3</figcaption>
-        </figure>
-
-        <p>
-            Just the apperance:
-        </p>
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/ac0.jpg" alt="Image 1">
-                <figcaption>1</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/aca1.jpg" alt="Image 1">
-                <figcaption>2</figcaption>
-            </figure>
-
-            <figure>
-                <img src="images/aca2.jpg" alt="Image 1">
-                <figcaption>3</figcaption>
-        </figure>
-
-        <p>
-            Both
-        </p>
-
-                <div class="gallery large_gallery">
-            <figure>
-                <img src="images/ac0.jpg" alt="Image 1">
-                <figcaption>1</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/ac1.jpg" alt="Image 1">
-                <figcaption>2</figcaption>
-            </figure>
-
-            <figure>
-                <img src="images/ac2.jpg" alt="Image 1">
-                <figcaption>3</figcaption>
-        </figure>
-
-
-
-            
-        <p>
-            Moprphing with Janhvi Kapoor also worked quite well:
-        </p>
-    
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/a0.jpg" alt="Image 1">
-                <figcaption>1</figcaption>
-            </figure>
-            
-            <figure>
-                <img src="images/a3.jpg" alt="Image 1">
-                <figcaption>2</figcaption>
-            </figure>
-
-            <figure>
-                <img src="images/jan.jpg" alt="Image 1">
-                <figcaption>3</figcaption>
-        </figure>
-
-        
-        </div>
-
-
-<p></p>
-<h1> Bells, whistlesRoomate morph music video:</h1>
-<iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/shorts/FU-OLUDE05s" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-</iframe>
-
-
-    <p>
-        https://youtube.com/shorts/FU-OLUDE05s?si=19tKs5OtATjvTVrH
-    </p>
-
-
-    </section>
 
                 
     <section id="additionals">
