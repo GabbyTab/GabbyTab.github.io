@@ -34,6 +34,21 @@
     
     <section id="hall-of-fame">
         <h2>Recover Homographies</h2>
+
+               
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/math1.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+        <p>
+            To solve for H the trick is to substitute the third coordinate in homogeneous coordinates z with x and y. If we substitute it into the x’ y’ coordinate and arrange the matrix this allows us to re express it as the least squares problem:
+        </p>
+
+        <p>
+            Note that we need at least 4 points (8 data points for 8 unknowns) for this to be determined or over determined. The left matrix and the right vector are extended by 2 rows for each additional correspondence:
+        </p>
        
         <div class="gallery small-gallery">
         
@@ -51,7 +66,7 @@
         <h2>Part 2. Image rectification</h2>
 
         <p> 
-            rectifying images
+            To rectify an image we take the point correspondences (for warping) between a flat planar surface of the image and a hand chosen rectangular region. Note that for warping I just reused my code from the previous project (inverse H + nearest neighbor interpolation for speed, I also tried linear but it’s to slow)
         </p>
 
 
@@ -88,6 +103,9 @@
                 <img src="images/gum_rec.jpg" alt="Image 2">
             </figure>
         </div>
+    <p>
+        An especially annoying part of this process is that small mismatches/errors in the point correspondences lead to ridiculous projections. Both swapping out bad points, slowly moving the points into the desired projection worked really well to mitigate this (guided by visual debugging).
+    </p>
     </section>
 
 
@@ -96,9 +114,18 @@
 
 
         <p>
-            Just Homography, no blending
+            For creating the mosaics it’s the same as warping but we can use the point correspondences to refine our alignments and make our lives easier. Of course without any sort of blending this creates unpleasant artifacts: 
         </p>
 
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/ls.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/rs.jpg" alt="Image 2">
+            </figure>
+        </div>
 
         <div class="gallery large_gallery">
             <figure>
@@ -108,7 +135,7 @@
         </div>
 
         <p>
-            Blending
+            For blending I reused my code from project 2, with laplacian/gaussian stacks of size 2 and sigma_start = 5. I tried a lot of things for the initial mask but usually what works best is just a line that divides the area where im1 and im2 intersect in 2. 
         </p>
 
 
@@ -116,20 +143,40 @@
             <figure>
                 <img src="images/tunel_mosaic.jpg" alt="Image 1">
             </figure>
-                </div>
+        </div>
 
 
         <p>
             More mosaics
         </p>
 
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/food_center.jpg" alt="Image 2">
+            </figure>
 
+            <figure>
+                <img src="images/food_right.jpg" alt="Image 2">
+            </figure>
+        </div>
 
          <div class="gallery large_gallery">
             <figure>
                 <img src="images/food_mosaic.jpg" alt="Image 2">
             </figure>
+        </div>
 
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/sign_left.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/sign_right.jpg" alt="Image 2">
+            </figure>
+        </div>
+        
+        <div class="gallery large_gallery">
             <figure>
                 <img src="images/sign_mosaic.jpg" alt="Image 2">
             </figure>
