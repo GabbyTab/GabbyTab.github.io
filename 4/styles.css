@@ -1,0 +1,222 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+
+body {
+    font-size: 3vw; 
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+
+
+header {
+    position: relative;
+    height: 100vh;
+    overflow: hidden; /* Ensure content does not overflow */
+}
+
+/* Container for background images */
+.background-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Ensure background images are behind other content */
+}
+
+/* Individual image layers */
+.image-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: opacity 0.5s ease-in-out; /* Smooth transition */
+}
+
+/* Specific images */
+.image1 {
+    background-image: url('images/f0.jpg');
+    opacity: 1; /* Default opacity, adjust dynamically */
+}
+
+.image2 {
+    background-image: url('images/f2.jpg');
+    opacity: 0; /* Default opacity, adjust dynamically */
+}
+
+.image3 {
+    background-image: url('images/f3.jpg');
+    opacity: 0; /* Default opacity, adjust dynamically */
+}
+
+.title-image {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    z-index: 2; 
+}
+.title-image h1 {
+    font-size: 3rem;
+    margin: 0;
+    padding: 10px;
+    background: none; 
+}
+
+header h1 {
+    color: white;
+    font-size: 3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.title-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.title-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('your_title_image2.jpg') no-repeat center center/cover;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.title-image:hover::before {
+    opacity: 1;
+}
+
+section {
+    padding: 50px;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.gallery figure {
+    flex: 1 1 calc(33.333% - 20px); /* Adjusts automatically based on available space */
+    margin: 10px 10px;
+    padding: 0;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block; 
+    border-radius: 8px 8px 0 0;
+
+}
+
+.small-gallery {
+    max-width: 25vw; 
+}
+
+.medium-gallery {
+    max-width: 50vw; 
+}
+
+.large-gallery {
+    max-width: 100vw; 
+}
+
+
+.gallery figcaption {
+    padding: 8vw;
+    background-color: #f9f9f9;
+    font-size: 2vw;
+    color: #333;
+}
+
+
+.content-wrapper {
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 20px; 
+}
+
+
+
+p {
+    margin-top: 2vh; 
+    font-size: 2vw;  
+    line-height: 1.6;
+}
+
+
+head {
+    font-size: 5vw;  
+    margin-top: 4vh; 
+}
+
+
+h1 {
+    font-size: 5vw;  
+    margin-top: 4vh; 
+}
+
+h2 {
+    font-size: 4vw; 
+    margin-top: 3vh;
+}
+
+h3 {
+    font-size: 3.5vw;
+    margin-top: 2vh;
+}
+
+/* Style the center stage container */ 
+#filters .center-stage { 
+    display: flex;
+    justify-content: center; 
+    /* Center the image horizontally */
+    margin-top: 20px; /* Space between gallery and center stage image */ 
+}  /* Style the center stage image */ 
+#filters .center-stage img {    
+    max-width: 100%; 
+    /* Make sure the image scales with its container */ 
+    height: auto; 
+}
