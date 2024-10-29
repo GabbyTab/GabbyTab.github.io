@@ -238,17 +238,28 @@
         </div>
 
         <p>
-            AMNS
+           Just using Harris resulted in bad keypoints if n was small (too many clustered points) or just too many key points to be efficient. To solve this I did as the assignment recommended/demanded and implemented ANMS using kv trees. Conceptually the algorithm assigns every point a minimum radius at which that point is suppressed, this value is the local area where the point is strong. Then we filter by r.
         </p>
+
+
+        
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/anms.png" alt="Image 1">
+            </figure>
+        
+        </div>
+        
+        <p>r = 15 on the left, r = 25 on the right</p>
 
 
         <div class="gallery large_gallery">
             <figure>
-                <img src="images/anms_c_15" alt="Image 1">
+                <img src="images/anms_c_15.png" alt="Image 1">
             </figure>
 
             <figure>
-                <img src="images/anms_c_25" alt="Image 1">
+                <img src="images/anms_c_25.png" alt="Image 1">
             </figure>
         
         
@@ -261,12 +272,16 @@
         <section id="speed">
         <h2>Extracting a Feature Descriptor for each feature point </h2>
         <p>
-        stuff
+        To match points across images the paper advises that we need more than just one pixel. Instead we construct feature descriptors of locations around our pixels (size 40 by 40) that we then down sample with anti aliasing grayscale patch (I also tried color). We then normalize the patch.
+        </p>
+
+        <p>
+            Here is an example, colorized for your viewing experience, the corresponding point in the image has been colored green 
         </p>
 
         <div class="gallery large_gallery">
             <figure>
-                <img src="images/features" alt="Image 2">
+                <img src="images/features.png" alt="Image 2">
             </figure>
         </div>
 
@@ -278,7 +293,7 @@
 <section id="speed">
     <h2>Matching these feature descriptors between two images  </h2>
     <p>
-    stuff
+   Once we have our feature descriptors we can run a nearest neighbor algorithm to find potential matches. Then, following the paper we can filter  the matches by thresholding the value of nn(1)/nn(2) (closest match over second closest match). The Idea is that good points will have a good first match and will be easily distinguishable from their second match. I went with 0.5
     </p>
 
     <div class="gallery large_gallery">
@@ -292,13 +307,22 @@
     
     <section id="speed">
     <h2>Use a robust method (RANSAC) to compute a homography</h2>
-    <p>
-    stuff
-    </p>
-    
+     
+   <p>
+            Finally, we can use <code>RANSAC</code> to compute a homography with the following steps:
+        </p>
+        <ol>
+            <li>Select <strong>4 random point pairs</strong>.</li>
+            <li>Compute a homography using these points.</li>
+            <li>Count the number of outliers where the distance is greater than some threshold <code>epsilon</code>.</li>
+            <li>Repeat steps 1-3 <strong>n times</strong>.</li>
+            <li>Return the best homography with the minimum number of outliers.</li>
+        </ol>
+<p> Here is an image of the inliers of my best homography</p>
+
     <div class="gallery large_gallery">
         <figure>
-            <img src="images/match" alt="Image 2">
+            <img src="images/match.png" alt="Image 2">
         </figure>
     </div>
 
