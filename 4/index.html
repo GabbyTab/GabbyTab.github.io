@@ -198,8 +198,25 @@
 
 
        <section id="charicatures">
-        <h1>Part B</h1>
-        <p>FEATURE MATCHING for AUTOSTITCHING</p>
+    <h1>Part B: Feature Matching for Autostitching</h1>
+        <p>
+            In this part, we implement automatic stitching following 
+            <strong>"Multi-Image Matching using Multi-Scale Oriented Patches"</strong> by Brown et al with simplifications. 
+        </p>
+        <h2>Steps Involved</h2>
+        <ol>
+            <li>Detecting corner features in an image.</li>
+            <li>Extracting a Feature Descriptor for each feature point.</li>
+            <li>Matching these feature descriptors between two images.</li>
+            <li>Using a robust method (<code>RANSAC</code>) to compute a homography.</li>
+        </ol>
+        <h2>Image Resizing</h2>
+        <p>
+            I resized all my images to be about <code>600 x 800</code> pixels for efficiency 
+            and so that my “magic numbers” generalize better.
+        </p>
+
+
     </section>
 
 
@@ -207,16 +224,16 @@
     <section id="speed">
         <h2>Detecting corner features in an image</h2>
         <p>
-            Harris.
+             to detect corners in an image, I first used the provided in harris.py with a discarded edge of 20 pixels. Because the default settings took very long to run on large high-resolution images and produced an exorbitant number of points, I also set the min_dist parameter of peak_local_max to 5 so that fewer points are sampled. This still produced almost 120k points for my full resolution images, so I then chose the top 10k points based on their Harris response.
         </p>
 
         <div class="gallery large_gallery">
             <figure>
-                <img src="images/harris_food_center" alt="Image 2">
+                <img src="images/harris_food_center.png" alt="Image 2">
             </figure>
 
             <figure>
-                <img src="images/harris_food_right" alt="Image 2">
+                <img src="images/harris_food_right.png" alt="Image 2">
             </figure>
         </div>
 
