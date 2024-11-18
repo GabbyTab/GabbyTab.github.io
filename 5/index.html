@@ -38,36 +38,25 @@
         <p>
             SEED = 180
         </p>
+
+         <p>
+            Running the model on the three text prompts with 20 de noising produces ok results. All three have some form of degeneration, The man is cross eyed, the colors of the painting are wrong, and the rocket ship is very simplistic.
+             (I can relate this to the style of the prompt.)
+        </p>
         
         <div class="gallery small-gallery">   
             <figure>
-                <img src="images/math1.jpg" alt="Image 1">
+                <img src="images/q0a.png" alt="Image 1">
             </figure>
         </div>
-
-        <p>
-            The above image is from lecture 11: Homographies and Panoramas, oct 9 2024 
-        </p>
-
-        <p>
-            To solve for H the trick is to substitute the third coordinate in homogeneous coordinates z with x and y. If we substitute it into the x’ y’ coordinate and arrange the matrix this allows us to re express it as the least squares problem. Note that we can set scale factor i=1.
-        </p>
-
-         <div class="gallery small-gallery">   
-            <figure>
-                <img src="images/math2.jpg" alt="Image 1">
-            </figure>
-        </div>
-
         
-        <p>
-            Note that we need at least 4 points (8 data points for 8 unknowns) for this to be determined or over determined. The left matrix and the right vector are extended by 2 rows for each additional correspondence:
+         <p>
+            Running the model at double the number of denoising steps produces significantly better results. This is because...
         </p>
-       
-        <div class="gallery small-gallery">
-        
+
+        <div class="gallery small-gallery">   
             <figure>
-                <img src="images/code.jpg" alt="Image 1">
+                <img src="images/q0b.png" alt="Image 1">
             </figure>
         </div>
 
