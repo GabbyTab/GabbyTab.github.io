@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Fun</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+    
+<body>
+    <div class="background-container">
+        <div class="image-layer image1"></div>
+        <div class="image-layer image2"></div>
+        <div class="image-layer image3"></div>
+    </div>
+
+
+    <header id="header">
+        <div class="title-image">
+            <h1>IMAGE WARPING and MOSAICING</h1>
+        </div>
+    </header>
+
+
+    <section id="Overview">
+        <h2>Project Overview</h2>
+        <p>
+           The goal of this assignment is to get your hands dirty in different aspects of image warping with a “cool” application -- image mosaicing. You will take two or more photographs and create an image mosaic by registering, projective warping, resampling, and compositing them. Along the way, you will learn how to compute homographies, and how to use them to warp images.
+        </p>
+    </section>
+    
+    <section id="hall-of-fame">
+        <h2>Recover Homographies</h2>
+
+               
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/math1.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+        <p>
+            The above image is from lecture 11: Homographies and Panoramas, oct 9 2024 
+        </p>
+
+        <p>
+            To solve for H the trick is to substitute the third coordinate in homogeneous coordinates z with x and y. If we substitute it into the x’ y’ coordinate and arrange the matrix this allows us to re express it as the least squares problem. Note that we can set scale factor i=1.
+        </p>
+
+         <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/math2.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+        
+        <p>
+            Note that we need at least 4 points (8 data points for 8 unknowns) for this to be determined or over determined. The left matrix and the right vector are extended by 2 rows for each additional correspondence:
+        </p>
+       
+        <div class="gallery small-gallery">
+        
+            <figure>
+                <img src="images/code.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+       
+    </section>
+
+
+
+    <section id="naive-methods">
+        <h2>Part 2. Image rectification</h2>
+
+        <p> 
+            To rectify an image we take the point correspondences (for warping) between a flat planar surface of the image and a hand chosen rectangular region. Note that for warping I just reused my code from the previous project (inverse H + nearest neighbor interpolation for speed, I also tried linear but it’s to slow)
+        </p>
+
+
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/chess.jpg" alt="Image 1">
+            </figure>
+        
+            <figure>
+                <img src="images/chess_rec.jpg" alt="Image 2">
+            </figure>
+        </div>
+        
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/ipad.jpg" alt="Image 1">
+            </figure>
+        
+            <figure>
+                <img src="images/ipad_rec.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/face_rec.jpg" alt="Image 2">
+            </figure>
+        </div>
+
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/gum.jpg" alt="Image 1">
+            </figure>
+        
+            <figure>
+                <img src="images/gum_rec.jpg" alt="Image 2">
+            </figure>
+        </div>
+    <p>
+        An especially annoying part of this process is that small mismatches/errors in the point correspondences lead to ridiculous projections. Both swapping out bad points, slowly moving the points into the desired projection worked really well to mitigate this (guided by visual debugging).
+    </p>
+    </section>
+
+
+    <section id="speed">
+        <h2>Mosaics</h2>
+
+
+        <p>
+            For creating the mosaics it’s the same as warping but we can use the point correspondences to refine our alignments and make our lives easier. Of course without any sort of blending this creates unpleasant artifacts: 
+        </p>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/ls.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/rs.jpg" alt="Image 2">
+            </figure>
+        </div>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/blend1NoAlpha.jpg" alt="Image 1">
+            </figure>
+        
+        </div>
+
+        <p>
+            For blending I reused my code from project 2, with laplacian/gaussian stacks of size 2 and sigma_start = 5. I tried a lot of things for the initial mask but usually what works best is just a line that divides the area where im1 and im2 intersect in 2. 
+        </p>
+
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/tunel_mosaic.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+
+        <p>
+            More mosaics
+        </p>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/food_center.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/food_right.jpg" alt="Image 2">
+            </figure>
+        </div>
+
+         <div class="gallery large_gallery">
+            <figure>
+                <img src="images/food_mosaic.jpg" alt="Image 2">
+            </figure>
+        </div>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/sign_left.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/sign_right.jpg" alt="Image 2">
+            </figure>
+        </div>
+        
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/sign_mosaic.jpg" alt="Image 2">
+            </figure>
+        </div>
+              
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/mlk_center.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/mlk_right.jpg" alt="Image 2">
+            </figure>
+        </div>
+        
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/mlk_mosaic.jpg" alt="Image 2">
+            </figure>
+        </div>
+
+            
+    </section>
+
+
+       <section id="charicatures">
+    <h1>Part B: Feature Matching for Autostitching</h1>
+        <p>
+            In this part, we implement automatic stitching following 
+            <strong>"Multi-Image Matching using Multi-Scale Oriented Patches"</strong> by Brown et al with simplifications. 
+        </p>
+        <h2>Steps Involved</h2>
+        <ol>
+            <li>Detecting corner features in an image.</li>
+            <li>Extracting a Feature Descriptor for each feature point.</li>
+            <li>Matching these feature descriptors between two images.</li>
+            <li>Using a robust method (<code>RANSAC</code>) to compute a homography.</li>
+        </ol>
+        <h2>Image Resizing</h2>
+        <p>
+            I resized all my images to be about <code>600 x 800</code> pixels for efficiency 
+            and so that my “magic numbers” generalize better.
+        </p>
+
+
+    </section>
+
+
+    
+    <section id="speed">
+        <h2>Detecting corner features in an image</h2>
+        <p>
+             to detect corners in an image, I first used the provided in harris.py with a discarded edge of 20 pixels. Because the default settings took very long to run on large high-resolution images and produced an exorbitant number of points, I also set the min_dist parameter of peak_local_max to 5 so that fewer points are sampled. This still produced almost 120k points for my full resolution images, so I then chose the top 10k points based on their Harris response.
+        </p>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/harris_food_center.png" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/harris_food_right.png" alt="Image 2">
+            </figure>
+        </div>
+
+        <p>
+           Just using Harris resulted in bad keypoints if n was small (too many clustered points) or just too many key points to be efficient. To solve this I did as the assignment recommended/demanded and implemented ANMS using kv trees. Conceptually the algorithm assigns every point a minimum radius at which that point is suppressed, this value is the local area where the point is strong. Then we filter by r.
+        </p>
+
+
+        
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/amns.png" alt="Image 1">
+            </figure>
+        
+        </div>
+        
+        <p>r = 15 on the left, r = 25 on the right</p>
+
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/anms_c_15.png" alt="Image 1">
+            </figure>
+
+            <figure>
+                <img src="images/anms_c_25.png" alt="Image 1">
+            </figure>
+        
+        
+        </div>
+
+
+    </section>
+
+
+        <section id="speed">
+        <h2>Extracting a Feature Descriptor for each feature point </h2>
+        <p>
+        To match points across images the paper advises that we need more than just one pixel. Instead we construct feature descriptors of locations around our pixels (size 40 by 40) that we then down sample with anti aliasing grayscale patch (I also tried color). We then normalize the patch.
+        </p>
+
+        <p>
+            Here is an example, colorized for your viewing experience, the corresponding point in the image has been colored green 
+        </p>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/features.png" alt="Image 2">
+            </figure>
+        </div>
+
+    </section>
+
+    </section>
+
+
+<section id="speed">
+    <h2>Matching these feature descriptors between two images  </h2>
+    <p>
+   Once we have our feature descriptors we can run a nearest neighbor algorithm to find potential matches. Then, following the paper we can filter  the matches by thresholding the value of nn(1)/nn(2) (closest match over second closest match). The Idea is that good points will have a good first match and will be easily distinguishable from their second match. I went with 0.5
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/match.png" alt="Image 2">
+        </figure>
+    </div>
+
+</section>
+
+    
+    <section id="speed">
+    <h2>Use a robust method (RANSAC) to compute a homography</h2>
+     
+   <p>
+            Finally, we can use <code>RANSAC</code> to compute a homography with the following steps:
+        </p>
+        <ol>
+            <li>Select <strong>4 random point pairs</strong>.</li>
+            <li>Compute a homography using these points.</li>
+            <li>Count the number of outliers where the distance is greater than some threshold <code>epsilon</code>.</li>
+            <li>Repeat steps 1-3 <strong>n times</strong>.</li>
+            <li>Return the best homography with the minimum number of outliers.</li>
+        </ol>
+<p> Here is an image of the inliers of my best homography (37 inliers)</p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/inliers.png" alt="Image 2">
+        </figure>
+    </div>
+
+        <p>
+        Original on the left, Automatic on the right    
+        </p>
+
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/mlk_mosaic.jpg" alt="Image 1">
+            </figure>
+            <figure>
+            <img src="images/auto_m3.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+
+         <div class="gallery large_gallery">
+            <figure>
+                <img src="images/food_mosaic.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+            <img src="images/auto_m1.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+    
+        
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/sign_mosaic.jpg" alt="Image 2">
+            </figure>
+            <figure>
+            <img src="images/auto_m2.jpg" alt="Image 1">
+            </figure>
+        </div>
+
+
+           <p>
+After carefully looking at the mosaics, I think the automatically generated ones are better in general (by a small amount). This is most evident in the “rose garden sign” mosaic when you look at the handrail.  
+     
+   <p>
+
+
+
+</section>
+
+
+       <section id="charicatures">
+    <h1>Coolest thing I learned</h1>
+        <p>
+            Getting better at using kv trees was really cool, but I think the coolest thing I learned was how to rectify images, the example given in class about the painting blew my mind!
+        </p>
+
+    </section>
+
+
+    
+    <section id="filters">
+        <h2>Original Pictures</h2>
+
+
+        <div class="gallery small_gallery">
+            <figure>
+                <img src="images/sign_right.jpg" alt="Image 1">
+            </figure>
+            
+            <figure>
+                <img src="images/sign_left.jpg" alt="Image 2">
+            </figure>
+            
+            <figure>
+                <img src="images/ls.jpg" alt="Image 2">
+            </figure>
+            
+            <figure>
+                <img src="images/rs.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/food_right.jpg" alt="Image 1">
+            </figure>
+            
+            <figure>
+                <img src="images/food_center.jpg" alt="Image 2">
+            </figure>
+
+            
+            <figure>
+                <img src="images/mlk_right.jpg" alt="Image 1">
+            </figure>
+            
+            <figure>
+                <img src="images/mlk_center.jpg" alt="Image 2">
+            </figure>
+            
+                        
+            <figure>
+                <img src="images/gum.jpg" alt="Image 2">
+            </figure>
+
+                        
+            <figure>
+                <img src="images/ipad.jpg" alt="Image 2">
+            </figure>
+
+            <figure>
+                <img src="images/chess.jpg" alt="Image 2">
+            </figure>
+        </div>
+
+    </section>
+
+
+ 
+    
+
+                
+    <section id="additionals">
+        <h2>Information</h2>
+        <p>
+            This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
+        </p>
+    </section>
+
+
+    <script src="script.js"></script>
+</body>
+
+<script src="script.js"></script>
+</html>
