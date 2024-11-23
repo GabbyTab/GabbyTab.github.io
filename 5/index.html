@@ -297,140 +297,126 @@
 </section>
 
 
-    
-    <section id="speed">
-    <h2>Use a robust method (RANSAC) to compute a homography</h2>
-     
-   <p>
-            Finally, we can use <code>RANSAC</code> to compute a homography with the following steps:
-        </p>
-        <ol>
-            <li>Select <strong>4 random point pairs</strong>.</li>
-            <li>Compute a homography using these points.</li>
-            <li>Count the number of outliers where the distance is greater than some threshold <code>epsilon</code>.</li>
-            <li>Repeat steps 1-3 <strong>n times</strong>.</li>
-            <li>Return the best homography with the minimum number of outliers.</li>
-        </ol>
-<p> Here is an image of the inliers of my best homography (37 inliers)</p>
+<section id="speed">
+    <h2>Training a Single-Step Denoising UNet</h2>
+    <p>
+        Architecture:
+    </p>
 
     <div class="gallery large_gallery">
         <figure>
-            <img src="images/inliers.png" alt="Image 2">
+            <img src="images/10a.png" alt="Image 2">
+        </figure>       
+    </div>
+
+    <p>
+        Visualize the different noising processes over sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10b.png" alt="Image 2">
         </figure>
     </div>
 
-        <p>
-        Original on the left, Automatic on the right    
-        </p>
+    <p>
+        The model denoising at epoch 1, and 5 
+    </p>
 
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10c.png" alt="Image 2">
+        </figure>
+        <figure>
+            <img src="images/10d.png" alt="Image 2">
+        </figure>
+    </div>
 
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/mlk_mosaic.jpg" alt="Image 1">
-            </figure>
-            <figure>
-            <img src="images/auto_m3.jpg" alt="Image 1">
-            </figure>
-        </div>
+    <p>
+        Training loss, model de noising over sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0] 
+    </p>
 
-
-         <div class="gallery large_gallery">
-            <figure>
-                <img src="images/food_mosaic.jpg" alt="Image 2">
-            </figure>
-
-            <figure>
-            <img src="images/auto_m1.jpg" alt="Image 1">
-            </figure>
-        </div>
-
-    
-        
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/sign_mosaic.jpg" alt="Image 2">
-            </figure>
-            <figure>
-            <img src="images/auto_m2.jpg" alt="Image 1">
-            </figure>
-        </div>
-
-
-           <p>
-After carefully looking at the mosaics, I think the automatically generated ones are better in general (by a small amount). This is most evident in the “rose garden sign” mosaic when you look at the handrail.  
-     
-   <p>
-
-
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10e.png" alt="Image 2">
+        </figure>
+        <figure>
+            <img src="images/10f.png" alt="Image 2">
+        </figure>
+    </div>
 
 </section>
 
 
-       <section id="charicatures">
-    <h1>Coolest thing I learned</h1>
-        <p>
-            Getting better at using kv trees was really cool, but I think the coolest thing I learned was how to rectify images, the example given in class about the painting blew my mind!
-        </p>
+<section id="speed">
+    <h2>Adding Time Conditioning to UNet</h2>
+    <p>
+        We need a way to inject scalar t into our UNet model to condition it.
+    </p>
 
-    </section>
+     <p>
+        Results
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/11a.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/11b.png" alt="Image 2">
+        </figure>    
+    </div>
+
+    
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/11c.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/11d.png" alt="Image 2">
+        </figure>    
+    </div>
+
+
+</section>
+
+<section id="speed">
+    <h2>Adding Class-Conditioning to UNet</h2>
+    <p>
+       To make the results better and give us more control for image generation, we can also optionally condition our UNet on the class of the digit 0-9. 
+    </p>
+
+     <p>
+        Results
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/12a.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/12b.png" alt="Image 2">
+        </figure>    
+    </div>
+
+    
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/12c.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/12d.png" alt="Image 2">
+        </figure>    
+    </div>
+
+</section>
 
 
     
-    <section id="filters">
-        <h2>Original Pictures</h2>
-
-
-        <div class="gallery small_gallery">
-            <figure>
-                <img src="images/sign_right.jpg" alt="Image 1">
-            </figure>
-            
-            <figure>
-                <img src="images/sign_left.jpg" alt="Image 2">
-            </figure>
-            
-            <figure>
-                <img src="images/ls.jpg" alt="Image 2">
-            </figure>
-            
-            <figure>
-                <img src="images/rs.jpg" alt="Image 2">
-            </figure>
-
-            <figure>
-                <img src="images/food_right.jpg" alt="Image 1">
-            </figure>
-            
-            <figure>
-                <img src="images/food_center.jpg" alt="Image 2">
-            </figure>
-
-            
-            <figure>
-                <img src="images/mlk_right.jpg" alt="Image 1">
-            </figure>
-            
-            <figure>
-                <img src="images/mlk_center.jpg" alt="Image 2">
-            </figure>
-            
-                        
-            <figure>
-                <img src="images/gum.jpg" alt="Image 2">
-            </figure>
-
-                        
-            <figure>
-                <img src="images/ipad.jpg" alt="Image 2">
-            </figure>
-
-            <figure>
-                <img src="images/chess.jpg" alt="Image 2">
-            </figure>
-        </div>
-
-    </section>
-
 
  
     
