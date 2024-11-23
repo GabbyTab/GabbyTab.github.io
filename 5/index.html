@@ -66,252 +66,233 @@
 
 
     <section id="naive-methods">
-        <h2>Part 2. Image rectification</h2>
+        <h2>1.1 Implementing the forward process</h2>
 
         <p> 
-            To rectify an image we take the point correspondences (for warping) between a flat planar surface of the image and a hand chosen rectangular region. Note that for warping I just reused my code from the previous project (inverse H + nearest neighbor interpolation for speed, I also tried linear but it’s to slow)
+            A key part of diffusion is the forward process, which takes a clean image and adds noise to it. we get a noisy image by sampling and scaling acording to some time schdule. The forward process is not just adding noise, it's also scaling the image.
         </p>
 
+        <p>the test image at noise levels [250, 500, 750]</p>
+
 
         <div class="gallery large-gallery">
             <figure>
-                <img src="images/chess.jpg" alt="Image 1">
-            </figure>
-        
-            <figure>
-                <img src="images/chess_rec.jpg" alt="Image 2">
-            </figure>
-        </div>
-        
-        <div class="gallery large-gallery">
-            <figure>
-                <img src="images/ipad.jpg" alt="Image 1">
-            </figure>
-        
-            <figure>
-                <img src="images/ipad_rec.jpg" alt="Image 2">
-            </figure>
-
-            <figure>
-                <img src="images/face_rec.jpg" alt="Image 2">
+                <img src="images/1a.png" alt="Image 1">
             </figure>
         </div>
 
-        <div class="gallery large-gallery">
+        <h2>Classical Denoising</h2>
+      <div class="gallery large-gallery">
             <figure>
-                <img src="images/gum.jpg" alt="Image 1">
-            </figure>
-        
-            <figure>
-                <img src="images/gum_rec.jpg" alt="Image 2">
+                <img src="images/1b.png" alt="Image 1">
             </figure>
         </div>
-    <p>
-        An especially annoying part of this process is that small mismatches/errors in the point correspondences lead to ridiculous projections. Both swapping out bad points, slowly moving the points into the desired projection worked really well to mitigate this (guided by visual debugging).
-    </p>
+
+
+    <h2>One Step Denoising</h2>
+      <div class="gallery large-gallery">
+            <figure>
+                <img src="images/1c.png" alt="Image 1">
+            </figure>
+        </div>
+        
+    </section>
+
+    <h2>Iterative Denoising</h2>
+      <div class="gallery large-gallery">
+            <figure>
+                <img src="images/2a.png" alt="Image 1">
+            </figure>
+        </div>
+        
     </section>
 
 
     <section id="speed">
-        <h2>Mosaics</h2>
-
+        <h2>Diffusion Model Sampling</h2>
 
         <p>
-            For creating the mosaics it’s the same as warping but we can use the point correspondences to refine our alignments and make our lives easier. Of course without any sort of blending this creates unpleasant artifacts: 
         </p>
 
         <div class="gallery large_gallery">
             <figure>
-                <img src="images/ls.jpg" alt="Image 2">
+                <img src="images/3a.png" alt="Image 2">
             </figure>
 
-            <figure>
-                <img src="images/rs.jpg" alt="Image 2">
-            </figure>
         </div>
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/blend1NoAlpha.jpg" alt="Image 1">
-            </figure>
         
-        </div>
+        
+        <h2>Classifier Free Guidance</h2>
 
         <p>
-            For blending I reused my code from project 2, with laplacian/gaussian stacks of size 2 and sigma_start = 5. I tried a lot of things for the initial mask but usually what works best is just a line that divides the area where im1 and im2 intersect in 2. 
-        </p>
-
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/tunel_mosaic.jpg" alt="Image 1">
-            </figure>
-        </div>
-
-
-        <p>
-            More mosaics
         </p>
 
         <div class="gallery large_gallery">
             <figure>
-                <img src="images/food_center.jpg" alt="Image 2">
+                <img src="images/3b.png" alt="Image 2">
             </figure>
 
-            <figure>
-                <img src="images/food_right.jpg" alt="Image 2">
-            </figure>
         </div>
 
-         <div class="gallery large_gallery">
-            <figure>
-                <img src="images/food_mosaic.jpg" alt="Image 2">
-            </figure>
-        </div>
+        <h2>Image-to-image Translation</h2>
+
+        <p>
+        </p>
 
         <div class="gallery large_gallery">
             <figure>
-                <img src="images/sign_left.jpg" alt="Image 2">
+                <img src="images/4a.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/4b.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/4c.png" alt="Image 2">
             </figure>
 
-            <figure>
-                <img src="images/sign_right.jpg" alt="Image 2">
-            </figure>
         </div>
-        
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/sign_mosaic.jpg" alt="Image 2">
-            </figure>
-        </div>
-              
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/mlk_center.jpg" alt="Image 2">
-            </figure>
-
-            <figure>
-                <img src="images/mlk_right.jpg" alt="Image 2">
-            </figure>
-        </div>
-        
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/mlk_mosaic.jpg" alt="Image 2">
-            </figure>
-        </div>
-
             
     </section>
 
 
        <section id="charicatures">
-    <h1>Part B: Feature Matching for Autostitching</h1>
-        <p>
-            In this part, we implement automatic stitching following 
-            <strong>"Multi-Image Matching using Multi-Scale Oriented Patches"</strong> by Brown et al with simplifications. 
-        </p>
-        <h2>Steps Involved</h2>
-        <ol>
-            <li>Detecting corner features in an image.</li>
-            <li>Extracting a Feature Descriptor for each feature point.</li>
-            <li>Matching these feature descriptors between two images.</li>
-            <li>Using a robust method (<code>RANSAC</code>) to compute a homography.</li>
-        </ol>
-        <h2>Image Resizing</h2>
-        <p>
-            I resized all my images to be about <code>600 x 800</code> pixels for efficiency 
-            and so that my “magic numbers” generalize better.
+       <h2>Editing Hand-Drawn and Web Images</h2>
+
+        <p> 
+            A key part of diffusion is the forward process, which takes a clean image and adds noise to it. we get a noisy image by sampling and scaling acording to some time schdule. The forward process is not just adding noise, it's also scaling the image.
         </p>
 
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/5a.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/5b.png" alt="Image 1">
+            </figure>
+        </div>
+           
+           <div class="gallery large_gallery">
+            <figure>
+                <img src="images/5c.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/5d.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/5e.png" alt="Image 2">
+            </figure>
 
+        </div>
+            
     </section>
 
 
     
     <section id="speed">
-        <h2>Detecting corner features in an image</h2>
-        <p>
-             to detect corners in an image, I first used the provided in harris.py with a discarded edge of 20 pixels. Because the default settings took very long to run on large high-resolution images and produced an exorbitant number of points, I also set the min_dist parameter of peak_local_max to 5 so that fewer points are sampled. This still produced almost 120k points for my full resolution images, so I then chose the top 10k points based on their Harris response.
-        </p>
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/harris_food_center.png" alt="Image 2">
-            </figure>
-
-            <figure>
-                <img src="images/harris_food_right.png" alt="Image 2">
-            </figure>
-        </div>
-
-        <p>
-           Just using Harris resulted in bad keypoints if n was small (too many clustered points) or just too many key points to be efficient. To solve this I did as the assignment recommended/demanded and implemented ANMS using kv trees. Conceptually the algorithm assigns every point a minimum radius at which that point is suppressed, this value is the local area where the point is strong. Then we filter by r.
+        <h2>Inpainting</h2>
+      
+        <p> 
+            Given an image and a binary mask, we can create a new image that has new content wherever the mask covers. we leave everything inside the edit mask alone, but we replace everything outside the edit mask with our original image -- with the correct amount of noise added for timestep t.
         </p>
 
 
         
-        <div class="gallery large_gallery">
+        <div class="gallery large-gallery">
             <figure>
-                <img src="images/amns.png" alt="Image 1">
+                <img src="images/6a.png" alt="Image 1">
             </figure>
-        
-        </div>
-        
-        <p>r = 15 on the left, r = 25 on the right</p>
-
-
-        <div class="gallery large_gallery">
-            <figure>
-                <img src="images/anms_c_15.png" alt="Image 1">
-            </figure>
-
-            <figure>
-                <img src="images/anms_c_25.png" alt="Image 1">
-            </figure>
-        
-        
+     
         </div>
 
 
-    </section>
-
-
-        <section id="speed">
-        <h2>Extracting a Feature Descriptor for each feature point </h2>
-        <p>
-        To match points across images the paper advises that we need more than just one pixel. Instead we construct feature descriptors of locations around our pixels (size 40 by 40) that we then down sample with anti aliasing grayscale patch (I also tried color). We then normalize the patch.
-        </p>
-
-        <p>
-            Here is an example, colorized for your viewing experience, the corresponding point in the image has been colored green 
-        </p>
-
-        <div class="gallery large_gallery">
+        <div class="gallery large-gallery">
             <figure>
-                <img src="images/features.png" alt="Image 2">
+                <img src="images/6b.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/6c.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/6d.png" alt="Image 1">
             </figure>
         </div>
 
-    </section>
 
     </section>
 
 
 <section id="speed">
-    <h2>Matching these feature descriptors between two images  </h2>
+        <h2>Text-Conditioned Image-to-image Translation</h2>
+        <p>
+            We can guide the projection of the image with a text prompt, converting thins into rockets for example:
+        </p>
+
+
+    <div class="gallery large-gallery">
+        <figure>
+            <img src="images/7a.png" alt="Image 1">
+        </figure>
+    </div>
+    </section>
+
+
+<section id="speed">
+    <h2>Visual Anagrams</h2>
     <p>
-   Once we have our feature descriptors we can run a nearest neighbor algorithm to find potential matches. Then, following the paper we can filter  the matches by thresholding the value of nn(1)/nn(2) (closest match over second closest match). The Idea is that good points will have a good first match and will be easily distinguishable from their second match. I went with 0.5
+        To create visual anagrams we will denoise an image at step t normally with one prompt and at the same time, we will flip the inmage upside down, and denoise with the prompt a different prompt, to get another noise estimate. We can flip the second noise estimate , to make it right-side up, and average the two noise estimates. We can then perform a reverse diffusion step with the averaged noise estimate.
     </p>
 
     <div class="gallery large_gallery">
         <figure>
-            <img src="images/match.png" alt="Image 2">
+            <img src="images/8a.png" alt="Image 2">
+        </figure>       
+        <figure>
+            <img src="images/8b.png" alt="Image 2">
+        </figure>
+
+        <figure>
+            <img src="images/8c.png" alt="Image 2">
         </figure>
     </div>
 
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/8d.png" alt="Image 2">
+        </figure>
+    </div>
+
+
 </section>
+
+
+<section id="speed">
+    <h2>Hybrid Images</h2>
+    <p>
+        Another cool visual ilussion. The proedure is to create a composite noise estimate epsilon by estimating the noise with two different text prompts, and then combining low frequencies from one noise estimate with high frequencies of the other. 
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/9a.png" alt="Image 2">
+        </figure>       
+        <figure>
+            <img src="images/9b.png" alt="Image 2">
+        </figure>
+
+        <figure>
+            <img src="images/9c.png" alt="Image 2">
+        </figure>
+    </div>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/9d.png" alt="Image 2">
+        </figure>
+    </div>
+
+
+</section>
+
 
     
     <section id="speed">
