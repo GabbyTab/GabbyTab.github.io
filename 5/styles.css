@@ -46,7 +46,7 @@ header {
 
 /* Specific images */
 .image1 {
-    background-image: url('images/s1.png.');
+    background-image: url('images/s1.png');
     opacity: 1; /* Default opacity, adjust dynamically */
 }
 
