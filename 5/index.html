@@ -272,7 +272,21 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
     <p>
         To create visual anagrams we will denoise an image at step t normally with one prompt and at the same time, we will flip the inmage upside down, and denoise with the prompt a different prompt, to get another noise estimate. We can flip the second noise estimate , to make it right-side up, and average the two noise estimates. We can then perform a reverse diffusion step with the averaged noise estimate.
     </p>
+    <p>
+        Prompts:
+    </p>
+        <p>
+    an oil painting of an old man + an oil painting of people around a campfire
+    </p>
+        <p>
+a rocket ship + a man wearing a hat
+    </p>
+    <p>
+an oil painting of a snowy mountain village + a lithograph of a skull
+    </p>
 
+
+    
     <div class="gallery medium-gallery">
         <figure>
             <img src="images/8a.png" alt="Image 2">
@@ -288,7 +302,7 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
 
     <div class="gallery large_gallery">
         <figure>
-            <img src="images/8d.jpg" alt="Image 2">
+            <img src="images/8d.png" alt="Image 2">
         </figure>
         <figure>
             <img src="images/8e.png" alt="Image 2">
@@ -303,6 +317,18 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
     <h2>Hybrid Images</h2>
     <p>
         Another cool visual ilussion. The proedure is to create a composite noise estimate epsilon by estimating the noise with two different text prompts, and then combining low frequencies from one noise estimate with high frequencies of the other. 
+    </p>
+    <p>
+        Prompts:
+    </p>
+        <p>
+    a lithograph of a skull + a lithograph of waterfalls
+    </p>
+        <p>
+a lithograph of a skull + an oil painting of a snowy mountain village
+    </p>
+    <p>
+    an oil painting of an old man + an oil painting of people around a campfire
     </p>
 
     <div class="gallery medium-gallery">
