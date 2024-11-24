@@ -329,7 +329,7 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
 
 
 <section id="speed">
-    <h2>PART B</h2>
+    <h1>PART B</h1>
     <h2>Training a Single-Step Denoising UNet</h2>
     <p>
         Architecture:
@@ -340,6 +340,8 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
             <img src="images/10a.png" alt="Image 2">
         </figure>       
     </div>
+
+    <p>We start by building a simple one step denoiser and we implement it as a UNet. Architecture Above.</p>
 
     <p>
         Visualize the different noising processes over sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
@@ -376,6 +378,8 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
             <img src="images/10f.png" alt="Image 2">
         </figure>
     </div>
+    <h3>Reflections</h3>
+    <p>You can see that in the first epoch that the denoising isn’t perfect and certain edges, intersections and curves seem difficult for the network to parse ( especially in the 4 and the 3) But by the 5th epoch the reconstructions are very convincing. </p>
 
 </section>
 
