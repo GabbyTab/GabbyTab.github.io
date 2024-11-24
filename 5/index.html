@@ -387,7 +387,7 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
 <section id="speed">
     <h2>Adding Time Conditioning to UNet</h2>
     <p>
-        We need a way to inject scalar t into our UNet model to condition it.
+       We need a way to inject scalar t into our UNet model to condition it, for this we do as the project website recommends  and introduce a block called FCBlock that consists of a Linear block followed by a GELU followed by another Linear block.  We have two of these blocks that take in a normalized t and then we inject the output into the up block and the unflatten sections respectively.
     </p>
 
      <p>
@@ -407,15 +407,17 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
             <img src="images/11d.png" alt="Image 2">
         </figure>    
     </div>
-
+ <h3>Reflections</h3>
+<p>
+This is clearly a more difficult task, it takes more epochs to get good results. In epoch 5 you can recognize numbers but at the same time you can tell that something is off.
+</p>
 
 </section>
 
 <section id="speed">
     <h2>Adding Class-Conditioning to UNet</h2>
     <p>
-       To make the results better and give us more control for image generation, we can also optionally condition our UNet on the class of the digit 0-9. 
-    </p>
+To make the results better and give us more control for image generation, we can also optionally condition our UNet on the class of the digit 0-9. We do this by adding two more FCBlocks and then by injecting their output in the way that the project description recommends.     </p>
 
      <p>
         Results
@@ -434,14 +436,19 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
             <img src="images/12d.png" alt="Image 2">
         </figure>    
     </div>
+ <h3>Reflections</h3>
 
+        <p>
+Both epoch 5 and 20 create the distinct numbers we want in the right locations, epoch 5 still creates some small artifacts and separations (the fours and nines are good examples, but this might be because some people write their nines and fours with that point). Once we’ve reached epoch 20 all those imperfections have been smoothed out,    </p>
+
+     <p>
 </section>
 
 
 <section id="additionals">
     <h2>Coolest thing I learned</h2>
     <p>
-    Clasifier free guidance is extremly  cool and strange.
+    Clasifier free guidance was very interesting, using the models to fill in gaps was also cool but I think the coolest thing I learnt was architecture for u net
     </p>
 </section>
 
@@ -451,6 +458,16 @@ Using the same idea we start with an unrealistic image, say a drawing/ web image
     <p>
         This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
     </p>
+</section>
+
+    <section id="additionals">
+    <h2>Sources</h2>
+    <p>
+        https://cal-cs180.github.io/fa24/hw/proj5/partb.html
+    </p>
+            <p>
+https://cal-cs180.github.io/fa24/hw/proj5/parta.html
+            </p>
 </section>
 
 
