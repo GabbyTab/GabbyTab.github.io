@@ -26,7 +26,7 @@
 
 
     <section id="Overview">
-        <h2>Project Overview PART A</h2>
+        <h2>PART A</h2>
         <p>
             play around with diffusion models, implement diffusion sampling loops, and use them for other tasks such as inpainting and creating optical illusions.  
         </p>
@@ -40,8 +40,8 @@
         </p>
 
          <p>
-            Running the model on the three text prompts with 20 de noising produces ok results. All three have some form of degeneration, The man is cross eyed, the colors of the painting are wrong, and the rocket ship is very simplistic.
-             (I can relate this to the style of the prompt.)
+Running the model on the three text prompts with num_inference_steps = 20 produces ok results. All three images have some form of degeneration. The man is cross eyed, the colors of the painting are wrong. 
+
         </p>
         
         <div class="gallery small-gallery">   
@@ -51,7 +51,7 @@
         </div>
         
          <p>
-            Running the model at double the number of denoising steps produces significantly better results. This is because...
+            As expected, running the model at double the number of denoising steps produces significantly better results. More denoising steps is the same as a finer grain walk back from the pure random image.
         </p>
 
         <div class="gallery small-gallery">   
@@ -81,6 +81,11 @@
             </figure>
         </div>
 
+           <p> 
+We first attempt to denoise the images with classical denoisng  by using Gaussian blur filtering to try to remove the noise. The results leave much to be desired.
+           </p>
+
+
         <h2>Classical Denoising</h2>
         <div class="gallery small-gallery">   
             <figure>
@@ -89,6 +94,12 @@
         </div>
 
 
+           <p> 
+            
+Our second attempt is to use the pretrained diffusion model to denoise the images. The unet is conditioned on the amount of Gaussian noise by taking timestep t, and the diffusion model was trained with text conditioning so we use the following values as additional input: t = [250, 500, 750], and the embedding for the prompt "a high quality photo"
+
+           </p>
+        
     <h2>One Step Denoising</h2>
         <div class="gallery small-gallery">   
             <figure>
@@ -97,6 +108,12 @@
         </div>
         
     </section>
+
+
+             <p> 
+            
+The onestep denoising works pretty well but diffusion models are designed to to work iteratively. We can significantly improve the performance of our denoising through the iterative process. Though we could start our denoising at timestep 1000 and take steps of size one until reaching the 0 noise prediction this would require running the diffusion model 1000 times (slow and expensive). Instead we implement strided timesteps. 
+           </p>
 
     <h2>Iterative Denoising</h2>
         <div class="gallery small-gallery">   
@@ -112,6 +129,7 @@
         <h2>Diffusion Model Sampling</h2>
 
         <p>
+            With the iterative_denoise function we can generate images from scratch. We can do this by setting i_start = 0 and passing in random noise. 
         </p>
 
         <div class="gallery small-gallery">   
@@ -125,6 +143,11 @@
         <h2>Classifier Free Guidance</h2>
 
         <p>
+            The generated images in the prior section are not very good. To improve image quality at the expense of image diversity we can use Classifier-Free Guidance.
+        </p>
+
+        <p>
+            For CFG we compute both a noise estimate conditioned on a text prompt, and an unconditional noise estimate, Then our noise estimate becomes unconditional + gamma (conditioned - unconditional). We use gamma = 1.2
         </p>
 
         <div class="gallery small-gallery">   
@@ -137,6 +160,7 @@
         <h2>Image-to-image Translation</h2>
 
         <p>
+            we're going to take the original images and our test image, add some noise and then force it back onto the image manifold without any conditioning, hoping to get some similar image. Edits at noise levels = [1, 3, 5, 7, 10, 20]  
         </p>
 
         <div class="gallery large_gallery">
@@ -159,7 +183,8 @@
        <h2>Editing Hand-Drawn and Web Images</h2>
 
         <p> 
-            A key part of diffusion is the forward process, which takes a clean image and adds noise to it. we get a noisy image by sampling and scaling acording to some time schdule. The forward process is not just adding noise, it's also scaling the image.
+
+Using the same idea we start with an unrealistic image, say a drawing/ web image and we can project it onto the image space.
         </p>
 
         <div class="gallery large-gallery">
@@ -224,7 +249,7 @@
 <section id="speed">
         <h2>Text-Conditioned Image-to-image Translation</h2>
         <p>
-            We can guide the projection of the image with a text prompt, converting thins into rockets for example:
+            We can guide the projection of the image with a text prompt, converting thins into rockets for example. noise levels = [1, 3, 5, 7, 10, 20]
         </p>
 
 
