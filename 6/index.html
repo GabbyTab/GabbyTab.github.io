@@ -69,9 +69,12 @@
         <h3>Simulating a camera of different apertures focusing on a common point. </h3>
 
         <p> 
-            The reason averaging a large number of images sampled over the grid perpendicular to the optical axis mimics a camera with a larger aperture is: decreasing the aperture is effectively the same as letting less light in with bigger angles. Averaging all grid images is equivalent to allowing light from all directions, mimicking a fully open aperture.        </p>
+            The reason averaging a large number of images sampled over the grid perpendicular to the optical axis mimics a camera with a larger aperture is: decreasing the aperture is effectively the same as letting less light in with bigger angles. Averaging all grid images is equivalent to allowing light from all directions, mimicking a fully open aperture.        
+        </p>
 
-        <p>Conversely, to simulate a smaller aperture, we just include only the images closest to the optical center in our averaging process (within some radius). This reduces the effective aperture size, narrowing the range of angles contributing to the image./p>
+        <p>
+            Conversely, to simulate a smaller aperture, we just include only the images closest to the optical center in our averaging process (within some radius). This reduces the effective aperture size, narrowing the range of angles contributing to the image. 
+        </p>
 
 
         <div class="gallery medium-gallery">   
@@ -99,7 +102,7 @@
         <h2>What I learned</h2>
 
         <p>
-Plenoptic cameras are amazing. With lightfields, we can approximate multiple views from a single setup. Parallax is not just a cool visual effect but also a useful feature that enables depth refocusing and aperture adjustment. FInally the intuition for Depth Refocusing is rooted in the very simple effects of averaging that we learned earlier in the semester.        </p>
+Plenoptic cameras are amazing. With plenoptic cameras/light fields, we can simmulate different images that would have been taken from a normal camera. Parallax is not just a cool visual effect but also a useful feature that enables depth refocusing and aperture adjustment. Finally the intuition for Depth Refocusing is rooted in the very simple effects of averaging that we learned earlier in the semester. </p>
 
 
         <h2>Conclusion</h2>
@@ -118,8 +121,8 @@ This project demonstrated how lightfields enable complex visual effects, such as
 
         <p> 
 
-I tried several examples, and the easiest setup I could manage was using a chessboard at home. Unfortunately, I was unable to fully recreate the lightfield effects. I believe the challenge lies in achieving the required precision.
-The paper specifies that the images must be captured over a plane orthogonal to the optical axis, with consistent spacing between them. Without specialized equipment, it’s extremely difficult to maintain equal spacing and ensure orthogonality between the image plane and the optical axis. As a result, the subtle parallax cues needed for these effects were missing from my images.
+I tried several examples, and the easiest setup I could manage was using a chessboard at home. Unfortunately, I was unable to fully recreate the lightfield effect. I think it's because I could not get the neccesary precision.
+The paper specifies that the images must be captured over a plane orthogonal to the optical axis, with consistent spacing between them. It’s extremely difficult to maintain equal spacing and ensure orthogonality between the image plane and the optical axis at home, my hands shake too much. As a result my images don't line up at any scalar.
         </p>
 
            <p>Left most vie, middle view, rightmosts view</p>
