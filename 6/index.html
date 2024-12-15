@@ -37,7 +37,7 @@
     
     <section id="hall-of-fame">
         <h2>Part 1) Depth Refocusing</h2>
-        <h3>Simulating a camera focusing at different depths using all the grid images./h3>
+        <h3>Simulating a camera focusing at different depths using all the grid images. </h3>
 
                
         <p>
@@ -66,7 +66,7 @@
 
     <section id="naive-methods">
         <h2>Aperture Adjustment</h2>
-        <h3>Simulating a camera of different apertures focusing on a common point.</h3>
+        <h3>Simulating a camera of different apertures focusing on a common point. </h3>
 
         <p> 
             The reason averaging a large number of images sampled over the grid perpendicular to the optical axis mimics a camera with a larger aperture is: decreasing the aperture is effectively the same as letting less light in with bigger angles. Averaging all grid images is equivalent to allowing light from all directions, mimicking a fully open aperture.        </p>
@@ -97,8 +97,7 @@
         <h2>What I learned</h2>
 
         <p>
-            With the iterative_denoise function we can generate images from scratch. We can do this by setting i_start = 0 and passing in random noise. 
-        </p>
+Plenoptic cameras are amazing. With lightfields, we can approximate multiple views from a single setup. Parallax is not just a cool visual effect but also a useful feature that enables depth refocusing and aperture adjustment. FInally the intuition for Depth Refocusing is rooted in the very simple effects of averaging that we learned earlier in the semester.        </p>
 
 
         <h2>Conclusion</h2>
@@ -124,20 +123,20 @@ The paper specifies that the images must be captured over a plane orthogonal to 
            <p>Left most vie, middle view, rightmosts view</p>
             <div class="gallery small-gallery">   
             <figure>
-                <img src="images/chess_a.png" alt="Image 1">
+                <img src="images/chess_1.png" alt="Image 1">
             </figure>
                   <figure>
-                <img src="images/chess_b.png" alt="Image 1">
+                <img src="images/chess_2.png" alt="Image 1">
             </figure>
                   <figure>
-                <img src="images/chess_c.png" alt="Image 1">
+                <img src="images/chess_3.png" alt="Image 1">
             </figure>
         </div>
            
            
         <div class="gallery small-gallery">   
             <figure>
-                <img src="images/refocused_images_1.gif" alt="Image 1">
+                <img src="images/refocused_images.gif" alt="Image 1">
             </figure>
         </div>
             
