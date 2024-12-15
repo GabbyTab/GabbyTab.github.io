@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Fun</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+    
+<body>
+    <div class="background-container">
+        <div class="image-layer image1"></div>
+        <div class="image-layer image2"></div>
+        <div class="image-layer image3"></div>
+    </div>
+
+
+    <header id="header">
+        <div class="title-image">
+            <h1>IMAGE WARPING and MOSAICING</h1>
+        </div>
+    </header>
+
+
+    <section id="Overview">
+        <h2>PART A</h2>
+        <p>
+            play around with diffusion models, implement diffusion sampling loops, and use them for other tasks such as inpainting and creating optical illusions.  
+        </p>
+    </section>
+    
+    <section id="hall-of-fame">
+        <h2>Part 0 setup</h2>
+               
+        <p>
+            SEED = 180
+        </p>
+
+         <p>
+Running the model on the three text prompts with num_inference_steps = 20 produces ok results. All three images have some form of degeneration. The man is cross eyed, the colors of the painting are wrong. 
+
+        </p>
+        
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/0a.png" alt="Image 1">
+            </figure>
+        </div>
+        
+         <p>
+            As expected, running the model at double the number of denoising steps produces significantly better results. More denoising steps is the same as a finer grain walk back from the pure random image.
+        </p>
+
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/0b.png" alt="Image 1">
+            </figure>
+        </div>
+
+       
+    </section>
+
+
+
+    <section id="naive-methods">
+        <h2>1.1 Implementing the forward process</h2>
+
+        <p> 
+            A key part of diffusion is the forward process, which takes a clean image and adds noise to it. we get a noisy image by sampling and scaling acording to some time schdule. The forward process is not just adding noise, it's also scaling the image.
+        </p>
+
+        <p>the test image at noise levels [250, 500, 750]</p>
+
+
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/1a.png" alt="Image 1">
+            </figure>
+        </div>
+
+           <p> 
+We first attempt to denoise the images with classical denoisng  by using Gaussian blur filtering to try to remove the noise. The results leave much to be desired.
+           </p>
+
+
+        <h2>Classical Denoising</h2>
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/1b.png" alt="Image 1">
+            </figure>
+        </div>
+
+
+           <p> 
+            
+Our second attempt is to use the pretrained diffusion model to denoise the images. The unet is conditioned on the amount of Gaussian noise by taking timestep t, and the diffusion model was trained with text conditioning so we use the following values as additional input: t = [250, 500, 750], and the embedding for the prompt "a high quality photo"
+
+           </p>
+        
+    <h2>One Step Denoising</h2>
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/1c.png" alt="Image 1">
+            </figure>
+        </div>
+        
+    </section>
+
+
+             <p> 
+            
+The onestep denoising works pretty well but diffusion models are designed to to work iteratively. We can significantly improve the performance of our denoising through the iterative process. Though we could start our denoising at timestep 1000 and take steps of size one until reaching the 0 noise prediction this would require running the diffusion model 1000 times (slow and expensive). Instead we implement strided timesteps. 
+           </p>
+
+    <h2>Iterative Denoising</h2>
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/2a.png" alt="Image 1">
+            </figure>
+        </div>
+
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/2b.png" alt="Image 1">
+            </figure>
+        </div>
+        
+    </section>
+
+
+    <section id="speed">
+        <h2>Diffusion Model Sampling</h2>
+
+        <p>
+            With the iterative_denoise function we can generate images from scratch. We can do this by setting i_start = 0 and passing in random noise. 
+        </p>
+
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/3a.png" alt="Image 2">
+            </figure>
+
+        </div>
+        
+        
+        <h2>Classifier Free Guidance</h2>
+
+        <p>
+            The generated images in the prior section are not very good. To improve image quality at the expense of image diversity we can use Classifier-Free Guidance.
+        </p>
+
+        <p>
+            For CFG we compute both a noise estimate conditioned on a text prompt, and an unconditional noise estimate, Then our noise estimate becomes unconditional + gamma (conditioned - unconditional). We use gamma = 1.2
+        </p>
+
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/3b.png" alt="Image 2">
+            </figure>
+
+        </div>
+
+        <h2>Image-to-image Translation</h2>
+
+        <p>
+            we're going to take the original images and our test image, add some noise and then force it back onto the image manifold without any conditioning, hoping to get some similar image. Edits at noise levels = [1, 3, 5, 7, 10, 20]  
+        </p>
+
+        <div class="gallery large_gallery">
+            <figure>
+                <img src="images/4a.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/4b.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/4c.png" alt="Image 2">
+            </figure>
+
+        </div>
+            
+    </section>
+
+
+       <section id="charicatures">
+       <h2>Editing Hand-Drawn and Web Images</h2>
+
+        <p> 
+
+Using the same idea we start with an unrealistic image, say a drawing/ web image and we can project it onto the image space.
+        </p>
+
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/5a.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/5b.png" alt="Image 1">
+            </figure>
+        </div>
+           
+           <div class="gallery large_gallery">
+            <figure>
+                <img src="images/5c.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/5d.png" alt="Image 2">
+            </figure>
+        <figure>
+                <img src="images/5e.png" alt="Image 2">
+            </figure>
+
+        </div>
+            
+    </section>
+
+
+    
+    <section id="speed">
+        <h2>Inpainting</h2>
+      
+        <p> 
+            Given an image and a binary mask, we can create a new image that has new content wherever the mask covers. we leave everything inside the edit mask alone, but we replace everything outside the edit mask with our original image -- with the correct amount of noise added for timestep t.
+        </p>
+
+
+        
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/6a.png" alt="Image 1">
+            </figure>
+     
+        </div>
+
+
+        <div class="gallery large-gallery">
+            <figure>
+                <img src="images/6b.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/6c.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/6d.png" alt="Image 1">
+            </figure>
+        </div>
+
+
+    </section>
+
+
+<section id="speed">
+        <h2>Text-Conditioned Image-to-image Translation</h2>
+        <p>
+            We can guide the projection of the image with a text prompt, converting thins into rockets for example. noise levels = [1, 3, 5, 7, 10, 20]
+        </p>
+
+
+    <div class="gallery large-gallery">
+        <figure>
+            <img src="images/7a.png" alt="Image 1">
+        </figure>
+    </div>
+    </section>
+
+
+<section id="speed">
+    <h2>Visual Anagrams</h2>
+    <p>
+        To create visual anagrams we will denoise an image at step t normally with one prompt and at the same time, we will flip the inmage upside down, and denoise with the prompt a different prompt, to get another noise estimate. We can flip the second noise estimate , to make it right-side up, and average the two noise estimates. We can then perform a reverse diffusion step with the averaged noise estimate.
+    </p>
+    <p>
+        Prompts:
+    </p>
+        <p>
+    an oil painting of an old man + an oil painting of people around a campfire
+    </p>
+        <p>
+a rocket ship + a man wearing a hat
+    </p>
+    <p>
+an oil painting of a snowy mountain village + a lithograph of a skull
+    </p>
+
+
+    
+    <div class="gallery medium-gallery">
+        <figure>
+            <img src="images/8a.png" alt="Image 2">
+        </figure>       
+        <figure>
+            <img src="images/8b.png" alt="Image 2">
+        </figure>
+
+        <figure>
+            <img src="images/8c.png" alt="Image 2">
+        </figure>
+    </div>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/8d.png" alt="Image 2">
+        </figure>
+        <figure>
+            <img src="images/8e.png" alt="Image 2">
+        </figure>
+    </div>
+
+
+</section>
+
+
+<section id="speed">
+    <h2>Hybrid Images</h2>
+    <p>
+        Another cool visual ilussion. The proedure is to create a composite noise estimate epsilon by estimating the noise with two different text prompts, and then combining low frequencies from one noise estimate with high frequencies of the other. 
+    </p>
+    <p>
+        Prompts:
+    </p>
+        <p>
+    a lithograph of a skull + a lithograph of waterfalls
+    </p>
+        <p>
+a lithograph of a skull + an oil painting of a snowy mountain village
+    </p>
+    <p>
+    an oil painting of an old man + an oil painting of people around a campfire
+    </p>
+
+    <div class="gallery small-gallery">
+        <figure>
+            <img src="images/9a.png" alt="Image 2">
+        </figure>       
+        <figure>
+            <img src="images/9b.png" alt="Image 2">
+        </figure>
+
+        <figure>
+            <img src="images/9c.png" alt="Image 2">
+        </figure>
+    </div>
+
+    <div class="gallery medium-gallery">
+    <figure>
+        <img src="images/9a.png" alt="Image 2">
+    </figure>       
+    <figure>
+        <img src="images/9b.png" alt="Image 2">
+    </figure>
+
+    <figure>
+        <img src="images/9c.png" alt="Image 2">
+    </figure>
+</div>
+
+        <div class="gallery small-gallery">
+        <figure>
+            <img src="images/9d.png" alt="Image 2">
+        </figure>
+        
+        <figure>
+            <img src="images/9e.png" alt="Image 2">
+        </figure>
+    </div>
+
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/9d.png" alt="Image 2">
+        </figure>
+        
+        <figure>
+            <img src="images/9e.png" alt="Image 2">
+        </figure>
+    </div>
+
+
+
+</section>
+
+
+<section id="speed">
+    <h1>PART B</h1>
+    <h2>Training a Single-Step Denoising UNet</h2>
+    <p>
+        Architecture:
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10a.png" alt="Image 2">
+        </figure>       
+    </div>
+
+    <p>We start by building a simple one step denoiser and we implement it as a UNet. Architecture Above.</p>
+
+    <p>
+        Visualize the different noising processes over sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10b.png" alt="Image 2">
+        </figure>
+    </div>
+
+    <p>
+        The model denoising at epoch 1, and 5 
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10c.png" alt="Image 2">
+        </figure>
+        <figure>
+            <img src="images/10d.png" alt="Image 2">
+        </figure>
+    </div>
+
+    <p>
+        Training loss, model de noising over sigma = [0.0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0] 
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/10e.png" alt="Image 2">
+        </figure>
+        <figure>
+            <img src="images/10f.png" alt="Image 2">
+        </figure>
+    </div>
+    <h3>Reflections</h3>
+    <p>You can see that in the first epoch that the denoising isn’t perfect and certain edges, intersections and curves seem difficult for the network to parse ( especially in the 4 and the 3) But by the 5th epoch the reconstructions are very convincing. </p>
+
+</section>
+
+
+<section id="speed">
+    <h2>Adding Time Conditioning to UNet</h2>
+    <p>
+       We need a way to inject scalar t into our UNet model to condition it, for this we do as the project website recommends  and introduce a block called FCBlock that consists of a Linear block followed by a GELU followed by another Linear block.  We have two of these blocks that take in a normalized t and then we inject the output into the up block and the unflatten sections respectively.
+    </p>
+
+     <p>
+        Results
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/11a.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/11c.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/11d.png" alt="Image 2">
+        </figure>    
+    </div>
+ <h3>Reflections</h3>
+<p>
+This is clearly a more difficult task, it takes more epochs to get good results. In epoch 5 you can recognize numbers but at the same time you can tell that something is off.
+</p>
+
+</section>
+
+<section id="speed">
+    <h2>Adding Class-Conditioning to UNet</h2>
+    <p>
+To make the results better and give us more control for image generation, we can also optionally condition our UNet on the class of the digit 0-9. We do this by adding two more FCBlocks and then by injecting their output in the way that the project description recommends.     </p>
+
+     <p>
+        Results
+    </p>
+
+    <div class="gallery large_gallery">
+        <figure>
+            <img src="images/12a.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/12c.png" alt="Image 2">
+        </figure>      
+
+        <figure>
+            <img src="images/12d.png" alt="Image 2">
+        </figure>    
+    </div>
+ <h3>Reflections</h3>
+
+        <p>
+Both epoch 5 and 20 create the distinct numbers we want in the right locations, epoch 5 still creates some small artifacts and separations (the fours and nines are good examples, but this might be because some people write their nines and fours with that point). Once we’ve reached epoch 20 all those imperfections have been smoothed out,    </p>
+
+     <p>
+</section>
+
+
+<section id="additionals">
+    <h2>Coolest thing I learned</h2>
+    <p>
+    Clasifier free guidance was very interesting, using the models to fill in gaps was also cool but I think the coolest thing I learnt was architecture for u net
+    </p>
+</section>
+
+
+<section id="additionals">
+    <h2>Information</h2>
+    <p>
+        This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
+    </p>
+</section>
+
+    <section id="additionals">
+    <h2>Sources</h2>
+    <p>
+        https://cal-cs180.github.io/fa24/hw/proj5/partb.html
+    </p>
+            <p>
+https://cal-cs180.github.io/fa24/hw/proj5/parta.html
+            </p>
+</section>
+
+
+    <script src="script.js"></script>
+</body>
+
+<script src="script.js"></script>
+</html>
