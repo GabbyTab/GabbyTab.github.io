@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filter Fun</title>
+    <title>Facial Keypoint Detection with Neural Networks</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -20,113 +20,88 @@
 
     <header id="header">
         <div class="title-image">
-            <h1>IMAGE WARPING and MOSAICING</h1>
+            <h1>Facial Keypoint Detection with Neural Networks</h1>
         </div>
     </header>
 
 
     <section id="Overview">
-        <h2>PART A</h2>
+        <h2>Overview</h2>
         <p>
-            play around with diffusion models, implement diffusion sampling loops, and use them for other tasks such as inpainting and creating optical illusions.  
+            use neural networks to automatically detect facial keypoints 
         </p>
     </section>
     
-    <section id="hall-of-fame">
-        <h2>Part 0 setup</h2>
-               
-        <p>
-            SEED = 180
-        </p>
-
-         <p>
-Running the model on the three text prompts with num_inference_steps = 20 produces ok results. All three images have some form of degeneration. The man is cross eyed, the colors of the painting are wrong. 
-
-        </p>
-        
-        <div class="gallery small-gallery">   
-            <figure>
-                <img src="images/0a.png" alt="Image 1">
-            </figure>
-        </div>
-        
-         <p>
-            As expected, running the model at double the number of denoising steps produces significantly better results. More denoising steps is the same as a finer grain walk back from the pure random image.
-        </p>
-
-        <div class="gallery small-gallery">   
-            <figure>
-                <img src="images/0b.png" alt="Image 1">
-            </figure>
-        </div>
-
-       
-    </section>
 
 
 
     <section id="naive-methods">
-        <h2>1.1 Implementing the forward process</h2>
+        <h2>Part 1: Nose Tip Detection</h2>
 
         <p> 
-            A key part of diffusion is the forward process, which takes a clean image and adds noise to it. we get a noisy image by sampling and scaling acording to some time schdule. The forward process is not just adding noise, it's also scaling the image.
+I started by training an initial toy model for detecting a single keypoint. The section is called  nose tip detection but the instructions mentioned detecting pixels at index [-6] which is really more the bottom of the nose. The first step is parsing through the asf files of the IMM Face Database to get the images and their annotations:
+            
         </p>
 
-        <p>the test image at noise levels [250, 500, 750]</p>
 
-
+        <h2> Sampled image from dataloader </h2>
         <div class="gallery small-gallery">   
             <figure>
                 <img src="images/1a.png" alt="Image 1">
             </figure>
-        </div>
-
-           <p> 
-We first attempt to denoise the images with classical denoisng  by using Gaussian blur filtering to try to remove the noise. The results leave much to be desired.
-           </p>
-
-
-        <h2>Classical Denoising</h2>
-        <div class="gallery small-gallery">   
             <figure>
                 <img src="images/1b.png" alt="Image 1">
             </figure>
-        </div>
-
-
-           <p> 
-            
-Our second attempt is to use the pretrained diffusion model to denoise the images. The unet is conditioned on the amount of Gaussian noise by taking timestep t, and the diffusion model was trained with text conditioning so we use the following values as additional input: t = [250, 500, 750], and the embedding for the prompt "a high quality photo"
-
-           </p>
-        
-    <h2>One Step Denoising</h2>
-        <div class="gallery small-gallery">   
-            <figure>
+             <figure>
                 <img src="images/1c.png" alt="Image 1">
             </figure>
         </div>
-        
-    </section>
 
-
-             <p> 
-            
-The onestep denoising works pretty well but diffusion models are designed to to work iteratively. We can significantly improve the performance of our denoising through the iterative process. Though we could start our denoising at timestep 1000 and take steps of size one until reaching the 0 noise prediction this would require running the diffusion model 1000 times (slow and expensive). Instead we implement strided timesteps. 
+           <p> 
+               Our toy model is a 3 layer CNN that uses ReLU for non linearity and a MaxPool between each layer. The model ends in 2 fully connected layers and is trained. 
            </p>
 
-    <h2>Iterative Denoising</h2>
-        <div class="gallery small-gallery">   
-            <figure>
-                <img src="images/2a.png" alt="Image 1">
-            </figure>
-        </div>
+        <h2> MSE loss/model architecture/h2>
 
         <div class="gallery small-gallery">   
             <figure>
-                <img src="images/2b.png" alt="Image 1">
+                <img src="images/CNN1.png" alt="Image 1">
+            </figure>
+
+            <figure>
+                <img src="images/1d.png" alt="Image 1">
             </figure>
         </div>
+
+
+       <p> 
+          Testing our model reveals that it tends to do a lot better when the face is closer to the average alignment The model preforms significantly better the more the subject is centered and facing forwards.
+       </p>
+        
+        <h2>Success</h2>
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/1e.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/1f.png" alt="Image 1">
+            </figure>
+            
+        </div>
+
+        <h2>Failure</h2>
+
+        <div class="gallery small-gallery">   
+            <figure>
+                <img src="images/1g.png" alt="Image 1">
+            </figure>
+            <figure>
+                <img src="images/1h.png" alt="Image 1">
+            </figure>
+            
+        </div>
+
+
         
     </section>
 
