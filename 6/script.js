@@ -30,3 +30,5 @@ function resetGifs() {
         gif.src = src;
     });
 }
+
+document.getElementById("reset-button").addEventListener("click", resetGifs);
