@@ -46,17 +46,17 @@ header {
 
 /* Specific images */
 .image1 {
-    background-image: url('images/s4.png');
+    background-image: url('images/chess_a.png');
     opacity: 1; /* Default opacity, adjust dynamically */
 }
 
 .image2 {
-    background-image: url('images/s1.png');
+    background-image: url('images/chess_b.png');
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
 .image3 {
-    background-image: url('images/s2.png');
+    background-image: url('images/chess_c.png');
     opacity: 0; /* Default opacity, adjust dynamically */
 }
 
