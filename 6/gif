@@ -48,7 +48,7 @@
             To achieve this, we compute shifts (dx, dy) from the camera positions provided in the dataset. By scaling these shifts with a scalar value, we control the focus depth, allowing us to generate images that simulate focusing on objects at different distances.
         </p>
         
-        <div class="gallery small-gallery">   
+        <div class="gallery medium-gallery">   
             <figure>
                 <img src="images/refocused_images_1.gif" alt="Image 1">
             </figure>
@@ -57,7 +57,7 @@
          <p>
             20 images, scalar from -0.1 to 0.5
         </p>
-
+        <button id="reset-button">Reset GIFs</button>
 
        
     </section>
@@ -74,11 +74,13 @@
         <p>Conversely, to simulate a smaller aperture, we just include only the images closest to the optical center in our averaging process (within some radius). This reduces the effective aperture size, narrowing the range of angles contributing to the image./p>
 
 
-        <div class="gallery small-gallery">   
+        <div class="gallery medium-gallery">   
             <figure>
                 <img src="images/reappature_images_1.gif" alt="Image 1">
             </figure>
         </div>
+
+        <button id="reset-button">Reset GIFs</button>
 
            <p> 
 20 images with radius from 0 to 10
@@ -121,7 +123,7 @@ The paper specifies that the images must be captured over a plane orthogonal to 
         </p>
 
            <p>Left most vie, middle view, rightmosts view</p>
-            <div class="gallery small-gallery">   
+            <div class="gallery medium-gallery">   
             <figure>
                 <img src="images/chess_1.png" alt="Image 1">
             </figure>
@@ -134,16 +136,26 @@ The paper specifies that the images must be captured over a plane orthogonal to 
         </div>
            
            
-        <div class="gallery small-gallery">   
+        <div class="gallery medium-gallery">   
             <figure>
                 <img src="images/refocused_images.gif" alt="Image 1">
             </figure>
         </div>
+
+        <button id="reset-button">Reset GIFs</button>
             
     </section>
 
 <section id="additionals">
+    <h2>Other Final project Link:</h2>
+
+    <p> <a href="https://inst.eecs.berkeley.edu/~cs194-26/fa17/hw/proj5/" target="https://inst.eecs.berkeley.edu/~cs194-26/fa17/hw/proj6/">CS194 Project Page</a> </p>
+  
+</section>
+<section id="additionals">
     <h2>Information</h2>
+
+   
     <p>
         This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
     </p>
