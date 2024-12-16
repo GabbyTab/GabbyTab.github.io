@@ -26,9 +26,10 @@
 
 
     <section id="Overview">
+        <h1>Facial Keypoint Detection with Neural Networks</h1>
         <h2>Overview</h2>
         <p>
-            use neural networks to automatically detect facial keypoints 
+            use neural networks to automatically detect facial keypoints.
         </p>
     </section>
     
@@ -39,13 +40,12 @@
         <h2>Part 1: Nose Tip Detection</h2>
 
         <p> 
-I started by training an initial toy model for detecting a single keypoint. The section is called  nose tip detection but the instructions mentioned detecting pixels at index [-6] which is really more the bottom of the nose. The first step is parsing through the asf files of the IMM Face Database to get the images and their annotations:
-            
+            I started by training an initial toy model for detecting a single keypoint. The section is called nose tip detection but the instructions mentioned detecting pixels at index [-6] which is really more the bottom of the nose. The first step is parsing through the asf files of the IMM Face Database to get the images and their annotations:
         </p>
 
 
         <h2> Sampled image from dataloader </h2>
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/1a.png" alt="Image 1">
             </figure>
@@ -63,7 +63,7 @@ I started by training an initial toy model for detecting a single keypoint. The 
 
         <h2> MSE loss/model architecture </h2>
         <p>
-            Hypperparameter values: 
+            Hyperparameter values:
         </p>
 
         <div class="gallery medium-gallery">   
@@ -78,11 +78,11 @@ I started by training an initial toy model for detecting a single keypoint. The 
 
 
        <p> 
-          Testing our model reveals that it tends to do a lot better when the face is closer to the average alignment The model preforms significantly better the more the subject is centered and facing forwards.
+           Testing our model reveals that it tends to do a lot better when the face is closer to the average alignment. The model performs significantly better the more the subject is centered and facing forwards.
        </p>
         
         <h2>Success</h2>
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/1e.png" alt="Image 1">
             </figure>
@@ -94,7 +94,7 @@ I started by training an initial toy model for detecting a single keypoint. The 
 
         <h2>Failure</h2>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/1g.png" alt="Image 1">
             </figure>
