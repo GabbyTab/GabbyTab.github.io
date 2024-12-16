@@ -19,20 +19,18 @@ body {
 header {
     position: relative;
     height: 100vh;
-    overflow: hidden; /* Ensure content does not overflow */
+    overflow: hidden; 
 }
 
-/* Container for background images */
 .background-images {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Ensure background images are behind other content */
+    z-index: 1; 
 }
 
-/* Individual image layers */
 .image-layer {
     position: absolute;
     top: 0;
@@ -41,23 +39,22 @@ header {
     height: 100%;
     background-size: cover;
     background-repeat: no-repeat;
-    transition: opacity 0.5s ease-in-out; /* Smooth transition */
+    transition: opacity 0.5s ease-in-out; 
 }
 
-/* Specific images */
 .image1 {
-    background-image: url('images/s4.png');
-    opacity: 1; /* Default opacity, adjust dynamically */
+    background-image: url('images/2e.png');
+    opacity: 1;
 }
 
 .image2 {
-    background-image: url('images/s1.png');
-    opacity: 0; /* Default opacity, adjust dynamically */
+    background-image: url('images/2f.png');
+    opacity: 0; 
 }
 
 .image3 {
-    background-image: url('images/s2.png');
-    opacity: 0; /* Default opacity, adjust dynamically */
+    background-image: url('images/2g.png');
+    opacity: 0;
 }
 
 .title-image {
@@ -130,7 +127,7 @@ section h2 {
 
 
 .gallery figure {
-    flex: 1 1 calc(33.333% - 20px); /* Adjusts automatically based on available space */
+    flex: 1 1 calc(33.333% - 20px);
     margin: 10px 10px;
     padding: 0;
     text-align: center;
@@ -208,15 +205,13 @@ h3 {
     margin-top: 2vh;
 }
 
-/* Style the center stage container */ 
 #filters .center-stage { 
     display: flex;
     justify-content: center; 
-    /* Center the image horizontally */
-    margin-top: 20px; /* Space between gallery and center stage image */ 
-}  /* Style the center stage image */ 
+    margin-top: 20px;  
+} 
 #filters .center-stage img {    
     max-width: 100%; 
-    /* Make sure the image scales with its container */ 
+   
     height: auto; 
 }
