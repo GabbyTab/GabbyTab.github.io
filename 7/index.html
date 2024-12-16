@@ -320,7 +320,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
      <h2>Part 4: Pixelwise Classification</h2>
 
         <p> 
-Now I move onto the larger dataset: ibug face. This dataset has 6666 images of varying image sizes, and each image has 68 annotated facial keypoints. We use the annotations to crop out the face from each image.
+            Now we're doing pixel wise clasificatino. For each key point we make a 224 by 224 grid and center a gaussian on the location of the point with epsilon = 3. This is what our model is trying to predict/learn.
         </p>
 
         <h2> Data Loader </h2>
@@ -342,7 +342,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
         <h2>CNN architecture</h2>
 
         <p>
-            I used ResNet18 as suggested. I had to modify the first layer to only take one channel (grayscale), and I changed the output layer to be 136 (viewed as  68 * 2 array of coordinates). 
+            I used ResNet50 as suggested. I again had to change the input output layers for the Model to be comatible.  
 
         </p>
         
@@ -355,7 +355,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
                 <img src="images/CNN3.png" alt="Image 2">
 
             </figure>
-             <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
+             <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs, and epsilon = 3</figcaption> 
             <figure>
                 <img src="images/4d.png" alt="Image 2">
             </figure>
@@ -367,7 +367,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
         <h2>Results</h2>
 
         <p>
-            I would say they the results are quite good, not perfect but the structure seems really good and the points seem quite close.
+            Even better results than before.
         </p>
 
         <div class="gallery medium-gallery">   
@@ -387,11 +387,6 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 
         <h2>Test Set</h2>
 
-        <p>
-            
-            Without cropping the result is a bit worse
-
-        </p>
 
         <div class="gallery medium-gallery">   
  
@@ -411,9 +406,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
     <h2>My images</h2>
 
         <p>
-            
-          I'm suprosed it did so well with images  it had never seen before, including animated chaaracters. It did the worst with my face probobly because the turn is too much.
-
+            Unlike part 3, this one is actually able to annotate my face.
         </p>
 
         <div class="gallery medium-gallery">   
@@ -446,7 +439,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 <section id="additionals">
     <h2>Coolest thing I learned</h2>
     <p>
-    Clasifier free guidance was very interesting, using the models to fill in gaps was also cool but I think the coolest thing I learnt was architecture for u net
+        The different architectures I learned about were pretty cool, (Like Resnet). However Being able to do one of my least favorite parts of project 3 automatically beats everything.
     </p>
 </section>
 
@@ -454,18 +447,16 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 <section id="additionals">
     <h2>Information</h2>
     <p>
-        This website contains transitions not captured by the pdf, spesificaly, the title image changes into a high gamma verison and then into the black and white threshold filter version.
+        This website contains transitions not captured by the pdf, the title image changes into a high gamma verison and then into the black and white threshold filter version.
     </p>
 </section>
 
     <section id="additionals">
     <h2>Sources</h2>
     <p>
-        https://cal-cs180.github.io/fa24/hw/proj5/partb.html
+https://inst.eecs.berkeley.edu/~cs194-26/fa22/hw/proj5/
     </p>
-            <p>
-https://cal-cs180.github.io/fa24/hw/proj5/parta.html
-            </p>
+          
 </section>
 
 
