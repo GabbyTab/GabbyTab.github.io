@@ -118,12 +118,13 @@ I begin this section by implementing a stronger CNN with two additional layers a
         </p>
 
         <p> 
-            Our data loader now has all they keypoints. We also apply some data augmentation to make our database “bigger”. We do this by applying small random translations,rotation, and color jitters to our data in order to create synthetic data. This process was a bit annoying using a torch because it was not trivial to apply the same transformation to our labels, I had to create a custom transformation class. 
+            Our data loader now has all these key points. We also apply some data augmentation to make our database “bigger”. We do this by applying small random translations,rotation, and color jitters to our data in order to create synthetic data. This process was a bit annoying using a torch because it was not trivial to apply the same transformation to our labels, I had to create a custom transformation class. 
+
         </p>
 
         <h2> Data Loader/Augmentation </h2>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/2a.png" alt="Image 2">
             </figure>
@@ -140,13 +141,11 @@ I begin this section by implementing a stronger CNN with two additional layers a
         <h2>CNN architecture</h2>
 
         <p>
-            The idea is that the CNN grows in channels while being reduced in size. I decidied not to include a MaxPool layer after the first
-            Convolutinal layer because I didn't want to downsample that aggresivley in the beggining. Other than that this is eccentially the first model,
-            just with more layers and more parameters per some layers.
+            The idea is that the CNN grows in channels while being reduced in size. I decided not to include a MaxPool layer after the first Convolutional layer because I didn't want to downsample that aggressively in the beginning. Other than that this is essentially the first model, just with more layers and more parameters per some layers.
         </p>
         
         <p>
-            Hypperparameter values:
+            Hyperparameter values:
         </p>
 
         <div class="gallery medium-gallery">   
@@ -163,7 +162,7 @@ I begin this section by implementing a stronger CNN with two additional layers a
         <h2>Results</h2>
 
         <p>
-            The network preforms fairly well, It still gets thrown off by being off center or having distinghing features in terms of hair glasess etc. 
+The network performs fairly well, It still gets thrown off by being off center or having distinguishing features in terms of hair glasses etc. 
         </p>
 
         <div class="gallery medium-gallery">   
@@ -204,7 +203,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 
         <h2> Data Loader </h2>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/3a.png" alt="Image 2">
             </figure>
@@ -229,27 +228,27 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
             Hypperparameter values:
         </p>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
-                <img src="images/CNN3.png" alt="Image 2"> <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
+                <img src="images/CNN3.png" alt="Image 2"> 
 
             </figure>
 
-                 <figure>
+            <figure>
                 <img src="images/3d.png" alt="Image 2">
             </figure>
 
         </div>
 
-        
+        <p>I used the Adam optimizer with learning rate 1e-3 for 20 epochs </p>
 
         <h2>Results</h2>
 
         <p>
-            I would say they the results are quite good, not perfect but the structure seems really good and the points seem quite close.
+            I would say the results are quite good, not perfect but the structure seems really good and the points seem quite close.
         </p>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
  
             <figure>
                 <img src="images/3h.png" alt="Image 2">
@@ -267,12 +266,10 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
         <h2>Test Set</h2>
 
         <p>
-            
             Without cropping the result is a bit worse
-
         </p>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
  
             <figure>
                 <img src="images/3e.png" alt="Image 2">
@@ -291,8 +288,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 
         <p>
             
-          I'm suprosed it did so well with images  it had never seen before, including animated chaaracters. It did the worst with my face probobly because the turn is too much.
-
+ I'm surprised it did so well with images  it had never seen before, including animated characters. It did the worst with my face probably because the turn is too much.
         </p>
 
         <div class="gallery medium-gallery">   
@@ -320,12 +316,13 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
      <h2>Part 4: Pixelwise Classification</h2>
 
         <p> 
-            Now we're doing pixel wise clasificatino. For each key point we make a 224 by 224 grid and center a gaussian on the location of the point with epsilon = 3. This is what our model is trying to predict/learn.
+  Now we're doing pixel wise classification. For each key point we make a 224 by 224 grid and center a gaussian on the location of the point with epsilon = 3. This is what our model is trying to predict/learn.
+
         </p>
 
         <h2> Data Loader </h2>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/4a.png" alt="Image 2">
             </figure>
@@ -350,7 +347,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
             Hypperparameter values:
         </p>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
             <figure>
                 <img src="images/CNN4.png" alt="Image 2">
 
@@ -370,7 +367,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
             Even better results than before.
         </p>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
  
             <figure>
                 <img src="images/4h.png" alt="Image 2">
@@ -388,7 +385,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
         <h2>Test Set</h2>
 
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
  
             <figure>
                 <img src="images/4e.png" alt="Image 2">
@@ -409,7 +406,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
             Unlike part 3, this one is actually able to annotate my face.
         </p>
 
-        <div class="gallery medium-gallery">   
+        <div class="gallery large-gallery">   
              <figure>
                 <img src="images/4o.png" alt="Image 2">
             </figure>
