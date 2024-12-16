@@ -231,7 +231,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 
         <div class="gallery medium-gallery">   
             <figure>
-                <img src="images/CNN2.png" alt="Image 2"> <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
+                <img src="images/CNN3.png" alt="Image 2"> <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
 
             </figure>
 
@@ -352,7 +352,7 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 
         <div class="gallery medium-gallery">   
             <figure>
-                <img src="images/CNN3.png" alt="Image 2">
+                <img src="images/CNN4.png" alt="Image 2">
 
             </figure>
              <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs, and epsilon = 3</figcaption> 
@@ -432,6 +432,23 @@ Now I move onto the larger dataset: ibug face. This dataset has 6666 images of v
 
 <section id="speed">
     <h2>BW</h2>
+    <p> Using 1 and 0 mask heatmaps for the landmarks instead of Gaussian.</p>
+    <p> I added a flag to my heat map generating function so that if sigma = 0 it applies a heat map</p>
+    
+    <h2> Data Loader for binary heatmaps</h2>
+    <div class="gallery medium-gallery">   
+        <figure>
+            <img src="images/5a.png" alt="Image 2">
+        </figure>
+            <figure>
+            <img src="images/5b.png" alt="Image 2">
+        </figure>
+            <figure>
+            <img src="images/5c.png" alt="Image 2">
+        </figure>
+
+    </div>
+
 
 </section>
 
