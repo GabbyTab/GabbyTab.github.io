@@ -62,12 +62,15 @@ I started by training an initial toy model for detecting a single keypoint. The 
            </p>
 
         <h2> MSE loss/model architecture </h2>
+        <p>
+            Hypperparameter values: 
+        </p>
 
         <div class="gallery medium-gallery">   
             <figure>
                 <img src="images/CNN1.png" alt="Image 1">
             </figure>
-
+<figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
             <figure>
                 <img src="images/1d.png" alt="Image 1">
             </figure>
@@ -114,7 +117,11 @@ I begin this section by implementing a stronger CNN with two additional layers a
 
         </p>
 
-        <h2>Data Loader visualizing data/label pairs </h2>
+        <p> 
+            Our data loader now has all they keypoints. We also apply some data augmentation to make our database “bigger”. We do this by applying small random translations,rotation, and color jitters to our data in order to create synthetic data. This process was a bit annoying using a torch because it was not trivial to apply the same transformation to our labels, I had to create a custom transformation class. 
+        </p>
+
+        <h2> Data Loader/Augmentation </h2>
 
         <div class="gallery medium-gallery">   
             <figure>
@@ -128,7 +135,7 @@ I begin this section by implementing a stronger CNN with two additional layers a
             </figure>
 
         </div>
-        
+
         
         <h2>CNN architecture</h2>
 
@@ -146,6 +153,7 @@ I begin this section by implementing a stronger CNN with two additional layers a
             <figure>
                 <img src="images/CNN2.png" alt="Image 2">
             </figure>
+             <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
 
         </div>
 
@@ -187,34 +195,51 @@ These learned filters don’t reveal as much about the image as I would like but
 
 
        <section id="charicatures">
-       <h2>Editing Hand-Drawn and Web Images</h2>
+       <h2>Part 3: Train With Larger Dataset </h2>
 
         <p> 
-
-Using the same idea we start with an unrealistic image, say a drawing/ web image and we can project it onto the image space.
+Now I move onto the larger dataset: ibug face. This dataset has 6666 images of varying image sizes, and each image has 68 annotated facial keypoints. We use the annotations to crop out the face from each image.
         </p>
 
-        <div class="gallery large-gallery">
+        <h2> Data Loader </h2>
+
+        <div class="gallery medium-gallery">   
             <figure>
-                <img src="images/5a.png" alt="Image 1">
+                <img src="images/3a.png" alt="Image 2">
             </figure>
-            <figure>
-                <img src="images/5b.png" alt="Image 1">
+                <figure>
+                <img src="images/3b.png" alt="Image 2">
             </figure>
-        </div>
-           
-           <div class="gallery large_gallery">
-            <figure>
-                <img src="images/5c.png" alt="Image 2">
-            </figure>
-        <figure>
-                <img src="images/5d.png" alt="Image 2">
-            </figure>
-        <figure>
-                <img src="images/5e.png" alt="Image 2">
+                <figure>
+                <img src="images/3c.png" alt="Image 2">
             </figure>
 
         </div>
+           
+  
+        <h2>CNN architecture</h2>
+
+        <p>
+            I used ResNet18 as suggested. I had to modify the first layer to only take one channel (grayscale), and I changed the output layer to be 136 (viewed as  68 * 2 array of coordinates). 
+
+        </p>
+        
+        <p>
+            Hypperparameter values:
+        </p>
+
+        <div class="gallery medium-gallery">   
+            <figure>
+                <img src="images/CNN2.png" alt="Image 2"> <figcaption>I used the Adam optimizer with learning rate 1e-3 for 20 epochs</figcaption> 
+
+            </figure>
+
+        </div>
+
+        
+
+        <h2>Results</h2>
+
             
     </section>
 
