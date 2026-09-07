@@ -1,157 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GabbyTab</title>
-  <meta name="description" content="Notes and projects. Currently: how I reverse-engineered the Jane Street 2026 ASIC puzzle from a GDS file to (* TWO STARS *).">
-  <style>
-    :root {
-      --bg: #fbfbf9;
-      --fg: #1f1f1f;
-      --muted: #6b6b6b;
-      --line: #e3e3de;
-      --accent: #0b5cad;
-      --code-bg: #f0f0ec;
-    }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-    main { max-width: 42rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
-    header { margin-bottom: 2.5rem; }
-    header h1 { font-size: 1.6rem; margin: 0 0 .25rem; letter-spacing: -.01em; }
-    header p { margin: 0; color: var(--muted); }
-    nav a { margin-right: 1rem; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    h2 { font-size: 1.35rem; margin: 2.5rem 0 .75rem; letter-spacing: -.01em; }
-    h3 { font-size: 1.05rem; margin: 1.75rem 0 .5rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-    p { margin: 0 0 1rem; }
-    code { font: .92em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--code-bg); padding: .1em .35em; border-radius: 4px; }
-    .lede { font-size: 1.05rem; }
-    .meta { color: var(--muted); font-size: .95rem; margin-bottom: 1.5rem; }
-    .meta a { margin-right: .9rem; }
-    ol.pipeline { counter-reset: step; list-style: none; padding: 0; margin: 0 0 1rem; border-left: 2px solid var(--line); }
-    ol.pipeline li { position: relative; padding: .35rem 0 .35rem 1.5rem; }
-    ol.pipeline li::before {
-      counter-increment: step; content: counter(step);
-      position: absolute; left: -.75rem; top: .55rem;
-      width: 1.3rem; height: 1.3rem; border-radius: 50%;
-      background: var(--bg); border: 2px solid var(--line);
-      font-size: .7rem; line-height: 1.15rem; text-align: center; color: var(--muted);
-    }
-    ol.pipeline .result { font-weight: 600; }
-    .note { color: var(--muted); font-size: .95rem; border-top: 1px solid var(--line); padding-top: 1rem; }
-    ul.projects { list-style: none; padding: 0; margin: 0; }
-    ul.projects li { padding: .6rem 0; border-bottom: 1px solid var(--line); display: flex; gap: 1rem; align-items: baseline; }
-    ul.projects .num { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 1.5rem; }
-    ul.projects .desc { color: var(--muted); font-size: .92rem; }
-    footer { margin-top: 3rem; color: var(--muted); font-size: .9rem; }
-  </style>
-</head>
-<body>
-<main>
-  <header>
-    <h1>GabbyTab</h1>
-    <p>Notes and projects.</p>
-    <nav aria-label="Site">
-      <a href="#asic">ASIC puzzle</a>
-      <a href="#projects">CS180 projects</a>
-      <a href="https://github.com/GabbyTab">GitHub</a>
-    </nav>
-  </header>
+  <head>
+    <title>Gabriel Taboada</title>
+    <meta name="author" content="Gabriel Taboada" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="description" content="Gabriel Taboada. Writing and projects: Boolean function analysis, computational photography, reverse-engineering an ASIC." />
+    <link href="./assets/avatar.jpg" rel="icon" type="image/jpeg" />
 
-  <article id="asic">
-    <h2>Reverse-engineering the Jane Street 2026 ASIC puzzle</h2>
-    <p class="meta">
-      <a href="https://github.com/GabbyTab/asic-puzzle-2026">code</a>
-      <a href="https://blog.janestreet.com/can-you-reverse-engineer-an-asic/">the puzzle</a>
-      <span>September 2026</span>
-    </p>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css" rel="stylesheet" />
+    <link href="./style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div style="height: 4em"></div>
 
-    <p class="lede">
-      You get a chip layout (a GDS file) with an unlabeled sea of standard cells, one input bit, one <code>success</code> output,
-      and a hint image. The question is which input bitstream makes <code>success</code> go high. The answer, for the impatient, is
-      <code>(* TWO STARS *)</code>. Here is how I got there.
-    </p>
+    <section class="intro">
+      <div class="text">
+        <h1>Gabriel Taboada</h1>
+        <p>
+          I'm a CS student at <a href="https://www.berkeley.edu/">UC Berkeley</a> and a developer at Sphinx, based in
+          San Francisco.
+        </p>
+        <p>
+          Lately I've been into Boolean function analysis, computational photography, and taking apart things I don't
+          understand yet. Most recently that was a chip.
+        </p>
+        <p>
+          <a href="https://github.com/GabbyTab">GitHub</a>
+          <!-- Add when ready:
+          &nbsp;/&nbsp; <a href="mailto:you@example.com">Email</a>
+          &nbsp;/&nbsp; <a href="https://www.linkedin.com/in/...">LinkedIn</a>
+          &nbsp;/&nbsp; <a href="resume.pdf">Resume</a>
+          -->
+        </p>
+      </div>
+      <div style="display: block">
+        <img src="./assets/avatar.jpg" alt="A photo of the author" />
+      </div>
+    </section>
 
-    <h3>Short version</h3>
-    <ol class="pipeline">
-      <li>GDS &rarr; KLayout <code>LayoutToNetlist</code> (metal &rarr; wires)</li>
-      <li>Custom pin-attach (wires &rarr; standard-cell pins) &rarr; unlabeled netlist</li>
-      <li>Simplify: drop filler cells, collapse buffers</li>
-      <li>Replay <code>example_inputs.vcd</code> to verify the sim; notice the 121-clock frame</li>
-      <li>Cluster cells by physical locality (MST), seeding the shaded &ldquo;output generator&rdquo; as its own cluster to ignore</li>
-      <li>Probe / brute-force the small clusters: canned phrases fall out, and so does the contract for <code>success</code></li>
-      <li>SAT-solve the full netlist: which 121-bit input gives <code>success = 1</code>?</li>
-      <li class="result">Replay the one answer &rarr; <code>(* TWO STARS *)</code></li>
-    </ol>
+    <section>
+      <h2>Writing</h2>
+      <ul class="item-list">
+        <li class="highlighted">
+          <a href="./blog/asic-puzzle-2026/"><img class="visual square" src="./assets/star_battle.svg" alt="The solved 11 by 11 Star Battle board" /></a>
+          <div class="textual">
+            <h3><a href="./blog/asic-puzzle-2026/">Reverse-engineering the Jane Street 2026 ASIC puzzle</a></h3>
+            <p class="meta">September 2026</p>
+            <p>
+              From a bare chip layout to <code>(* TWO STARS *)</code>: extract a netlist from the GDS, carve the die into
+              blocks by physical proximity, read the ROM, and SAT-solve the whole thing. The chip turned out to be a
+              Star Battle checker with a CRC-8-encrypted flag.
+            </p>
+            <p class="links">
+              <a href="./blog/asic-puzzle-2026/">Post</a>
+              <a href="https://github.com/GabbyTab/asic-puzzle-2026">Code</a>
+              <a href="https://blog.janestreet.com/can-you-reverse-engineer-an-asic/">The puzzle</a>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </section>
 
-    <h3>Long version</h3>
-    <p>
-      I'm not really a circuits person, and I knew very little about them going in. After the warm-up taught me a bit about the
-      file types, it was clear that GDS wasn't useful to me directly: I'd need to extract a netlist before I could simulate
-      anything with the suggested tools. I hoped this was already a solved problem, and it mostly was. KLayout's
-      <code>LayoutToNetlist</code> groups the metal into wires. I wrote some pin-attach code on top of that to get the wires
-      onto standard-cell pins, and finally had a netlist.
-    </p>
-    <p>I was sort of hoping that after all of that, the next part would be the easy part. LMAO.</p>
-    <p>
-      I reused the harness I'd built for the warm-up: sweep inputs through the circuit and graph the outputs every way I could
-      think of, looking for a pattern. Primes, random samples, funny numbers. The hope was that the function would be simple
-      enough to deduce from data, extrapolate a rule, and read off the secret code. Honestly, the only thing I learned at this
-      stage (more an assumption I ran with) was that nothing comes out until the clock hits 121. Part of that came from checking
-      my circuit against the recording they provided, <code>example_inputs.vcd</code>.
-    </p>
-    <p>
-      Then I went back to the hints. The shaded-region PNG worried me the more I thought about it. There was no reason to include
-      it unless they wanted us to map sections of the GDS onto sections of the netlist and reverse-engineer from there.
-    </p>
-    <p>
-      So I clustered the circuit into pieces that would be easier to probe, on two assumptions. First: the shading was imprecise
-      and they said we didn't need to touch that region, so there was probably some leeway. I didn't need perfect clusters.
-      Second, just thinking about circuits: proximity is probably a signal. Cells that sit close together and wire directly into
-      each other are probably doing one abstract thing. That didn't feel like a crazy assumption. One cluster came from the shaded
-      region; the rest came from a minimum-spanning-tree clustering over physical position. That gave me a handful of components.
-    </p>
-    <p>
-      I simplified each piece on its own to get smaller circuits. One had few enough inputs to brute-force, and that produced
-      canned phrases: <code>EMPTY SKY</code>, <code>BIG BANG</code>, <code>TWO"NOT TOUCH</code>. I had basically read their ROM.
-    </p>
-    <p>
-      The component driving <code>success</code> was also small. Exhausting its inputs told me which internal wires make the
-      checker fire. But those wires aren't the input <code>I</code>; they're deep inside the chip. So I SAT-solved the full
-      netlist: given 121 clock cycles (also a guess, but the evidence supported it), which input bitstream makes
-      <code>success = 1</code>? One answer. Replayed it: <code>(* TWO STARS *)</code>.
-    </p>
-    <p>Then, like an idiot, I realized 121 is a grid, not a number length.</p>
-    <p>
-      I spent some time after that just poking around and finding more things. I also finally noticed that layer 200 had Morse
-      code the whole time. Missed it until after I'd solved.
-    </p>
-    <p class="note">A longer version with figures is coming. The code is in the <a href="https://github.com/GabbyTab/asic-puzzle-2026">repo</a>.</p>
-  </article>
+    <section>
+      <h2>Projects</h2>
+      <ul class="item-list">
+        <li>
+          <a href="https://github.com/GabbyTab/boofun"><img class="visual" src="./assets/boofun.png" alt="BooFun logo" /></a>
+          <div class="textual">
+            <h3><a href="https://github.com/GabbyTab/boofun">BooFun: Boolean function analysis in Python</a></h3>
+            <p>
+              A toolkit for teaching, learning, and doing research in Boolean function analysis: Fourier analysis,
+              property testing, query complexity, hypercontractivity, pseudorandomness. 25 notebooks aligned to
+              O'Donnell's <em>Analysis of Boolean Functions</em>, cross-validated against SageMath and published values.
+              Built alongside Avishay Tal's CS 294-92 at Berkeley.
+            </p>
+            <p class="links">
+              <a href="https://github.com/GabbyTab/boofun">GitHub</a>
+              <a href="https://pypi.org/project/boofun/">PyPI</a>
+              <a href="https://gabbytab.github.io/boofun/">Docs</a>
+            </p>
+          </div>
+        </li>
+        <li>
+          <a href="https://github.com/GabbyTab/3d-merge"><img class="visual" src="./2/images/Oraple.png" alt="Laplacian pyramid blend of an apple and an orange" /></a>
+          <div class="textual">
+            <h3><a href="https://github.com/GabbyTab/3d-merge">3D voxel merge</a></h3>
+            <p>
+              Multiresolution blending for voxel volumes: Burt &amp; Adelson's Laplacian pyramid extended to 3D and
+              applied to MagicaVoxel assets, with an interactive viewer. The oraple, but you can walk around it.
+            </p>
+            <p class="links">
+              <a href="https://github.com/GabbyTab/3d-merge">GitHub</a>
+            </p>
+          </div>
+        </li>
+        <li>
+          <a href="./4/index.html"><img class="visual" src="./4/images/sign_mosaic.jpg" alt="Image mosaic of the Berkeley Rose Garden sign" /></a>
+          <div class="textual">
+            <h3>CS180: computer vision and computational photography</h3>
+            <p>Course projects, UC Berkeley.</p>
+            <ol class="compact">
+              <li><a href="./1/index.html">Prokudin-Gorsky reconstruction</a></li>
+              <li><a href="./2/index.html">Fun with filters and frequencies</a></li>
+              <li><a href="./3/index.html">Face morphing</a></li>
+              <li><a href="./4/index.html">Image warping and mosaicing</a></li>
+              <li><a href="./5/index.html">Diffusion models</a></li>
+              <li><a href="./6/index.html">Lightfield camera</a></li>
+              <li><a href="./7/index.html">Facial keypoint detection</a></li>
+            </ol>
+          </div>
+        </li>
+      </ul>
+    </section>
 
-  <section id="projects">
-    <h2>CS180 projects</h2>
-    <p class="meta">Computer vision and computational photography, UC Berkeley.</p>
-    <ul class="projects">
-      <li><span class="num">1</span><span><a href="./1/index.html">Prokudin-Gorsky reconstruction</a> <span class="desc">aligning color channels from glass-plate negatives</span></span></li>
-      <li><span class="num">2</span><span><a href="./2/index.html">Fun with filters and frequencies</a> <span class="desc">sharpening, hybrid images, multiresolution blending</span></span></li>
-      <li><span class="num">3</span><span><a href="./3/index.html">Face morphing</a> <span class="desc">correspondences, mid-way faces, population means</span></span></li>
-      <li><span class="num">4</span><span><a href="./4/index.html">Image warping and mosaicing</a> <span class="desc">homographies, rectification, autostitching</span></span></li>
-      <li><span class="num">5</span><span><a href="./5/index.html">Diffusion models</a> <span class="desc">denoising and sampling</span></span></li>
-      <li><span class="num">6</span><span><a href="./6/index.html">Lightfield camera</a> <span class="desc">depth refocusing, aperture adjustment</span></span></li>
-      <li><span class="num">7</span><span><a href="./7/index.html">Facial keypoint detection</a> <span class="desc">neural networks</span></span></li>
-    </ul>
-  </section>
-
-  <footer>GabbyTab &middot; <a href="https://github.com/GabbyTab">github.com/GabbyTab</a></footer>
-</main>
-</body>
+    <footer>
+      Website design borrows from <a href="https://jonbarron.info/">Jon Barron</a> and
+      <a href="https://el-refai.github.io/">Karim El-Refai</a>.
+    </footer>
+  </body>
 </html>
