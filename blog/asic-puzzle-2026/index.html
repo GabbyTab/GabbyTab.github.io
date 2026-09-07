@@ -16,6 +16,10 @@
     />
     <link href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css" rel="stylesheet" />
     <link href="../../style.css" rel="stylesheet" type="text/css" />
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", flowchart: { curve: "basis" } });
+    </script>
   </head>
   <body>
     <div style="height: 4em"></div>
@@ -69,6 +73,10 @@
         thought about it. There was no reason to include that hint unless they wanted us to map sections of the GDS onto
         sections of the netlist and reverse engineer from there.
       </p>
+      <figure class="wide">
+        <img src="layout.png" alt="Jane Street's hint image: the chip layout with the output generator region hatched" />
+        <figcaption>The hint. The hatched block is labelled "output generator"; the rest is unlabelled. (Image: Jane Street.)</figcaption>
+      </figure>
       <p>
         So I decided it would be helpful to cluster the circuit into individual components that would be easier to probe.
         Here I made a few assumptions. First: since they gave us a shaded region on a PNG and told us we didn't have to
@@ -99,67 +107,104 @@
       <h2>Things I found afterwards</h2>
       <p>Everything below is reproduced by <code>python solve.py</code> in the repo (about 25 s; needs KLayout and <code>z3-solver</code>).</p>
 
-      <h3>The answer is a board</h3>
+      <h3>The answer is a board, and the chip contains the whole puzzle</h3>
       <figure>
-        <img src="../../assets/star_battle.svg" alt="The solved 11 by 11 Star Battle board" />
-        <figcaption>The 121-bit input, read row by row as an 11&times;11 grid.</figcaption>
+        <img src="../../assets/star_battle_regions.svg" alt="The 11 by 11 Star Battle puzzle recovered from the chip, with its solution" />
+        <figcaption>The 121-bit input read as an 11&times;11 grid, drawn over the region map recovered from the netlist.</figcaption>
       </figure>
       <p>
         The chip is a checker for an 11&times;11 <a href="https://en.wikipedia.org/wiki/Star_Battle">Star Battle</a>
-        ("Two Not Touch"): exactly two stars per row, per column, and per hidden region, and no two stars touch, even
-        diagonally. The regions are baked into the logic, and this board is the puzzle's unique solution.
+        ("Two Not Touch"): exactly two stars per row, per column, and per region, and no two stars touch, even
+        diagonally. The regions aren't given anywhere; they're baked into the logic. But they can be read back out. Two of
+        the small blobs are 4-bit counters: <code>g0</code> cycles 0..10 every clock and <code>g1</code> steps once every
+        11 clocks, so together they are the (column, row) of the bit currently arriving on <code>I</code>. They feed a
+        147-cell block of pure logic (<code>g9</code>) whose 4-bit output is a function of that position only, and it takes
+        exactly 11 distinct values over the 121 cells. That's the region map above: 11 connected regions, and the solved
+        board puts exactly two stars in each. So the puzzle isn't just checked by the chip; it's stored in it.
       </p>
 
       <h3>What the blocks are</h3>
       <p>
         Single-linkage clustering on cell position (10 &micro;m cut) plus the drawn box for the hatched block splits the
-        695 logic cells into 12 blobs. After the fact, they all have names:
+        695 logic cells into 12 blobs. After poking at each one:
       </p>
       <table>
         <tr><th>blob</th><th>cells</th><th>flops</th><th>role</th></tr>
         <tr><td><code>output_generator</code></td><td>224</td><td>13</td><td>the printer: row mux, 4-bit character counter, 8-bit LFSR</td></tr>
-        <tr><td><code>g9</code></td><td>147</td><td>0</td><td>pure combinational rules (regions, adjacency)</td></tr>
-        <tr><td><code>g6</code>, <code>g7</code></td><td>96 each</td><td>22 each</td><td>the board shift registers</td></tr>
+        <tr><td><code>g9</code></td><td>147</td><td>0</td><td>region lookup: (row, col) &rarr; region id, no state</td></tr>
+        <tr><td><code>g6</code>, <code>g7</code></td><td>96 each</td><td>22 each</td><td>board tallies; 22 flops = 11 &times; 2 bits (per region, per column)</td></tr>
         <tr><td><code>g3</code>, <code>g4</code>, <code>g5</code></td><td>33, 39, 18</td><td>13, 8, 3</td><td>row/column folds and flags (empty, full, touching)</td></tr>
-        <tr><td><code>g0</code>, <code>g1</code></td><td>14, 17</td><td>4 each</td><td>small counters that sequence the printer</td></tr>
+        <tr><td><code>g0</code>, <code>g1</code></td><td>14, 17</td><td>4 each</td><td>column counter (0..10) and row counter (0..10)</td></tr>
         <tr><td><code>g10</code></td><td>8</td><td>2</td><td>AND-reduce to <code>success</code></td></tr>
-        <tr><td><code>g2</code></td><td>3</td><td>1</td><td><code>enable</code> strobe</td></tr>
+        <tr><td><code>g2</code></td><td>3</td><td>1</td><td><code>enable</code> strobe, fanned to every block</td></tr>
       </table>
+      <p>
+        The wiring between them, from the stitched netlist (clock, reset and the <code>g2</code> strobe omitted; the strobe
+        goes everywhere):
+      </p>
+      <pre class="mermaid">
+flowchart TB
+  I([I, 121 bits]) --> G6 & G7 & G3 & G4 & G5 & OG
+  EN([enable]) --> G2[g2<br/>load strobe]
+  G0[g0<br/>column counter] -->|wrap every 11| G1[g1<br/>row counter]
+  G0 & G1 --> G9[g9<br/>region lookup]
+  G0 --> G7 & G5
+  G9 -->|region id| G6[g6<br/>tallies, 22 flops]
+  G7[g7<br/>tallies, 22 flops] --> G3
+  G6 --> G4
+  G5[g5<br/>flags] --> G3 & OG
+  G3[g3<br/>folds] --> G10
+  G4[g4<br/>folds, empty/full] --> G10 & OG
+  G10[g10<br/>AND-reduce] -->|success, touching| OG
+  OG -.->|2 wires back| G10
+  G10 --> S([success])
+  OG[output generator<br/>printer + LFSR] --> O([O 7:0])
+      </pre>
       <p>
         <code>g10</code> is the "success contract" from the short version: 6 data wires in, 64 cases to try, and
         <code>success</code> needs 5 specific wires high. The SAT over the full 695-cell netlist (121 load clocks + 8 hold
-        clocks in z3) finds the board in about 4 s. You can't drop the printer to make it smaller: two of its wires feed
+        clocks in z3) finds the board in about 4 s. You can't drop the printer to make it smaller: the two dashed wires feed
         back into <code>g10</code>, and without them the problem is unsat.
       </p>
 
       <h3>The printer encrypts the flag</h3>
       <p>
         Cut the printer out and drive it with the bus the whole chip fed it, and it says exactly what the whole chip
-        says. Its inputs are a priority mux over five rows of text:
+        says. Nine wires come in. Two are timing, one has no driver at all, and the rest pick a row of text:
       </p>
-      <table>
-        <tr><th>condition</th><th>prints</th><th>stored</th></tr>
-        <tr><td>board empty</td><td><code>EMPTY SKY</code></td><td>plain</td></tr>
-        <tr><td>board full</td><td><code>BIG BANG</code></td><td>plain</td></tr>
-        <tr><td>two per row and column, but touching</td><td><code>TWO"NOT TOUCH</code></td><td>plain</td></tr>
-        <tr><td><code>success</code></td><td><code>(* TWO STARS *)</code></td><td><strong>XOR with an LFSR keystream</strong></td></tr>
-        <tr><td>anything else</td><td><code>TRY AGAIN</code></td><td>plain</td></tr>
-      </table>
+      <pre class="mermaid">
+flowchart LR
+  I([I, 121 bits]) -->|1 tick per bit| LFSR[8-bit LFSR<br/>x^8+x^4+x^3+x^2+1 = 0x1D<br/>CRC-8 SAE-J1850, seed 00001111]
+  REST[rest of the die] --> F1[empty] & F2[full] & F3[touching] & F4[success]
+  F1 & F2 & F3 & F4 --> SEL{priority<br/>row select}
+  EN([enable drops]) --> CNT[4-bit character counter<br/>one byte per clock]
+  CNT --> SEL
+  SEL -->|empty| R1[EMPTY SKY]
+  SEL -->|full| R2[BIG BANG]
+  SEL -->|touching| R3[TWO#quot;NOT TOUCH]
+  SEL -->|none| R4[TRY AGAIN]
+  SEL -->|success| R5[stored bytes<br/>4d ad fb 83 13 79 ...]
+  R5 --> X((XOR))
+  LFSR -->|8 ticks per byte<br/>65 87 db d7 ...| X
+  R1 & R2 & R3 & R4 & X --> O([O 7:0])
+      </pre>
       <p>
-        8 of the printer's 13 flops are an LFSR. During the 121 load clocks it shifts in every <code>I</code> bit; during
-        printing it keeps running, 8 ticks per character, and its state is XORed onto the stored bytes of the success
-        row. Forcing <code>success</code> high on a wrong board prints garbage. Only the correct board produces the
-        keystream that decrypts the row:
+        Reading it left to right: while <code>enable</code> is high, every <code>I</code> bit is shifted into the LFSR,
+        and the rest of the chip is meanwhile deciding which of five rows to point at. When <code>enable</code> drops, the
+        counter walks through the row one byte per clock. Four rows go straight to <code>O</code>. The fifth is XORed with
+        the LFSR, which keeps ticking 8 times per byte. Forcing <code>success</code> high on a wrong board prints garbage
+        (<code>f7 8c 4a 64 ...</code>). Only the correct board produces the keystream that decrypts the row:
       </p>
 <pre><code>stored     4d ad fb 83 13 79 1c b5 79 63 c7 68 93 f5 8f
 keystream  65 87 db d7 44 36 3c e6 2d 22 95 3b b3 df a6   &lt;- winning board
 XOR        28 2a 20 54 57 4f 20 53 54 41 52 53 20 2a 29   "(* TWO STARS *)"</code></pre>
       <p>
-        The LFSR is identifiable: characteristic polynomial x<sup>8</sup> + x<sup>4</sup> + x<sup>3</sup> + x<sup>2</sup> + 1
-        = <code>0x1D</code>, the CRC-8 SAE-J1850 polynomial, seeded <code>00001111</code> from the flops' reset values.
-        So the key is CRC-8 of the board. Of all 256 possible key states, exactly one decrypts the row to printable text.
-        This is also why sweeping every constant address on the isolated printer found the four consolation rows and
-        never the flag: the flag row's address is the whole 121-bit board.
+        The LFSR is identifiable: 7 of its 8 flops are a pure shift and one is the feedback XOR plus the incoming
+        <code>I</code> bit. Its characteristic polynomial is x<sup>8</sup> + x<sup>4</sup> + x<sup>3</sup> + x<sup>2</sup> + 1
+        = <code>0x1D</code>, the CRC-8 SAE-J1850 polynomial, seeded <code>00001111</code> from the flops' reset values. So
+        the flag row is a byte-wise stream cipher keyed by a CRC-8 of the board. Of all 256 possible key states, exactly
+        one decrypts the row to printable text. This is also why sweeping every constant address on the isolated printer
+        found the four consolation rows and never the flag: the flag row's address is the whole 121-bit board.
       </p>
 
       <h3>Everything else hidden in the files</h3>
@@ -179,8 +224,9 @@ XOR        28 2a 20 54 57 4f 20 53 54 41 52 53 20 2a 29   "(* TWO STARS *)"</cod
       <h3>What I'd tell myself at the start</h3>
       <ul>
         <li>
-          <strong>Cluster first, then simplify each piece.</strong> The clustering wasn't what made the solve tractable;
-          it's what gave me small cuts to exhaust (<code>g10</code>: 6 wires, 64 tries) and a clean line around the printer.
+          <strong>Cluster first, then simplify each piece.</strong> Honestly, on this die the order didn't matter; I
+          checked both and got the same blobs and the same cuts. What the clustering bought was small cuts to exhaust
+          (<code>g10</code>: 6 wires, 64 tries) and a clean line around the printer.
         </li>
         <li>
           <strong>A frozen bus lies.</strong> My first isolated-printer sweep held its inputs constant and got silence.
