@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Reverse-engineering the Jane Street 2026 ASIC puzzle</title>
+    <meta name="author" content="Gabriel Taboada" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="description" content="How I went from a bare GDS chip layout to (* TWO STARS *): KLayout netlist extraction, proximity clustering, reading the ROM, and SAT-solving the full netlist." />
+    <link href="../../assets/avatar.jpg" rel="icon" type="image/jpeg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/modern-normalize@3.0.1/modern-normalize.min.css" rel="stylesheet" />
+    <link href="../../style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div style="height: 4em"></div>
+
+    <section class="post">
+      <p><a href="../../">&larr; Gabriel Taboada</a></p>
+      <h1>Reverse-engineering the Jane Street 2026 ASIC puzzle</h1>
+      <p class="date">
+        September 2026 &middot;
+        <a href="https://github.com/GabbyTab/asic-puzzle-2026">code</a> &middot;
+        <a href="https://blog.janestreet.com/can-you-reverse-engineer-an-asic/">the puzzle</a>
+      </p>
+
+      <p>
+        Jane Street published a chip layout (a GDS file) with one input bit <code>I</code>, an 8-bit output
+        <code>O</code>, a <code>success</code> flag, and a hint image. The question: what do you feed <code>I</code> to
+        make <code>success</code> go high? This is the writeup I submitted, plus some things I dug up afterwards.
+      </p>
+
+      <h2>Short</h2>
+      <ol class="pipeline">
+        <li>GDS &rarr; KLayout <code>LayoutToNetlist</code> (metal &rarr; wires)</li>
+        <li>&rarr; custom pin-attach (wires &rarr; cell pins) &rarr; unlabeled netlist</li>
+        <li>&rarr; simplify (drop filler, collapse buffers)</li>
+        <li>&rarr; replay <code>example_inputs.vcd</code> (verify; notice the 121-clock frame)</li>
+        <li>&rarr; cluster by physical locality (MST), with the shaded output generator seeded as its own cluster to ignore</li>
+        <li>&rarr; probe / brute-force small clusters (canned phrases; success contract)</li>
+        <li>&rarr; SAT on the full netlist (<code>success=1</code> after 121 clocks)</li>
+        <li>&rarr; replay &rarr; <code>(* TWO STARS *)</code></li>
+      </ol>
+
+      <h2>Long</h2>
+      <p>
+        I'm not really a circuits person, and I knew very little about them coming into this. After doing the warmup and
+        learning a bit about these file types, I figured GDS wasn't a very useful format for my purposes. I'd need to
+        extract a netlist from it before I could simulate anything with the tools suggested. I was hoping this was already
+        a solved problem, so I looked for a program that did it and found <code>LayoutToNetlist</code> in KLayout. I used
+        that to group the metal into wires, then wrote some custom pin-attach code to finally get the netlist I needed.
+      </p>
+      <p>I was sort of hoping that after all of that, the next section would be the easy part. LMAO.</p>
+      <p>
+        I essentially reused the harness I'd built for the warmup: sweep inputs through the circuit and graph the outputs
+        in different ways to see if there was any pattern. I was hoping it would be a simple enough function that I could
+        deduce it from the data, extrapolate a rule, and figure out the secret code from there. I tried primes, random
+        samples, funny numbers, all kinds of things. Honestly, the only thing I learned at this stage (more of an
+        assumption that I ran with) was that you wouldn't get an output until the clock hit 121. I partially figured that
+        out by testing my circuit against the recording they provided (<code>example_inputs.vcd</code>).
+      </p>
+      <p>
+        At this point I went back and looked at the hints again. The shaded-region PNG started to worry me the more I
+        thought about it. There was no reason to include that hint unless they wanted us to map sections of the GDS onto
+        sections of the netlist and reverse engineer from there.
+      </p>
+      <p>
+        So I decided it would be helpful to cluster the circuit into individual components that would be easier to probe.
+        Here I made a few assumptions. First: since they gave us a shaded region on a PNG and told us we didn't have to
+        touch it, and that shading wasn't very precise, there was probably some leeway. I didn't need perfect clusters; it
+        would probably still work out fine-ish. Second, just thinking about circuits: proximity is probably at least
+        somewhat of a signal. If a lot of components are close together and wired directly to each other, they're probably
+        contributing to some computation that might be simpler to understand, like it might be one abstract thing. That
+        didn't feel like a crazy assumption. So I clustered: one component based on the shaded region, then an MST-based
+        physical proximity clustering for the rest. That gave me a handful of components.
+      </p>
+      <p>
+        With my circuit pieces, I simplified each one individually to get smaller circuits. One component had few enough
+        inputs to brute-force. That gave me canned phrases (<code>EMPTY SKY</code>, <code>BIG BANG</code>,
+        <code>TWO"NOT TOUCH</code>). I read ur ROM.
+      </p>
+      <p>
+        The component driving <code>success</code> was also small. Exhausting its inputs told me what internal wires make
+        the checker fire. But those wires aren't <code>I</code>, they're deep inside the chip. So I SAT-solved the full
+        netlist: given 121 clock cycles (also sort of a guess, but the evidence supported it), which input bitstream makes
+        <code>success=1</code>? One answer. Replayed it: <code>(* TWO STARS *)</code>.
+      </p>
+      <p>Then, like an idiot, I realized 121 is a grid, not a number length.</p>
+      <p>
+        Spent some time after that just messing around and finding more things. Also finally noticed layer 200 had Morse
+        code the whole time. Missed it until after I'd solved.
+      </p>
+
+      <h2>Things I found afterwards</h2>
+      <p>Everything below is reproduced by <code>python solve.py</code> in the repo (about 25 s; needs KLayout and <code>z3-solver</code>).</p>
+
+      <h3>The answer is a board</h3>
+      <figure>
+        <img src="../../assets/star_battle.svg" alt="The solved 11 by 11 Star Battle board" />
+        <figcaption>The 121-bit input, read row by row as an 11&times;11 grid.</figcaption>
+      </figure>
+      <p>
+        The chip is a checker for an 11&times;11 <a href="https://en.wikipedia.org/wiki/Star_Battle">Star Battle</a>
+        ("Two Not Touch"): exactly two stars per row, per column, and per hidden region, and no two stars touch, even
+        diagonally. The regions are baked into the logic, and this board is the puzzle's unique solution.
+      </p>
+
+      <h3>What the blocks are</h3>
+      <p>
+        Single-linkage clustering on cell position (10 &micro;m cut) plus the drawn box for the hatched block splits the
+        695 logic cells into 12 blobs. After the fact, they all have names:
+      </p>
+      <table>
+        <tr><th>blob</th><th>cells</th><th>flops</th><th>role</th></tr>
+        <tr><td><code>output_generator</code></td><td>224</td><td>13</td><td>the printer: row mux, 4-bit character counter, 8-bit LFSR</td></tr>
+        <tr><td><code>g9</code></td><td>147</td><td>0</td><td>pure combinational rules (regions, adjacency)</td></tr>
+        <tr><td><code>g6</code>, <code>g7</code></td><td>96 each</td><td>22 each</td><td>the board shift registers</td></tr>
+        <tr><td><code>g3</code>, <code>g4</code>, <code>g5</code></td><td>33, 39, 18</td><td>13, 8, 3</td><td>row/column folds and flags (empty, full, touching)</td></tr>
+        <tr><td><code>g0</code>, <code>g1</code></td><td>14, 17</td><td>4 each</td><td>small counters that sequence the printer</td></tr>
+        <tr><td><code>g10</code></td><td>8</td><td>2</td><td>AND-reduce to <code>success</code></td></tr>
+        <tr><td><code>g2</code></td><td>3</td><td>1</td><td><code>enable</code> strobe</td></tr>
+      </table>
+      <p>
+        <code>g10</code> is the "success contract" from the short version: 6 data wires in, 64 cases to try, and
+        <code>success</code> needs 5 specific wires high. The SAT over the full 695-cell netlist (121 load clocks + 8 hold
+        clocks in z3) finds the board in about 4 s. You can't drop the printer to make it smaller: two of its wires feed
+        back into <code>g10</code>, and without them the problem is unsat.
+      </p>
+
+      <h3>The printer encrypts the flag</h3>
+      <p>
+        Cut the printer out and drive it with the bus the whole chip fed it, and it says exactly what the whole chip
+        says. Its inputs are a priority mux over five rows of text:
+      </p>
+      <table>
+        <tr><th>condition</th><th>prints</th><th>stored</th></tr>
+        <tr><td>board empty</td><td><code>EMPTY SKY</code></td><td>plain</td></tr>
+        <tr><td>board full</td><td><code>BIG BANG</code></td><td>plain</td></tr>
+        <tr><td>two per row and column, but touching</td><td><code>TWO"NOT TOUCH</code></td><td>plain</td></tr>
+        <tr><td><code>success</code></td><td><code>(* TWO STARS *)</code></td><td><strong>XOR with an LFSR keystream</strong></td></tr>
+        <tr><td>anything else</td><td><code>TRY AGAIN</code></td><td>plain</td></tr>
+      </table>
+      <p>
+        8 of the printer's 13 flops are an LFSR. During the 121 load clocks it shifts in every <code>I</code> bit; during
+        printing it keeps running, 8 ticks per character, and its state is XORed onto the stored bytes of the success
+        row. Forcing <code>success</code> high on a wrong board prints garbage. Only the correct board produces the
+        keystream that decrypts the row:
+      </p>
+<pre><code>stored     4d ad fb 83 13 79 1c b5 79 63 c7 68 93 f5 8f
+keystream  65 87 db d7 44 36 3c e6 2d 22 95 3b b3 df a6   &lt;- winning board
+XOR        28 2a 20 54 57 4f 20 53 54 41 52 53 20 2a 29   "(* TWO STARS *)"</code></pre>
+      <p>
+        The LFSR is identifiable: characteristic polynomial x<sup>8</sup> + x<sup>4</sup> + x<sup>3</sup> + x<sup>2</sup> + 1
+        = <code>0x1D</code>, the CRC-8 SAE-J1850 polynomial, seeded <code>00001111</code> from the flops' reset values.
+        So the key is CRC-8 of the board. Of all 256 possible key states, exactly one decrypts the row to printable text.
+        This is also why sweeping every constant address on the isolated printer found the four consolation rows and
+        never the flag: the flag row's address is the whole 121-bit board.
+      </p>
+
+      <h3>Everything else hidden in the files</h3>
+      <table>
+        <tr><th>where</th><th>what</th></tr>
+        <tr><td><code>I</code> = all zeros</td><td><code>EMPTY SKY</code></td></tr>
+        <tr><td><code>I</code> = all ones</td><td><code>BIG BANG</code></td></tr>
+        <tr><td><code>I</code> = 1010&hellip;</td><td><code>TRY AGAIN</code></td></tr>
+        <tr><td>two per row/col but touching</td><td><code>TWO"NOT TOUCH</code> (the <code>"</code> is stored, one bit off from a space)</td></tr>
+        <tr><td>VCD <code>$date</code></td><td><code>Sat Dec 31 23:59:60 2016</code> (a leap second)</td></tr>
+        <tr><td>VCD <code>$version</code></td><td>"Leave no stone unturned! But for this file, consider looking at it in a waveform viewer instead."</td></tr>
+        <tr><td>VCD <code>I</code>, each 11-bit row read as 7-bit ASCII</td><td><code>The night sky awaits</code></td></tr>
+        <tr><td>GDS layer 200, box widths as Morse</td><td><code>PER ARENAM AD ASTRA</code></td></tr>
+        <tr><td>warmup</td><td><code>success</code> fires when A + B = 496, a perfect number</td></tr>
+      </table>
+
+      <h3>What I'd tell myself at the start</h3>
+      <ul>
+        <li>
+          <strong>Cluster first, then simplify each piece.</strong> The clustering wasn't what made the solve tractable;
+          it's what gave me small cuts to exhaust (<code>g10</code>: 6 wires, 64 tries) and a clean line around the printer.
+        </li>
+        <li>
+          <strong>A frozen bus lies.</strong> My first isolated-printer sweep held its inputs constant and got silence.
+          Two of those inputs are timing strobes that have to move. Record the real waveform and replay it.
+        </li>
+        <li>
+          <strong>Read the ROM, then notice what it refuses to say.</strong> The plain rows leak through any cut. The one
+          row that never appears under any constant address is the one encrypted with the answer.
+        </li>
+        <li>
+          <strong>SAT on the whole thing was fine.</strong> 695 cells &times; 129 clocks unrolls in seconds. The
+          component work was for understanding, not for making z3 happy.
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      <a href="../../">&larr; Back</a>
+    </footer>
+  </body>
+</html>
