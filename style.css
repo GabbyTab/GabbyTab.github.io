@@ -164,15 +164,65 @@ pre code {
   color: #888;
 }
 
-/* Compact course list */
+/* Top nav */
 
-.compact {
-  padding-left: 1.2em;
-  margin: 0.5em 0 0;
+nav.top {
+  max-width: 55em;
+  margin: 0 auto 2em;
+  padding: 0 2em;
+  color: #888;
 }
 
-.compact li {
-  margin: 0.2em 0;
+nav.top a + a::before {
+  content: " / ";
+  color: #888;
+}
+
+/* Project grid */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1.5em;
+  margin-top: 1.5em;
+}
+
+.grid a.card {
+  color: inherit;
+  display: block;
+}
+
+.grid a.card:hover {
+  opacity: 1;
+}
+
+.grid a.card:hover .thumb {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.grid .thumb {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 0.3em;
+  background: #f3f3f0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.grid h3 {
+  margin: 0.7em 0 0.15em;
+  font-size: 1em;
+  font-weight: 500;
+  color: #18d;
+}
+
+.grid p {
+  margin: 0;
+  color: #555;
+  font-size: 0.95em;
+  line-height: 1.4em;
 }
 
 /* Post pages */
@@ -206,6 +256,28 @@ pre code {
 .post figure img {
   max-width: 22em;
   width: 100%;
+}
+
+.post figure.wide img {
+  max-width: 100%;
+  border: 1px solid #e4e4e0;
+  border-radius: 4px;
+}
+
+.post pre.mermaid {
+  background: none;
+  padding: 0;
+  margin: 1.5em 0;
+  text-align: center;
+  overflow-x: auto;
+  /* let diagrams use more than the text column when the viewport allows */
+  width: min(100vw - 4em, 64em);
+  margin-left: calc(50% - min(100vw - 4em, 64em) / 2);
+}
+
+.post pre.mermaid svg {
+  max-width: 100%;
+  height: auto;
 }
 
 .post figcaption {

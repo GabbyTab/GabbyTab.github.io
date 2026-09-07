@@ -20,6 +20,11 @@
   <body>
     <div style="height: 4em"></div>
 
+    <nav class="top">
+      <a href="./">Home</a>
+      <a href="./projects/">Projects</a>
+    </nav>
+
     <section class="intro">
       <div class="text">
         <h1>Gabriel Taboada</h1>
@@ -49,14 +54,14 @@
       <h2>Writing</h2>
       <ul class="item-list">
         <li class="highlighted">
-          <a href="./blog/asic-puzzle-2026/"><img class="visual square" src="./assets/star_battle.svg" alt="The solved 11 by 11 Star Battle board" /></a>
+          <a href="./blog/asic-puzzle-2026/"><img class="visual square" src="./assets/star_battle_regions.svg" alt="The 11 by 11 Star Battle puzzle recovered from the chip, solved" /></a>
           <div class="textual">
             <h3><a href="./blog/asic-puzzle-2026/">Reverse-engineering the Jane Street 2026 ASIC puzzle</a></h3>
             <p class="meta">September 2026</p>
             <p>
               From a bare chip layout to <code>(* TWO STARS *)</code>: extract a netlist from the GDS, carve the die into
               blocks by physical proximity, read the ROM, and SAT-solve the whole thing. The chip turned out to be a
-              Star Battle checker with a CRC-8-encrypted flag.
+              Star Battle checker with the puzzle's region map baked in and a CRC-8-encrypted flag.
             </p>
             <p class="links">
               <a href="./blog/asic-puzzle-2026/">Post</a>
@@ -88,36 +93,8 @@
             </p>
           </div>
         </li>
-        <li>
-          <a href="https://github.com/GabbyTab/3d-merge"><img class="visual" src="./2/images/Oraple.png" alt="Laplacian pyramid blend of an apple and an orange" /></a>
-          <div class="textual">
-            <h3><a href="https://github.com/GabbyTab/3d-merge">3D voxel merge</a></h3>
-            <p>
-              Multiresolution blending for voxel volumes: Burt &amp; Adelson's Laplacian pyramid extended to 3D and
-              applied to MagicaVoxel assets, with an interactive viewer. The oraple, but you can walk around it.
-            </p>
-            <p class="links">
-              <a href="https://github.com/GabbyTab/3d-merge">GitHub</a>
-            </p>
-          </div>
-        </li>
-        <li>
-          <a href="./4/index.html"><img class="visual" src="./4/images/sign_mosaic.jpg" alt="Image mosaic of the Berkeley Rose Garden sign" /></a>
-          <div class="textual">
-            <h3>CS180: computer vision and computational photography</h3>
-            <p>Course projects, UC Berkeley.</p>
-            <ol class="compact">
-              <li><a href="./1/index.html">Prokudin-Gorsky reconstruction</a></li>
-              <li><a href="./2/index.html">Fun with filters and frequencies</a></li>
-              <li><a href="./3/index.html">Face morphing</a></li>
-              <li><a href="./4/index.html">Image warping and mosaicing</a></li>
-              <li><a href="./5/index.html">Diffusion models</a></li>
-              <li><a href="./6/index.html">Lightfield camera</a></li>
-              <li><a href="./7/index.html">Facial keypoint detection</a></li>
-            </ol>
-          </div>
-        </li>
       </ul>
+      <p>More, including computational photography coursework, on the <a href="./projects/">projects page</a>.</p>
     </section>
 
     <footer>
