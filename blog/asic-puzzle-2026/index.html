@@ -115,11 +115,11 @@
 
       <h2>Stuff I found afterwards</h2>
       <p>
-        Everything here comes out of <code>python solve.py</code> in the repo (about 25 s, needs KLayout and
-        <code>z3-solver</code>). None of it was needed to solve. I just couldn't stop poking at it.
+        Everything here (except the BooFun bit at the end) comes out of <code>python solve.py</code> in the repo (about
+        25 s, needs KLayout and <code>z3-solver</code>). None of this was necessary.
       </p>
 
-      <h3>It's a Star Battle, and the whole puzzle is in the chip</h3>
+      <h3>It's a Star Battle</h3>
       <figure>
         <img src="../../assets/star_battle_regions.svg" alt="The 11 by 11 Star Battle puzzle recovered from the chip, with its solution" />
         <figcaption>The 121-bit input read as an 11&times;11 grid, drawn over the region map I pulled out of the netlist.</figcaption>
@@ -132,8 +132,7 @@
         ticks once every 11 clocks, which is just the (column, row) of whichever bit is arriving on <code>I</code>. Both
         feed a 147-cell blob of pure logic (<code>g9</code>, no flops at all) whose 4-bit output only depends on that
         position, and it takes exactly 11 different values over the 121 cells. That's the region map above. 11 connected
-        regions, and the winning board puts exactly two stars in each. Honestly this was my favorite find: they didn't
-        just put the checker on the die, they put the puzzle on it too.
+        regions, and the winning board puts exactly two stars in each. Honestly this was my favorite find.
       </p>
       <p>
         How I actually read it: simulate the load phase one clock at a time and, before each edge, write down the 8
@@ -243,6 +242,34 @@ XOR        28 2a 20 54 57 4f 20 53 54 41 52 53 20 2a 29   "(* TWO STARS *)"</cod
         decrypts to text. This is also why my constant-address sweep of the printer found the four consolation rows and
         never the flag: the flag's address is the whole 121-bit board. <code>success</code> opens the row, the board is the
         key.
+      </p>
+      <p>
+        I double-checked the constants by hand, outside the simulator. Iterating those 8 update rows from
+        <code>00001111</code> over the 121 winning bits lands on <code>00101110</code>, the register the chip has after
+        loading. A textbook bit-serial CRC-8 with polynomial <code>0x1D</code> over the same bits gives the same register
+        (up to which flop is which bit), and <code>0x1D</code> is the only common CRC-8 polynomial the update matrix
+        satisfies. Each keystream byte is just that register read out in a fixed bit order after 8 more ticks
+        (<code>00101110</code> in that order is <code>0x65</code>, the first byte), and <code>stored XOR keystream</code>
+        really is <code>(* TWO STARS *)</code>.
+      </p>
+
+      <h3>Checking it with BooFun</h3>
+      <p>
+        Since I had <a href="https://github.com/GabbyTab/boofun">BooFun</a> lying around, I pointed it at the two pieces
+        of the printer that are just Boolean functions. Probe the isolated printer to get the truth tables, then:
+      </p>
+<pre><code>import boofun
+f = boofun.create(next_state_bit)          # 9 inputs: the 8 register flops + I
+f.is_linear(), boofun.gf2_monomials(f)     # True, [{dfstp_2_2}] ... or [{4 flops, I}]
+g = boofun.create(prints_this_row)         # 6 inputs: the six non-timing wires
+g.influences(), g.is_junta(4)</code></pre>
+      <p>
+        The 8 next-state bits of the register all come back <code>is_linear() == True</code>; 7 of them are dictators (one
+        input each, the shift) and the eighth has GF(2) monomials <code>{dfrtp_2_33, dfrtp_2_35, dfstp_2_1, dfstp_2_3, I}</code>,
+        the 4-tap feedback plus the incoming bit. For the row select, the two pass-through wires have influence exactly
+        0 on every row and each row indicator is a 4-junta of the flag wires. The GF(2) degrees read out the priority
+        chain directly: <code>EMPTY SKY</code> is degree 1 (a dictator on <code>n791</code>), <code>BIG BANG</code> degree 2,
+        the encrypted row degree 3, and <code>TWO"NOT TOUCH</code> / <code>TRY AGAIN</code> degree 4.
       </p>
 
       <h3>Easter eggs</h3>
