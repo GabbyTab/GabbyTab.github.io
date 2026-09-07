@@ -59,9 +59,10 @@
             <h3><a href="./blog/asic-puzzle-2026/">Reverse-engineering the Jane Street 2026 ASIC puzzle</a></h3>
             <p class="meta">September 2026</p>
             <p>
-              From a bare chip layout to <code>(* TWO STARS *)</code>: extract a netlist from the GDS, carve the die into
-              blocks by physical proximity, read the ROM, and SAT-solve the whole thing. The chip turned out to be a
-              Star Battle checker with the puzzle's region map baked in and a CRC-8-encrypted flag.
+              Found out about this one really late, so this is a one-day run from a bare GDS to
+              <code>(* TWO STARS *)</code>: KLayout for the netlist, cluster the die by proximity, read the ROM, SAT the
+              rest. Turns out the chip is a Star Battle checker with the puzzle baked in and the flag encrypted with a
+              CRC-8 of the board.
             </p>
             <p class="links">
               <a href="./blog/asic-puzzle-2026/">Post</a>
