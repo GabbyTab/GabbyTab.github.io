@@ -42,6 +42,11 @@
         Disclaimer: I'm sadly really late to this. I just found out about the challenge today :( so this is a one-day
         run at it. Below is the writeup I submitted, then some things I dug up afterwards.
       </p>
+      <p>
+        AI disclosure: after I had the solution, I used AI coding agents (Grok, and Claude in Cursor) to help me root
+        around in the circuits and understand what the blocks do, and to make the diagrams below. The code in the repo
+        was written with their help too.
+      </p>
 
       <h2>Short</h2>
       <ol class="pipeline">
@@ -130,6 +135,15 @@
         regions, and the winning board puts exactly two stars in each. Honestly this was my favorite find: they didn't
         just put the checker on the die, they put the puzzle on it too.
       </p>
+      <p>
+        How I actually read it: simulate the load phase one clock at a time and, before each edge, write down the 8
+        counter flops and the 4 wires going from <code>g9</code> into <code>g6</code>. The counters decode as plain
+        binary 0..10 (bits in a scrambled order). The 4 wires are the same on every clock whether you feed the winning
+        board, all zeros, or all ones, so they only depend on the position. Then a sanity check that this is really the
+        map the chip uses: on 120 random boards, <code>g6</code>'s 22 flops came out as a pure function of the per-region
+        star counts under this map, and <code>g7</code>'s as a pure function of the per-column counts (each saturating at
+        3, so 2 bits each, 11 &times; 2 = 22).
+      </p>
 
       <h3>What the blobs turned out to be</h3>
       <p>
@@ -140,11 +154,13 @@
         <tr><th>blob</th><th>cells</th><th>flops</th><th>what it is</th></tr>
         <tr><td><code>output_generator</code></td><td>224</td><td>13</td><td>the printer: row mux, 4-bit character counter, 8-bit LFSR</td></tr>
         <tr><td><code>g9</code></td><td>147</td><td>0</td><td>region lookup: (row, col) &rarr; region id, no state</td></tr>
-        <tr><td><code>g6</code>, <code>g7</code></td><td>96 each</td><td>22 each</td><td>tallies; 22 flops = 11 &times; 2 bits (per region, per column)</td></tr>
-        <tr><td><code>g3</code>, <code>g4</code>, <code>g5</code></td><td>33, 39, 18</td><td>13, 8, 3</td><td>row/column folds and the flags (empty, full, touching)</td></tr>
+        <tr><td><code>g6</code>, <code>g7</code></td><td>96 each</td><td>22 each</td><td>tallies: stars per region (<code>g6</code>) and per column (<code>g7</code>); 11 &times; 2 bits, each count saturating at 3</td></tr>
+        <tr><td><code>g4</code></td><td>39</td><td>8</td><td>folds the region tallies into the empty / full flags and a "regions OK" wire</td></tr>
+        <tr><td><code>g3</code></td><td>33</td><td>13</td><td>12 of its flops are <code>I</code> delayed 1..12 clocks: the cell to the left and the row above. With the column tallies, that's the row/column check and the touching check</td></tr>
+        <tr><td><code>g5</code></td><td>18</td><td>3</td><td>running star count for the current row (saturating at 3)</td></tr>
         <tr><td><code>g0</code>, <code>g1</code></td><td>14, 17</td><td>4 each</td><td>column counter (0..10) and row counter (0..10)</td></tr>
-        <tr><td><code>g10</code></td><td>8</td><td>2</td><td>AND-reduce to <code>success</code></td></tr>
-        <tr><td><code>g2</code></td><td>3</td><td>1</td><td><code>enable</code> strobe, fanned out to everything</td></tr>
+        <tr><td><code>g10</code></td><td>8</td><td>2</td><td>AND-reduce to <code>success</code>; also owns the sticky <code>touching</code> flag</td></tr>
+        <tr><td><code>g2</code></td><td>3</td><td>1</td><td>the <code>enable</code> strobe everyone gets, plus one wire into <code>g10</code> that goes high only once both counters have wrapped, i.e. exactly 121 bits went in</td></tr>
       </table>
       <p>
         Here's how they're wired, straight from the netlist (I left out clock, reset, and the <code>g2</code> strobe
@@ -153,38 +169,47 @@
       <pre class="mermaid">
 flowchart TB
   I([I, 121 bits]) --> G6 & G7 & G3 & G4 & G5 & OG
-  EN([enable]) --> G2[g2<br/>load strobe]
+  EN([enable]) --> G2[g2<br/>load strobe + frame done]
   G0[g0<br/>column counter] -->|wrap every 11| G1[g1<br/>row counter]
+  G0 & G1 -->|wraps| G2
   G0 & G1 --> G9[g9<br/>region lookup]
   G0 --> G7 & G5
-  G9 -->|region id| G6[g6<br/>tallies, 22 flops]
-  G7[g7<br/>tallies, 22 flops] --> G3
+  G9 -->|region id| G6[g6<br/>region tallies, 22 flops]
+  G7[g7<br/>column tallies, 22 flops] --> G3
   G6 --> G4
-  G5[g5<br/>flags] --> G3 & OG
-  G3[g3<br/>folds] --> G10
-  G4[g4<br/>folds, empty/full] --> G10 & OG
-  G10[g10<br/>AND-reduce] -->|success, touching| OG
+  G5[g5<br/>row count] --> G3 & OG
+  G3[g3<br/>row/col + touching check] --> G10
+  G4[g4<br/>empty / full / regions OK] --> G10 & OG
+  G2 -->|121 bits in| G10
+  G10[g10<br/>AND-reduce] -->|success, touching, 1 timing| OG
   OG -.->|2 wires back| G10
   G10 --> S([success])
   OG[output generator<br/>printer + LFSR] --> O([O 7:0])
       </pre>
       <p>
-        <code>g10</code> is the "success contract" from the short version: 6 wires in, 64 cases to try, and
-        <code>success</code> needs 5 specific ones high. The SAT over all 695 cells (121 load clocks + 8 hold clocks in z3)
-        finds the board in about 4 s. I tried dropping the printer to make the problem smaller and it went unsat. Those two
-        dashed wires feed back into <code>g10</code>, so it has to stay.
+        <code>g10</code> is the "success contract" from the short version: 6 wires in (two from <code>g3</code>, one
+        each from <code>g4</code> and <code>g2</code>, two from the printer), 64 cases to try, and <code>success</code>
+        needs 5 specific ones high. The <code>g2</code> wire is the one that enforces the 121-clock frame I'd guessed at:
+        load 100 bits and it never goes high. The SAT over all 695 cells (121 load clocks + 8 hold clocks in z3) finds the
+        board in about 4 s. I tried dropping the printer to make the problem smaller and it went unsat, which confused me
+        until I looked at the two dashed wires: one of them is just an AND gate that happens to sit inside the hatched box
+        (more on that below), and <code>g10</code> needs its output.
       </p>
 
       <h3>The printer encrypts the flag</h3>
       <p>
         This is the part that confused me the longest. I cut the printer out, drove it with the exact bus the rest of the
         chip fed it, and it said the same thing the whole chip said, so the cut was honest. Nine wires come in. Two are
-        timing, one has no driver at all, and the rest pick which row of text to print:
+        timing (the load strobe, and one that rises the clock after <code>enable</code> drops), one has no driver at all,
+        four pick which row of text to print, and the last two don't touch the printer at all: they go through a single
+        AND gate that happens to live inside the hatched box and come straight back out to <code>g10</code>. That AND is
+        one of the five things <code>success</code> needs.
       </p>
       <pre class="mermaid">
 flowchart LR
   I([I, 121 bits]) -->|1 tick per bit| LFSR[8-bit LFSR<br/>x^8+x^4+x^3+x^2+1 = 0x1D<br/>CRC-8 SAE-J1850, seed 00001111]
   REST[rest of the die] --> F1[empty] & F2[full] & F3[touching] & F4[success]
+  REST -->|one wire each from g5 and g4| AND((AND)) -->|back to g10| G10([g10])
   F1 & F2 & F3 & F4 --> SEL{priority<br/>row select}
   EN([enable drops]) --> CNT[4-bit character counter<br/>one byte per clock]
   CNT --> SEL
@@ -199,10 +224,13 @@ flowchart LR
       </pre>
       <p>
         Left to right: while <code>enable</code> is high, every <code>I</code> bit gets shifted into the LFSR, and
-        meanwhile the rest of the chip is deciding which of five rows to point at. When <code>enable</code> drops, the
-        counter walks the row one byte per clock. Four rows go straight to <code>O</code>. The fifth one gets XORed with
-        the LFSR, which keeps ticking 8 times per byte. Force <code>success</code> high on a wrong board and you get
-        garbage (<code>f7 8c 4a 64 ...</code>). Only the right board makes the keystream that decrypts it:
+        meanwhile the rest of the chip is deciding which of five rows to point at. I tried all 64 combinations of the
+        six non-timing wires during the print phase, and the select is a strict priority: empty beats full beats
+        <code>success</code> beats touching, and nothing set means <code>TRY AGAIN</code> (the two pass-through wires
+        change nothing). When <code>enable</code> drops, a 4-bit binary counter walks the row one byte per clock. Four
+        rows go straight to <code>O</code>. The fifth one gets XORed with the LFSR, which keeps ticking 8 times per byte.
+        Force <code>success</code> high on a wrong board and you get garbage (<code>f7 8c 4a 64 ...</code>). Only the
+        right board makes the keystream that decrypts it:
       </p>
 <pre><code>stored     4d ad fb 83 13 79 1c b5 79 63 c7 68 93 f5 8f
 keystream  65 87 db d7 44 36 3c e6 2d 22 95 3b b3 df a6   &lt;- winning board
