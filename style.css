@@ -231,6 +231,13 @@ nav.top a + a::before {
   max-width: 42em;
 }
 
+.post .subtitle {
+  font-size: 1.2em;
+  color: #444;
+  margin-top: -0.6em;
+  margin-bottom: 0.4em;
+}
+
 .post .date {
   color: #666;
   margin-top: -0.5em;
